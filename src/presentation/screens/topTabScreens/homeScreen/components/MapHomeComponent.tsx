@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const StudioApartmentScreen = () => {
+const MapHomeComponent = () => {
   return (
     <View>
-      <Text>StudioApartmentScreen</Text>
+      <Text>MapHomeComponent</Text>
     </View>
   )
 }
 
-export default StudioApartmentScreen
+export default MapHomeComponent
 
 const styles = StyleSheet.create({})
