@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { botomTabs } from '../bottomTabNavigation/BottonTabNavigation';
 import SearchScreen from '../../screens/stackScreens/searchScreen/SearchScreen';
-import TopTabNavigation from '../TopTabNavigation/TopTabNavigation';
+// import TopTabNavigation from '../TopTabNavigation/TopTabNavigation';
 
 import DetailsScreen from '../../screens/stackScreens/detailsScreen/DetailsScreen';
 import FavoritesSities from '../../screens/stackScreens/favoritesSities/FavoritesSities';
@@ -12,11 +12,10 @@ import FavoritesSities from '../../screens/stackScreens/favoritesSities/Favorite
 export type RootInitialStackParams = {
     botomTabs: undefined
     SearchScreen: undefined
-    TopTabNavigation: undefined
+    // TopTabNavigation: undefined
     FavoritesSities: undefined
     DetailsScreen: undefined
 }
-
 
 const Stack = createStackNavigator<RootInitialStackParams>();
 
@@ -28,7 +27,7 @@ const InitialStackNavigation = () => {
             }}>
                 <Stack.Screen name='botomTabs' component={botomTabs} />
                 <Stack.Screen name='SearchScreen' component={SearchScreen} />
-                <Stack.Screen name='TopTabNavigation' component={TopTabNavigation} />
+                {/* <Stack.Screen name='TopTabNavigation' component={TopTabNavigation} /> */}
                 <Stack.Screen name='DetailsScreen' component={DetailsScreen} />
                 <Stack.Screen name='FavoritesSities' component={FavoritesSities} />
             </Stack.Navigator>

@@ -6,11 +6,13 @@ import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
 import CustonTextComponent from '../../../../components/CustonTextComponent';
 
 interface Props {
-    navigation: any
+    navigation: any,
+    onModalPress: () => void;
 }
-const HeaderButtomComponent = ({navigation}: Props) => {
+const HeaderButtomComponent = ({navigation, onModalPress}: Props) => {
     const placeholders = ['En cualquier momento...', 'Cualquier lugar....', 'Cualquier precio....']; 
     const [searchOptions, setSearchOptions] = useState(0);
+    const [isModal, setIsModal] = useState(false);
   
     useEffect(() => {
       const intervalId = setInterval(() => {
@@ -19,6 +21,9 @@ const HeaderButtomComponent = ({navigation}: Props) => {
       return () => clearInterval(intervalId);
     }, []);
   
+    const openModal = () => {
+        setIsModal(true)
+    }
     
     return (
         <View style={{ ...styles.container }}>
@@ -34,7 +39,7 @@ const HeaderButtomComponent = ({navigation}: Props) => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{...styles.buttomFilter}} activeOpacity={0.8}>
+            <TouchableOpacity style={{...styles.buttomFilter}} activeOpacity={0.8} onPress={onModalPress}>
                 <Icon name='filter' style={{ ...styles.searchButton }}></Icon>
             </TouchableOpacity>
         </View>
