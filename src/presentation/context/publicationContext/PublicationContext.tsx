@@ -52,14 +52,18 @@ export const PublicationsProvider = ({ children }: any) => {
     const loadPublications = async () => {
 
         try {
+
             setIsLoading(true);
             const queryString = Object.entries(filters)
                 .map(([key, value]) => `${key}=${value}`)
                 .join('&');
             const resp = await BackendApi.get<SearchPublications>(`/publication/search-publications?${queryString}`);
-            setPublications([ ...resp.data.data])
-            publications.forEach(publica => console.log(publica.title)
-            )
+
+            if (filters.page == 1) {
+                setPublications(resp.data.data)
+            }else{
+                publications.concat(resp.data.data)
+            }
             setIsLoading(false)
 
         } catch (error) {

@@ -11,7 +11,9 @@ const PATH_SERVER = process.env.PATH_SERVER;
 
 const baseURL = `${PATH_SERVER}/api`;
 
-const BackendApi = axios.create({ baseURL });
+
+
+const BackendApi = axios.create({ baseURL,headers:{"XMLHttpRequest": "X-Requested-With"}});
 
 // BackendApi.interceptors.request.use(
 
