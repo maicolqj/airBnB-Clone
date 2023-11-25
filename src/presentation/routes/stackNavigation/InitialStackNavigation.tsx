@@ -8,13 +8,14 @@ import SearchScreen from '../../screens/stackScreens/searchScreen/SearchScreen';
 
 import DetailsScreen from '../../screens/stackScreens/detailsScreen/DetailsScreen';
 import FavoritesSities from '../../screens/stackScreens/favoritesSities/FavoritesSities';
+import { Publication } from '../../../domain/interfaces/GlobalInterfaces';
 
 export type RootInitialStackParams = {
     botomTabs: undefined
     SearchScreen: undefined
     // TopTabNavigation: undefined
     FavoritesSities: undefined
-    DetailsScreen: undefined
+    DetailsScreen: {data: Publication}
 }
 
 const Stack = createStackNavigator<RootInitialStackParams>();

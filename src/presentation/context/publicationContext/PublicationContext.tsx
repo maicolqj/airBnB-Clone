@@ -8,15 +8,15 @@ type PublicationsContextProps = {
     loadPublications: () => Promise<void>;
     loadPublicationsById: (id: string) => Promise<Publication>;
     updateFilters: (partialFilters: Partial<FilterData>) => void; // Cambio aquí
-    filters: FilterData; // Asegúrate de que filters sea de tipo FilterData
-  };
+    filters: FilterData;
+};
 
 
 export const PublicationsContext = createContext({} as PublicationsContextProps);
 
 export const PublicationsProvider = ({ children }: any) => {
 
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const [publications, setPublications] = useState<Publication[]>([])
     const [filters, setFilters] = useState({
         page: 1,
@@ -25,54 +25,63 @@ export const PublicationsProvider = ({ children }: any) => {
         ninos: 0,
         bebes: 0,
         mascotas: 0,
+        category: ''
         // city: '',
-        // category: ''
         // price_min: 393626,
         // price_max: 1768515,
         // checkin: "2023-11-18",
         // checkout: "2023-11-24"
     });
 
-    useEffect(() => {
-        loadPublications()
-        // console.log(filters);
-        
-    }, [filters])
+    console.log(`FILTROS DESDE EL CONTEXT ${JSON.stringify(filters)}`);
+    
+    // useEffect(() => {
+    //     loadPublications()
+    // }, [])
 
     const updateFilters = (data: Partial<FilterData>) => {
-        console.log('Updating filters:', data);
+        // console.log('Updating filters:', data);
         setFilters(prevFilters => {
-          return {
-            ...prevFilters,
-            ...data,
-          };
+            return {
+                ...prevFilters,
+                ...data,
+            };
         });
-      };
+    };
 
     const loadPublications = async () => {
 
         try {
 
             setIsLoading(true);
-            const queryString = Object.entries(filters)
+
+            const queryString = Object.entries({ ...filters })
                 .map(([key, value]) => `${key}=${value}`)
                 .join('&');
+
+
             const resp = await BackendApi.get<SearchPublications>(`/publication/search-publications?${queryString}`);
 
-            if (filters.page == 1) {
-                setPublications(resp.data.data)
-            }else{
-                publications.concat(resp.data.data)
+            if (filters.page === 1) {
+                setPublications(resp.data.data);
+            } else {
+                setPublications((prevPublications) => [...prevPublications, ...resp.data.data]);
             }
-            setIsLoading(false)
+
+            // if (!isLoading) {
+            //     setFilters((prevFilters) => ({ ...prevFilters }));
+            // }
 
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoading(false);
+
         }
 
     }
 
-    
+
     const loadPublicationsById = async () => {
         throw new Error("Not implemented");
     }

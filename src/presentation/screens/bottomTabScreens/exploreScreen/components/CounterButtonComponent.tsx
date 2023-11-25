@@ -23,7 +23,7 @@ const CounterButtonComponent = ({ counterName, onPress, counterValue }: CounterB
                     -
                 </CustomTextComponent>
             </TouchableOpacity>
-            <View style={{ paddingHorizontal: 10, width: 35, height: 35,  justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ paddingHorizontal: 10, width: 45, height: 35,  justifyContent: 'center', alignItems: 'center' }}>
                 <CustomTextComponent style={{ paddingHorizontal: 2 }}>
                 {counterValue}
                 </CustomTextComponent>

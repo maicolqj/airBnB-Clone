@@ -19,7 +19,7 @@ interface Props {
 const CardSitesComponents = ({ navigation, publication }: Props) => {
 
   return (
-    <TouchableOpacity style={{ ...styles.container }} onPress={() => navigation.navigate('DetailsScreen')}>
+    <TouchableOpacity style={{ ...styles.container }} onPress={() => navigation.navigate('DetailsScreen', {data: publication})}>
       <TouchableOpacity style={{ ...styles.buttomContainer }} onPress={() => navigation.navigate('FavoritesSities')}>
         <Icon name='heart' style={{ ...styles.iconStyle }}></Icon>
       </TouchableOpacity>

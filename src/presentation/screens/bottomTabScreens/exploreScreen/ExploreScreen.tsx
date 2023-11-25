@@ -15,16 +15,7 @@ import CardSitesComponents from '../../../components/CardSitesComponents';
 import CustomTextComponent from '../../../components/CustonTextComponent';
 import MapComponent from './components/MapComponent';
 import { PublicationsContext } from '../../../context/publicationContext/PublicationContext';
-import CounterButtonComponent from './components/CounterButtonComponent';
-import { FilterData } from '../../../../domain/interfaces/GlobalInterfaces';
-
-type CountersType = {
-  countAdults: number;
-  countKids: number;
-  countBabies: number;
-  countPets: number;
-};
-
+import ModalComponent from './components/ModalComponent';
 
 
 
@@ -35,82 +26,46 @@ const ExploreScreen = ({ navigation, route }: any) => {
   const [viewMAp, setViewMAp] = useState(false);
   const [page, setPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [pendingUpdate, setPendingUpdate] = useState<{ counterName: keyof CountersType | null; counterValue: number | null }>({
-    counterName: null,
-    counterValue: null,
-  });
-  const { publications, isLoading, updateFilters, filters } = useContext(PublicationsContext);
 
-  console.log(filters);
+  const { publications, isLoading, updateFilters, filters, loadPublications } = useContext(PublicationsContext);
 
-
-  const [counters, setCounters] = useState<CountersType>({
-    countAdults: 0,
-    countKids: 0,
-    countBabies: 0,
-    countPets: 0,
-  });
-  // console.log(filters);
-
-
-  const handleButtonPress = (buttonName: string) => {
-    setSelectedButton(buttonName);
-
-  };
-  const handleCounterChange = (counterName: keyof CountersType, value: number) => {
-    setCounters(prevCounters => {
-      const updatedCounterValue = prevCounters[counterName] + value;
-      // Llama a onPress con el nombre del contador, el valor actual y el valor a cambiar
-      handleButtoncounterPress(counterName, updatedCounterValue, value);
-
-      updateFilters({
-        ...filters,
-        [counterName]: updatedCounterValue,
-      } as FilterData);
-      
-      return {
-        ...prevCounters,
-        [counterName]: updatedCounterValue,
-      };
-    });
-  };
-
-
-  const handleButtoncounterPress = (counterName: keyof CountersType, counterValue: number, value: number) => {
-
-    setPendingUpdate({
-      counterName,
-      counterValue,
-    });
-
-
-  };
+  useEffect(() => {
+    loadPublications()
+  }, [])
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  const handleEndReached = () => {
-
-    setPage(page + 1);
-    // console.log(page);
-    updateFilters({
-      ...filters,
-      page: page,
-      limit: 3,
-
-    })
-  };
-
-  const handleAceptFilters = () => {
-    if (pendingUpdate && pendingUpdate.counterName !== null) {
+  const handleScrollEnd = (event: any) => {
+    if (isLoading) {
+      setPage(page + 1);
       updateFilters({
         ...filters,
-        [pendingUpdate.counterName]: pendingUpdate.counterValue,
-        limit: 3,
-      });
+        page: page,
+        // limit: 3,
+      })
     }
+
+    if (isLoading) {
+      return;
+    }
+    setTimeout(() => {
+      loadPublications()
+    }, 500);
+
+  };
+
+  const handleButtonPress = async (rental: string) => {
+    setSelectedButton(rental);
+    updateFilters({
+      ...filters,
+      category: rental
+    })
   }
+  const renderPublicationItem = ({ item }: any) => (
+    <CardSitesComponents navigation={navigation} publication={item} />
+  );
 
   return (
     <SafeAreaView style={{ ...customStyles.safeArea }}>
@@ -160,12 +115,11 @@ const ExploreScreen = ({ navigation, route }: any) => {
             <View style={{ paddingHorizontal: wp('5%'), paddingVertical: hp('2%') }}>
               <FlatList
                 data={publications}
-                onEndReached={handleEndReached}
+                keyExtractor={(item) => item.id.toString()}
+                onEndReached={handleScrollEnd}
                 onEndReachedThreshold={0.1}
-                renderItem={({ item }) => (
-                  <CardSitesComponents navigation={navigation} publication={item} />
-
-                )}
+                ListFooterComponent={() => (isLoading && <ActivityIndicator size="large" color="#0000ff" />)}
+                renderItem={renderPublicationItem}
               />
             </View>
             :
@@ -183,74 +137,10 @@ const ExploreScreen = ({ navigation, route }: any) => {
           </TouchableOpacity>
         }
 
-        <Modal animationType="slide"
-          transparent={false}
-          visible={isModalVisible}
-          onRequestClose={() => {
 
-            setIsModalVisible(!false);
-          }}>
-
-
-          <View style={{ ...styles.headerModal }}>
-            <TouchableOpacity onPress={toggleModal}>
-              <Icon name='close' style={{ fontSize: 25, color: colorsApp.blackLeather() }}></Icon>
-            </TouchableOpacity>
-            <CustomTextComponent style={{ ...styles.titleFilters }} >
-              Filtros
-            </CustomTextComponent>
-          </View>
-
-
-          <ScrollView style={{ ...styles.scroll }}>
-
-            <CustomTextComponent style={{ ...styles.descriptionFilters }}>
-              Filtra tus busquedas y encuentra más rapido lo que buscas.
-            </CustomTextComponent>
-
-            <View style={{ ...styles.boxCounters }}>
-              <CustomTextComponent style={{ fontSize: 20 }}>
-                Adultos:
-              </CustomTextComponent>
-              {/* Counter Adults */}
-              <CounterButtonComponent counterName="countAdults" onPress={handleCounterChange} counterValue={counters.countAdults} />
-            </View>
-
-            <View style={{ ...styles.boxCounters }}>
-              <CustomTextComponent style={{ fontSize: 20 }}>
-                Niños:
-              </CustomTextComponent>
-              {/* Counter Kids */}
-              <CounterButtonComponent counterName="countKids" onPress={handleCounterChange} counterValue={counters.countKids} />
-            </View>
-            <View style={{ ...styles.boxCounters }}>
-              <CustomTextComponent style={{ fontSize: 20 }}>
-                bebés:
-              </CustomTextComponent>
-              {/* Counter Babies */}
-              <CounterButtonComponent counterName="countBabies" onPress={handleCounterChange} counterValue={counters.countBabies} />
-            </View>
-            <View style={{ ...styles.boxCounters }}>
-              <CustomTextComponent style={{ fontSize: 20 }}>
-                Mascotas:
-              </CustomTextComponent>
-              {/* Counter Pets */}
-              <CounterButtonComponent counterName="countPets" onPress={handleCounterChange} counterValue={counters.countPets} />
-            </View>
-
-
-          </ScrollView>
-
-          <TouchableOpacity onPress={handleAceptFilters}>
-            <CustomTextComponent>
-              Aceptar
-            </CustomTextComponent>
-          </TouchableOpacity>
-
-        </Modal>
       </View>
 
-
+      <ModalComponent modalUseState={isModalVisible} setModalUseState={setIsModalVisible} />
     </SafeAreaView>
   )
 }
@@ -326,3 +216,6 @@ const styles = StyleSheet.create({
     marginBottom: hp('2%')
   }
 })
+
+
+

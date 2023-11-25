@@ -1,6 +1,6 @@
 export type CountersType = {
-    countAdults: number;
-    countKids: number;
-    countBabies: number;
-    countPets: number;
+  adultos: number,
+  ninos: number,
+  bebes: number,
+  mascotas: number,
   };
