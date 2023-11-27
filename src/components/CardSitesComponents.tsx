@@ -1,15 +1,12 @@
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
 import React from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Image } from 'react-native';
 import { colorsApp } from '../styles/globalColors/GlobalColors';
-import GeneralButtonComponent from './GeneralButtonComponent';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import CustomTextComponent from './CustonTextComponent';
-import { Publication } from '../../domain/interfaces/GlobalInterfaces';
-
-const { width: widthScreen, height: heightScreen } = Dimensions.get('screen');
+import { Publication } from '../interfaces/GlobalInterfaces';
 
 interface Props {
   navigation: any

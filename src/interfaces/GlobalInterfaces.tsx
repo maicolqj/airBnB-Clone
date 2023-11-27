@@ -55,10 +55,10 @@ export interface FilterData {
     ninos?:     number;
     bebes?:     number;
     mascotas?:  number;
-    category: string;
+    category?: string;
+    checkin?:   string | null;
+    checkout?:  string | null;
     // city:      string;
     // price_min: number;
     // price_max: number;
-    // checkin:   string;
-    // checkout:  string;
 }

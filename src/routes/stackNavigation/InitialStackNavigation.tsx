@@ -1,14 +1,11 @@
-
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { botomTabs } from '../bottomTabNavigation/BottonTabNavigation';
 import SearchScreen from '../../screens/stackScreens/searchScreen/SearchScreen';
-// import TopTabNavigation from '../TopTabNavigation/TopTabNavigation';
-
 import DetailsScreen from '../../screens/stackScreens/detailsScreen/DetailsScreen';
 import FavoritesSities from '../../screens/stackScreens/favoritesSities/FavoritesSities';
-import { Publication } from '../../../domain/interfaces/GlobalInterfaces';
+import { Publication } from '../../interfaces/GlobalInterfaces';
 
 export type RootInitialStackParams = {
     botomTabs: undefined

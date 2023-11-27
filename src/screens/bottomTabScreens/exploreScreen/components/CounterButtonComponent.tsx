@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CustomTextComponent from '../../../../components/CustonTextComponent';
-import { CountersType } from '../../../../../domain/GlobalTypes';
+import { CountersType } from '../../../../types/GlobalTypes';
 import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
 
 interface CounterButtonProps {

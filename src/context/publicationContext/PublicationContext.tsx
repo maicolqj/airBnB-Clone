@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
-import { FilterData, Publication, SearchPublications } from "../../../domain/interfaces/GlobalInterfaces";
-import BackendApi from "../../../data/api/backendApi";
+import { FilterData, Publication, SearchPublications } from "../../interfaces/GlobalInterfaces";
+import BackendApi from "../../api/backendApi";
 
 type PublicationsContextProps = {
     isLoading: boolean;

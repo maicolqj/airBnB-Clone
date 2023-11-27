@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, StyleSheet,  View, ScrollView, TouchableOpacity } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
 import React from 'react'
 import { RootInitialStackParams } from '../../../routes/stackNavigation/InitialStackNavigation';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -18,20 +18,24 @@ const DetailsScreen = ({ navigation, route }: Props) => {
 
   const location = route.params.data;
 
-
   return (
     <SafeAreaView style={{ ...customStyles.safeArea, ...styles.container }}>
-      <CustomStatusBarComponent barStyle='dark-content' colorBar='#fff' />
+      
+      <CustomStatusBarComponent colorBar='rgba(255, 255, 255, 0.01)' />
 
       <ScrollView style={{ ...customStyles.safeArea, marginBottom: hp('2% '), }} showsVerticalScrollIndicator={false}>
         <GeneralButtonComponent 
         icon='arrow-back'
-        iconStyle={{...styles.iconStyle, backgroundColor: '#fff', borderRadius: 15}}
-        navigation={() => navigation.pop()} style={{
+        iconStyle={{...styles.iconStyle, }}
+        navigation={() => navigation.pop()}
+        style={{
           position: 'absolute',
           left: wp('5%'),
-          top: hp('3%'),
-          zIndex: 999
+          top: hp('4%'),
+          width: wp('9%'),
+          zIndex: 999,
+          backgroundColor: '#fff',
+          borderRadius: 15
           }}/>
         
         <View style={{
@@ -42,12 +46,13 @@ const DetailsScreen = ({ navigation, route }: Props) => {
             showSkipButton={false}
             showNextButton={false}
             showDoneButton={false}
+            style={{backgroundColor: 'red'}}
             renderItem={({ item }) => (
               <View style={{ height: hp('50%'), }} key={item.url}>
                 <Image
                   source={{ uri: item.url }}
-                  style={{ width: '100%', height: hp('40%'), borderRadius: 25 }}
-                // resizeMode='contain'
+                  style={{ width: '100%', height: '100%'}}
+                // resizeMode='cover'
                 />
               </View>
             )} />
@@ -306,17 +311,17 @@ const styles = StyleSheet.create({
   },
   slider: {
     width: '100%',
-    height: hp('30%'),
+    // height: '10%',
     borderRadius: 20,
     backgroundColor: colorsApp.info(0.3),
   },
   sliderContainer: {
     width: '100%',
-    // height: '20%',
+    // height: '18%',
   },
   container: {
-    paddingHorizontal: wp('1%'),
-    marginTop: hp('5%'),
+    // paddingHorizontal: wp('1%'),
+    // marginTop: hp('5%'),
     width: '100%',
     backgroundColor: '#fff',
     marginBottom: hp('5%'),

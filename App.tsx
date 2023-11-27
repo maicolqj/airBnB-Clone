@@ -1,6 +1,6 @@
 import React from 'react'
-import InitialStackNavigation from './src/presentation/routes/stackNavigation/InitialStackNavigation'
-import { PublicationsProvider } from './src/presentation/context/publicationContext/PublicationContext'
+import { PublicationsProvider } from './src/context/publicationContext/PublicationContext'
+import InitialStackNavigation from './src/routes/stackNavigation/InitialStackNavigation'
 
 const App = () => {
   return (

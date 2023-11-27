@@ -1,5 +1,5 @@
-import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native'
-import React, { Dispatch, SetStateAction, useContext, useState } from 'react'
+import { Modal, ScrollView, StyleSheet, TouchableOpacity, View, } from 'react-native'
+import React, { useContext, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomTextComponent from '../../../../components/CustonTextComponent';
 import CounterButtonComponent from './CounterButtonComponent';
@@ -7,23 +7,37 @@ import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import DividerComponent from '../../../../components/DividerComponent';
 
-import CustomSwitch from '../../../../components/CustomSwitch';
-import { CountersType } from '../../../../../domain/GlobalTypes';
+import { Picker } from '@react-native-picker/picker';
+import { CountersType } from '../../../../types/GlobalTypes';
 import { PublicationsContext } from '../../../../context/publicationContext/PublicationContext';
+import { Calendar, } from 'react-native-calendars';
 
 interface Props {
     modalUseState: boolean,
     setModalUseState: React.Dispatch<React.SetStateAction<boolean>>
     sendDataToMainScreen?: any
-
 }
 
+interface MarkedDates {
+    [key: string]: {
+        selected: boolean;
+        marked: boolean;
+        selectedColor?: string;
+    };
+}
 
+const city = {
+    "city1": "BOGOTA",
+}
 
 const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen }: Props) => {
 
     const [isWifi, setIsWifi] = useState(false);
-    const {updateFilters} = useContext(PublicationsContext)
+    const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
+    const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
+    const [selectedLocation, setSelectedLocation] = useState();
+
+    const { updateFilters } = useContext(PublicationsContext)
 
     const [counters, setCounters] = useState<CountersType>({
         adultos: 0,
@@ -31,8 +45,6 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
         bebes: 0,
         mascotas: 0,
     });
-
-    
 
     const handleCounterChange = (counterName: keyof CountersType, value: number) => {
         setCounters(prevCounters => {
@@ -51,8 +63,59 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
             ninos: counters.ninos,
             bebes: counters.bebes,
             mascotas: counters.mascotas,
+            checkin: selectedStartDate,
+            checkout: selectedEndDate
         })
+        setModalUseState(false);
+
     };
+
+    const handleDayPress = (day: any) => {
+        const dateStr = day.dateString;
+
+        if (!selectedStartDate || selectedEndDate) {
+            setSelectedStartDate(dateStr);
+            setSelectedEndDate(null);
+        } else {
+            if (dateStr > selectedStartDate) {
+                setSelectedEndDate(dateStr);
+            } else {
+                setSelectedStartDate(dateStr);
+                setSelectedEndDate(null);
+            }
+        }
+    };
+
+    const getMarkedDates = (): MarkedDates => {
+        const markedDays: MarkedDates = {};
+
+        if (selectedStartDate) {
+            markedDays[selectedStartDate] = { selected: true, marked: true };
+        }
+
+        if (selectedEndDate) {
+            markedDays[selectedEndDate] = { selected: true, marked: true };
+        }
+
+        if (selectedStartDate && selectedEndDate) {
+            const startDate = new Date(selectedStartDate);
+            const endDate = new Date(selectedEndDate);
+
+            for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
+                const currentDateStr = currentDate.toISOString().split('T')[0];
+                markedDays[currentDateStr] = { marked: true, selected: true };
+            }
+        }
+
+        return markedDays;
+    };
+
+
+    const clearDates = () => {
+        setSelectedStartDate(null);
+        setSelectedEndDate(null);
+    }
+
 
     return (
         <Modal animationType="slide"
@@ -63,8 +126,9 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
                 setModalUseState(false);
             }}>
 
-
+            
             <View style={{ ...styles.headerModal }}>
+
                 <TouchableOpacity onPress={() => setModalUseState(false)}>
                     <Icon name='close' style={{ fontSize: 25, color: colorsApp.blackLeather() }}></Icon>
                 </TouchableOpacity>
@@ -73,45 +137,61 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
                 </CustomTextComponent>
             </View>
 
+          
+
 
             <ScrollView style={{ ...styles.scroll }}>
 
-                <CustomTextComponent style={{ ...styles.descriptionFilters }}>
-                    Filtra tus busquedas y encuentra más rapido lo que buscas.
-                </CustomTextComponent>
-
+            <CustomTextComponent style={{marginTop: hp('2%'), alignSelf: 'center', fontSize: hp('2%'), marginBottom: hp('4%')}}>
+                Filtra tus busquedas y encuentra más rapido lo que buscas.
+            </CustomTextComponent>
 
                 <DividerComponent />
 
-                <View style={{ ...styles.boxCards, paddingHorizontal: wp('2%'), }}>
-                    <CustomTextComponent style={{ ...styles.title, fontSize: 22 }}>
-                        Servicios
-                    </CustomTextComponent>
+
+                <View style={{ width: wp('100%'), paddingHorizontal: wp('5%'), marginVertical: hp('3%') }}>
+                    <Picker
+                        selectedValue={selectedLocation}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedLocation(itemValue)
+                        }>
+                        <Picker.Item label={city.city1} value={city.city1} />
+                    </Picker>
                 </View>
-                <View style={{ ...styles.boxCards, justifyContent: 'space-between', paddingHorizontal: wp('2%'), }}>
-                    <CustomTextComponent style={{ ...styles.textSubTitle }}>
-                        Wifi
-                    </CustomTextComponent>
-                    <CustomSwitch isOn={isWifi} onChange={setIsWifi} />
+
+                <DividerComponent />
+
+
+                {/* CALENDARIO */}
+                <View style={{ width: wp('100%'), paddingHorizontal: wp('5%'), alignSelf: 'center', marginVertical: hp('3%') }}>
+
+                    <Calendar
+                        style={{
+                            width: '100%',
+                        }}
+                        current={'2023-11-16'}
+                        onDayPress={handleDayPress}
+                        markedDates={getMarkedDates()}
+                        theme={{
+                            backgroundColor: '#ffffff',
+                            calendarBackground: '#ffffff',
+                            textSectionTitleColor: '#b6c1cd',
+                            selectedDayBackgroundColor: colorsApp.blackLeather(),
+                            selectedDayTextColor: '#ffffff',
+                            todayTextColor: '#00adf5',
+                            dayTextColor: '#2d4150',
+                            textDisabledColor: colorsApp.blackLeather(0.25)
+                        }}
+                    />
+
+
+                    <TouchableOpacity style={{marginVertical: hp('2%'), paddingHorizontal: wp('5%'), backgroundColor: colorsApp.blackLeather(0.90), width: wp('50%'), paddingVertical: hp('1%'), justifyContent: 'center', alignItems: 'center', borderRadius: 15}} activeOpacity={0.8} onPress={() => clearDates()}>
+                        <CustomTextComponent style={{ fontSize: hp('2%'), color: '#fff'}}>
+                            Borrar Fechas
+                        </CustomTextComponent>
+                    </TouchableOpacity>
                 </View>
-                <View style={{ ...styles.boxCards, justifyContent: 'space-between', paddingHorizontal: wp('2%'), }}>
-                    <CustomTextComponent style={{ ...styles.textSubTitle }}>
-                        Cocina
-                    </CustomTextComponent>
-                    <CustomSwitch isOn={isWifi} onChange={setIsWifi} />
-                </View>
-                <View style={{ ...styles.boxCards, justifyContent: 'space-between', paddingHorizontal: wp('2%'), }}>
-                    <CustomTextComponent style={{ ...styles.textSubTitle }}>
-                        Jacuzzi
-                    </CustomTextComponent>
-                    <CustomSwitch isOn={isWifi} onChange={setIsWifi} />
-                </View>
-                <View style={{ ...styles.boxCards, justifyContent: 'space-between', paddingHorizontal: wp('2%'), }}>
-                    <CustomTextComponent style={{ ...styles.textSubTitle }}>
-                        Gym
-                    </CustomTextComponent>
-                    <CustomSwitch isOn={isWifi} onChange={setIsWifi} />
-                </View>
+
 
                 <DividerComponent />
 
@@ -146,15 +226,15 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
                 </View>
 
 
-            <TouchableOpacity onPress={handleAceptFilters} style={{...styles.buttomAcept}}>
-                <CustomTextComponent style={{color: '#fff', fontSize: 20}}>
-                    Aceptar
-                </CustomTextComponent>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={handleAceptFilters} style={{ ...styles.buttomAcept }}>
+                    <CustomTextComponent style={{ color: '#fff', fontSize: hp('2%') }}>
+                        Aceptar
+                    </CustomTextComponent>
+                </TouchableOpacity>
 
-            <DividerComponent />
+                <DividerComponent />
 
-            <View style={{marginVertical: hp('5%')}}/>
+                <View style={{ marginBottom: hp('15%') }} />
             </ScrollView>
 
 
@@ -173,7 +253,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: hp('5%'),
         alignSelf: 'center',
-        paddingVertical: hp('2%'),
+        // paddingVertical: hp('2%'),
         borderRadius: 15
     },
     headerModal: {
@@ -186,7 +266,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: wp('5%')
+        paddingHorizontal: wp('5%'),
+        zIndex: 999,
+        marginTop: hp('3%')
     },
     textSubTitle: {
         fontSize: 18,
@@ -202,7 +284,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         paddingHorizontal: wp('5%'),
-        paddingVertical: hp('5%')
+        paddingVertical: hp('1%')
     },
     checkboxContainer: {
         flexDirection: 'row',

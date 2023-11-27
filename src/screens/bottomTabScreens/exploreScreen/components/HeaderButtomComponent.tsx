@@ -27,21 +27,21 @@ const HeaderButtomComponent = ({navigation, onModalPress}: Props) => {
     
     return (
         <View style={{ ...styles.container }}>
-            <TouchableOpacity style={{ ...styles.buttomSearch }} activeOpacity={0.8} onPress={() => navigation.navigate('SearchScreen')}>
+            <TouchableOpacity style={{ ...styles.buttomSearch }} activeOpacity={0.8} onPress={onModalPress}>
                 <Icon name='search' style={{ ...styles.searchButton }}></Icon>
                 <View style={{ ...styles.containerPlaceholder }}>
-                    <CustonTextComponent style={{fontWeight: '900', fontSize: 18}}>
+                    <CustonTextComponent style={{fontWeight: '900', fontSize: hp('2%')}}>
                         ¿A dondé vamos?
                     </CustonTextComponent>
-                    <CustonTextComponent style={{fontWeight: '400', fontSize: 12}}>
+                    <CustonTextComponent style={{fontWeight: '400', fontSize: hp('1.5%')}}>
                         {placeholders[searchOptions]}
                     </CustonTextComponent>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{...styles.buttomFilter}} activeOpacity={0.8} onPress={onModalPress}>
+            {/* <TouchableOpacity style={{...styles.buttomFilter}} activeOpacity={0.8} onPress={onModalPress}>
                 <Icon name='filter' style={{ ...styles.searchButton }}></Icon>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     )
 }
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     buttomSearch: {
-        width: wp('75%'),
+        width: wp('90%'),
         height: hp('7%'),
         backgroundColor: 'white',
         borderRadius: 25,
