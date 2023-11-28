@@ -228,7 +228,7 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
 
                 <TouchableOpacity onPress={handleAceptFilters} style={{ ...styles.buttomAcept }}>
                     <CustomTextComponent style={{ color: '#fff', fontSize: hp('2%') }}>
-                        Aceptar
+                        Buscar
                     </CustomTextComponent>
                 </TouchableOpacity>
 
@@ -247,7 +247,7 @@ export default ModalComponent
 const styles = StyleSheet.create({
     buttomAcept: {
         width: wp('90%'),
-        height: ('6%'),
+        height: ('5%'),
         backgroundColor: colorsApp.blackLeather(),
         justifyContent: 'center',
         alignItems: 'center',
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: wp('3%'),
         justifyContent: 'space-between',
-        marginVertical: hp('5%')
+        marginVertical: hp('2%')
     },
 
     boxCards: {

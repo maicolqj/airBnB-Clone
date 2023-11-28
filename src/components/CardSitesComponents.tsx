@@ -32,7 +32,7 @@ const CardSitesComponents = ({ navigation, publication }: Props) => {
             <View style={{ height: '100%', }} key={item.url}>
               <Image
                 source={{ uri: item.url }}
-                style={{ width: '100%', height: hp('30%'), borderRadius: 25 }}
+                style={{ width: '100%', height: hp('30%'), borderRadius: 10 }}
                 resizeMode='center'
               />
             </View>

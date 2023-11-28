@@ -13,8 +13,9 @@ export default DividerComponent
 const styles = StyleSheet.create({
 
     divider: {
-        width: "100%",
+        width: "90%",
         height: 1,
-        backgroundColor: colorsApp.blackLeather(0.30)
+        alignSelf: 'center',
+        backgroundColor: '#99a1b7'
     }
 })

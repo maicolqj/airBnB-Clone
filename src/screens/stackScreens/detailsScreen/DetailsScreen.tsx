@@ -18,6 +18,11 @@ const DetailsScreen = ({ navigation, route }: Props) => {
 
   const location = route.params.data;
 
+  const formatNumber = (num: number, decimals: number = 2): string => {
+    return num.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
   return (
     <SafeAreaView style={{ ...customStyles.safeArea, ...styles.container }}>
       
@@ -25,7 +30,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
 
       <ScrollView style={{ ...customStyles.safeArea, marginBottom: hp('2% '), }} showsVerticalScrollIndicator={false}>
         <GeneralButtonComponent 
-        icon='arrow-back'
+        icon='chevron-back'
         iconStyle={{...styles.iconStyle, }}
         navigation={() => navigation.pop()}
         style={{
@@ -194,7 +199,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
           <CustomTextComponent style={{ ...styles.title, fontSize: 22 }}>
             Disponibilidad
           </CustomTextComponent>
-          <Icon name='arrow-right' style={{ ...styles.iconStyle }}></Icon>
+          <Icon name='chevron-right' style={{ ...styles.iconStyle }}></Icon>
         </TouchableOpacity>
 
         <DividerComponent />
@@ -209,7 +214,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
             </CustomTextComponent>
 
           </View>
-          <Icon name='arrow-right' style={{ ...styles.iconStyle }}></Icon>
+          <Icon name='chevron-right' style={{ ...styles.iconStyle }}></Icon>
         </TouchableOpacity>
 
         <DividerComponent />
@@ -221,7 +226,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
           </CustomTextComponent>
         </View>
 
-        <View style={{ paddingHorizontal: wp('10%'), marginBottom: hp('3%') }}>
+        <View style={{ paddingHorizontal: wp('3%'), marginBottom: hp('3%') }}>
           <View style={{ ...styles.rows }}>
             <CustomTextComponent style={{ ...styles.morePlus }} >
               Llegar despues de las 15:00
@@ -230,7 +235,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
           <View style={{ ...styles.rows }}>
             <CustomTextComponent style={{ ...styles.morePlus }} >
               Máximo 6 huéspedes
-            </CustomTextComponent>
+            </CustomTextComponent> 
           </View>
           <View style={{ ...styles.rows }}>
             <CustomTextComponent style={{ ...styles.morePlus }} >
@@ -251,11 +256,11 @@ const DetailsScreen = ({ navigation, route }: Props) => {
         <View style={{ marginBottom: hp('10%') }} />
       </ScrollView>
 
-      <View style={{ position: 'absolute', bottom: -40, width: wp('100%'), height: hp('8%'), backgroundColor: colorsApp.info(0.10), justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', paddingHorizontal: wp('10%') }}>
-        <CustomTextComponent style={{ fontSize: 23, fontWeight: '400', marginVertical: '1%', }}>
-          $ {location.price.base}
+      <View style={{ ...styles.boxButtomReserv }}>
+        <CustomTextComponent style={{...styles.priceFormater }}>
+          $ {formatNumber(location.price.base)}
         </CustomTextComponent>
-        <TouchableOpacity style={{ width: '60%', height: '90%', borderRadius: 15, backgroundColor: colorsApp.danger(), justifyContent: 'center', alignItems: 'center' }}>
+        <TouchableOpacity style={{ ...styles.buttomReserv }}>
           <CustomTextComponent style={{ color: '#fff', fontSize: 20 }}>
 
             Reservar
@@ -276,8 +281,22 @@ const styles = StyleSheet.create({
   morePlus: {
     marginHorizontal: wp('3%')
   },
+  priceFormater: {
+    fontSize: 23,
+    fontWeight: '600',
+    // marginVertical: '1%',
+    paddingHorizontal: wp('2%')
+    },
   rows: {
     flexDirection: 'row',
+    alignItems: 'center'
+  },
+  buttomReserv: {
+    width: '40%',
+    height: '90%',
+    borderRadius: 15,
+    backgroundColor: colorsApp.danger(),
+    justifyContent: 'center',
     alignItems: 'center'
   },
   title: {
@@ -296,6 +315,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: hp('5%')
+  },
+  boxButtomReserv: {
+    position: 'absolute',
+    bottom: -40,
+    width: wp('100%'),
+    height: hp('8%'),
+    backgroundColor: '#fff',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: wp('8%'),
+    paddingVertical: hp('1%')
   },
   cardSlipingscities: {
     width: wp('35%'),
