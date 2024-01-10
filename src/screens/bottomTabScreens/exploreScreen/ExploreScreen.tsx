@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View, TouchableOpacity,  FlatList, ActivityIndicator } from 'react-native';
+import { SafeAreaView, StyleSheet, View, TouchableOpacity,  FlatList, ActivityIndicator, Alert, RefreshControl } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
 import HeaderButtomComponent from './components/HeaderButtomComponent';
 
@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { colorsApp } from '../../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import CardSitesComponents from '../../../components/CardSitesComponents';
-import CustomTextComponent from '../../../components/CustonTextComponent';
+import CustomText from '../../../components/Generals/CustomText';
 import MapComponent from './components/MapComponent';
 import { PublicationsContext } from '../../../context/publicationContext/PublicationContext';
 import ModalComponent from './components/ModalComponent';
@@ -23,7 +23,7 @@ const ExploreScreen = ({ navigation, route }: any) => {
   const [page, setPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { publications, isLoading, updateFilters, filters, loadPublications } = useContext(PublicationsContext);
+  const { publications, isLoading, isMorePage, updateFilters, filters, loadPublications } = useContext(PublicationsContext);
 
   useEffect(() => {
     loadPublications()
@@ -34,21 +34,21 @@ const ExploreScreen = ({ navigation, route }: any) => {
   };
 
   const handleScrollEnd = (event: any) => {
-    if (isLoading) {
-      setPage(page + 1);
-      updateFilters({
-        ...filters,
-        page: page,
-        // limit: 3,
-      })
-    }
-
-    if (isLoading) {
+    if (isLoading || !isMorePage) {
       return;
     }
-    setTimeout(() => {
-      loadPublications()
-    }, 500);
+
+    // if (isLoading) {
+    //   setPage(page + 1);
+    //   updateFilters({
+    //     ...filters,
+    //     page: page,
+    //     // limit: 3,
+    //   })
+    // }
+
+    
+    loadPublications()
 
   };
 
@@ -80,46 +80,24 @@ const ExploreScreen = ({ navigation, route }: any) => {
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 2,
-
-        // backgroundColor: 'red'
       }}>
         <HeaderButtomComponent navigation={navigation} onModalPress={toggleModal} />
 
-        {/* <TopTabNavigation /> */}
-        <View style={{
-          flexDirection: 'row', justifyContent: 'space-evenly'
-        }}>
-          <TouchableOpacity
-            onPress={() => handleButtonPress('apartaestudio')}
-            style={{ ...styles.TopButtoms, borderBottomWidth: 2, borderBottomColor: (selectedButton === 'apartaestudio' ? colorsApp.primary() : '#fff') }}>
-            <Icon name='warehouse' style={{ fontSize: 25, color: colorsApp.blackLeather() }}></Icon>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleButtonPress('apartamento')}
-            style={{ ...styles.TopButtoms, borderBottomWidth: 2, borderBottomColor: (selectedButton === 'apartamento' ? colorsApp.primary() : '#fff') }}>
-            <Icon name='hoop-house' style={{ fontSize: 25, color: colorsApp.blackLeather() }}></Icon>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleButtonPress('habitacion')}
-            style={{ ...styles.TopButtoms, borderBottomWidth: 2, borderBottomColor: (selectedButton === 'habitacion' ? colorsApp.primary() : '#fff') }}>
-            <Icon name='greenhouse' style={{ fontSize: 25, color: colorsApp.blackLeather() }}></Icon>
-          </TouchableOpacity>
-        </View>
-
         {
           !viewMAp ?
-
-
-            <View style={{ paddingHorizontal: wp('5%'), paddingVertical: hp('2%') }}>
               <FlatList
+                // refreshControl={
+                //   <RefreshControl refreshing={true} onRefresh={handleRefresh}></RefreshControl >
+                // }
+                style={{paddingHorizontal:wp(4)}}
+                showsVerticalScrollIndicator={false}
                 data={publications}
                 keyExtractor={(item) => item.id.toString()}
                 onEndReached={handleScrollEnd}
                 onEndReachedThreshold={0.1}
-                ListFooterComponent={() => (isLoading && <ActivityIndicator size="large" color="#0000ff" />)}
+                ListFooterComponent={() => (isLoading && <ActivityIndicator size="large" color={colorsApp.primary()} />)}
                 renderItem={renderPublicationItem}
               />
-            </View>
             :
             <MapComponent setModalUseState={setViewMAp} modalUseState={viewMAp} />
         }
@@ -128,9 +106,9 @@ const ExploreScreen = ({ navigation, route }: any) => {
         {
           !viewMAp &&
           <TouchableOpacity style={{ ...styles.buttonMap }} onPress={() => setViewMAp(true)}>
-            <CustomTextComponent style={{ ...styles.textButtom }}>
+            <CustomText style={{ ...styles.textButtom }}>
               MAPA
-            </CustomTextComponent>
+            </CustomText>
             <Icon name='map' style={{ ...styles.iconMap }}></Icon>
           </TouchableOpacity>
         }

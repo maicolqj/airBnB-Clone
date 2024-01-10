@@ -1,8 +1,8 @@
-import { Image, SafeAreaView, StyleSheet, View, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
-import React from 'react'
+import { Image, SafeAreaView, StyleSheet, View, ScrollView, TouchableOpacity, StatusBar, Pressable } from 'react-native';
+import React, { useContext, useEffect } from 'react'
 import { RootInitialStackParams } from '../../../routes/stackNavigation/InitialStackNavigation';
 import { StackScreenProps } from '@react-navigation/stack';
-import CustomTextComponent from '../../../components/CustonTextComponent';
+import CustomText from '../../../components/Generals/CustomText';
 import { customStyles } from '../../../styles/globalComponentsStyles/GlobalComponentStyles';
 import CustomStatusBarComponent from '../../../components/CustomStatusBarComponent';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -11,94 +11,106 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DividerComponent from '../../../components/DividerComponent';
 import GeneralButtonComponent from '../../../components/GeneralButtonComponent';
+import { formatCurrency, shortFormatDate } from '../../../helpers/formats';
+import { PublicationsContext } from '../../../context/publicationContext/PublicationContext';
+import RangeReserve from '../../../components/Publications/RangeReserve';
 
 interface Props extends StackScreenProps<RootInitialStackParams, 'DetailsScreen'> { }
 
 const DetailsScreen = ({ navigation, route }: Props) => {
-
+  const {
+    publicationSelected,
+    setPublicationSelected,
+    loadPublicationsBySlug, 
+    getVisibleInSubtitle,
+    setShowRangeReserve,
+    priceRangeSelected,
+    selectedStartDate,
+    selectedEndDate
+  } = useContext(PublicationsContext)
   const location = route.params.data;
 
-  const formatNumber = (num: number, decimals: number = 2): string => {
-    return num.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
-
+  useEffect(()=>{
+    // (async () => {
+      setPublicationSelected(location)
+      loadPublicationsBySlug(location.slug)
+    //   setInitalDates()
+    // })()
+  },[location])
+  
   return (
     <SafeAreaView style={{ ...customStyles.safeArea, ...styles.container }}>
       
-      <CustomStatusBarComponent colorBar='rgba(255, 255, 255, 0.01)' />
-
-      <ScrollView style={{ ...customStyles.safeArea, marginBottom: hp('2% '), }} showsVerticalScrollIndicator={false}>
-        <GeneralButtonComponent 
-        icon='chevron-back'
-        iconStyle={{...styles.iconStyle, }}
-        navigation={() => navigation.pop()}
-        style={{
-          position: 'absolute',
-          left: wp('5%'),
-          top: hp('4%'),
-          width: wp('9%'),
-          zIndex: 999,
-          backgroundColor: '#fff',
-          borderRadius: 15
-          }}/>
+      
         
-        <View style={{
-          ...styles.sliderContainer,
-        }}>
-          <AppIntroSlider
-            data={location.images}
-            showSkipButton={false}
-            showNextButton={false}
-            showDoneButton={false}
-            style={{backgroundColor: 'red'}}
-            renderItem={({ item }) => (
-              <View style={{ height: hp('50%'), }} key={item.url}>
-                <Image
-                  source={{ uri: item.url }}
-                  style={{ width: '100%', height: '100%'}}
-                // resizeMode='cover'
-                />
-              </View>
-            )} />
-        </View>
+      {/* <CustomStatusBarComponent colorBar='rgba(255, 255, 255, 0.01)' /> */}
+      <ScrollView style={{  marginBottom: hp('2% '), }} showsVerticalScrollIndicator={false}>
+        <GeneralButtonComponent 
+          icon='chevron-back'
+          iconStyle={{...styles.iconStyle, }}
+          navigation={() => navigation.pop()}
+          style={{
+            position: 'absolute',
+            left: wp('5%'),
+            top: hp('4%'),
+            width: wp('7%'),
+            height: wp('7%'),
+            zIndex: 999,
+            backgroundColor: '#fff',
+            borderRadius: wp('50%'),
+            alignItems:'center',
+            justifyContent:'center'
+          }}
+        />
 
 
-        <View style={{ paddingVertical: 4, width: '100%', paddingHorizontal: wp('5%'), marginTop: hp('2 %') }}>
+        <View style={{...styles.sliderContainer}}>
+          {
+            publicationSelected?.images &&
+            <AppIntroSlider
+              data={publicationSelected.images}
+              showSkipButton={false}
+              showNextButton={false}
+              showDoneButton={false}
+              style={{padding: 0, margin:0}}
+              renderItem={({ item }) => (
+                <View style={{ height: hp('33%'), }} key={item.url}>
+                  <Image
+                    source={{ uri: item.url }}
+                    style={{ width: '100%', height: '100%'}}
+                  // resizeMode='cover'
+                  />
+                </View>
+              )} />
+          }
+        </View>   
+
+        
+
+
+        <View style={{ paddingVertical: 4, width: '100%', paddingHorizontal: wp('5%'), marginTop: hp('2%') }}>
           {/* NAME LOCATION AND RANKING */}
           <View style={{ paddingVertical: 4, justifyContent: 'space-evenly', flexDirection: 'row', width: '100%', alignItems: 'center', }}>
-            <CustomTextComponent style={{ ...styles.title }}>
-              {location.title}
-            </CustomTextComponent>
-
+            <CustomText style={{ ...styles.title }}>{publicationSelected?.title}</CustomText>
           </View>
-
-          <CustomTextComponent style={{ fontSize: 20, fontWeight: '400', marginVertical: '1%' }}>
-            {location.rel_ubicacion.address_component}
-          </CustomTextComponent>
-          <CustomTextComponent style={{ fontSize: 16, fontWeight: '400', marginVertical: '1%' }}>
-            {location.rel_ubicacion.address}
-          </CustomTextComponent>
-
+          <View>
+            <CustomText style={{fontSize:hp(1.7), color:colorsApp.light()}}>{getVisibleInSubtitle()}</CustomText>
+          </View>
         </View>
         <DividerComponent />
 
 
         <View style={{ ...styles.boxCards }}>
-          <Image source={require('../../../assets/system/locations/1.jpg')}
+          <Image source={{uri:publicationSelected?.user?.image}}
             style={{ ...styles.picturePerson, marginHorizontal: wp('2%') }} resizeMode='contain' />
           <View style={{ marginHorizontal: wp('3%') }}>
             <View style={{ ...styles.rows }}>
-              <CustomTextComponent style={{ ...styles.textSubTitle }}>
+              <CustomText style={{ ...styles.textSubTitle }}>
                 Anfitrion:
-              </CustomTextComponent>
-              <CustomTextComponent>
-                Nombre del Anfitrion
-              </CustomTextComponent>
+              </CustomText>
+              <CustomText> {publicationSelected?.user?.name}</CustomText>
             </View>
-            <CustomTextComponent>
-              4 años de experiencia
-            </CustomTextComponent>
           </View>
         </View>
 
@@ -108,12 +120,12 @@ const DetailsScreen = ({ navigation, route }: Props) => {
           <View style={{ ...styles.rows }}>
             <Icon name='gift' style={{ ...styles.iconStyle, marginHorizontal: wp('4%') }}></Icon>
             <View style={{ marginHorizontal: wp('3%') }}>
-              <CustomTextComponent style={{ ...styles.textSubTitle }}>
+              <CustomText style={{ ...styles.textSubTitle }}>
                 Disfruta del Jacuzzi
-              </CustomTextComponent>
-              <CustomTextComponent style={{ fontSize: 12, }}>
+              </CustomText>
+              <CustomText style={{ fontSize: 12, }}>
                 Esté es el unico lugar cerca con esté servicio.
-              </CustomTextComponent>
+              </CustomText>
             </View>
           </View>
         </View>
@@ -121,24 +133,24 @@ const DetailsScreen = ({ navigation, route }: Props) => {
         <DividerComponent />
 
         <View style={{ ...styles.boxCards }}>
-          <CustomTextComponent style={{ fontSize: 16, fontWeight: '400', marginVertical: '1%' }} aria-valuemax={2}>
-            {location.description}
-          </CustomTextComponent>
+          <CustomText style={{ fontSize: 16, fontWeight: '400', marginVertical: '1%' }} aria-valuemax={2}>
+            {publicationSelected?.description}
+          </CustomText>
         </View>
 
         <DividerComponent />
 
         <View style={{ ...styles.boxCards, paddingHorizontal: wp('5%'), }}>
-          <CustomTextComponent style={{ ...styles.title, fontSize: 22 }}>
+          <CustomText style={{ ...styles.title, fontSize: 22 }}>
             Dónde vas a dormir
-          </CustomTextComponent>
+          </CustomText>
         </View>
 
         <View>
           <View style={{ height: hp('20%'), borderRadius: 25 }}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {
-                location.images.map((item, id) => (
+                publicationSelected?.images.map((item, id) => (
                   <TouchableOpacity style={{ ...styles.cardSlipingscities }} key={id} activeOpacity={0.8}>
                     <Image source={{ uri: item.url }}
                       style={{ width: '100%', height: '100%', borderRadius: 25 }}
@@ -155,50 +167,50 @@ const DetailsScreen = ({ navigation, route }: Props) => {
         <DividerComponent />
 
         <View style={{ ...styles.boxCards, paddingHorizontal: wp('5%'), }}>
-          <CustomTextComponent style={{ ...styles.title, fontSize: 22 }}>
+          <CustomText style={{ ...styles.title, fontSize: 22 }}>
             Lo que ofrece esté lugar
-          </CustomTextComponent>
+          </CustomText>
         </View>
 
         <View style={{ paddingHorizontal: wp('10%'), marginBottom: hp('3%') }}>
           <View style={{ ...styles.rows }}>
             <Icon name='gift' style={{ ...styles.iconStyle }}></Icon>
-            <CustomTextComponent style={{ ...styles.morePlus }} >
+            <CustomText style={{ ...styles.morePlus }} >
               Jacuzzi privado
-            </CustomTextComponent>
+            </CustomText>
           </View>
           <View style={{ ...styles.rows }}>
             <Icon name='car' style={{ ...styles.iconStyle }}></Icon>
-            <CustomTextComponent style={{ ...styles.morePlus }} >
+            <CustomText style={{ ...styles.morePlus }} >
               Parqueadero privado
-            </CustomTextComponent>
+            </CustomText>
           </View>
           <View style={{ ...styles.rows }}>
             <Icon name='pizza' style={{ ...styles.iconStyle }}></Icon>
-            <CustomTextComponent style={{ ...styles.morePlus }} >
+            <CustomText style={{ ...styles.morePlus }} >
               Alimentación
-            </CustomTextComponent>
+            </CustomText>
           </View>
         </View>
 
         <DividerComponent />
 
         <View style={{ ...styles.boxCards, paddingHorizontal: wp('5%'), }}>
-          <CustomTextComponent style={{ ...styles.title, fontSize: 22 }}>
+          <CustomText style={{ ...styles.title, fontSize: 22 }}>
             Donde vas a estar
-          </CustomTextComponent>
+          </CustomText>
         </View>
         <View style={{ ...styles.boxMap }}>
-          <CustomTextComponent>
+          <CustomText>
             Aqui va la ubicacion
-          </CustomTextComponent>
+          </CustomText>
         </View>
         <DividerComponent />
 
         <TouchableOpacity style={{ ...styles.boxCards, paddingHorizontal: wp('5%'), }}>
-          <CustomTextComponent style={{ ...styles.title, fontSize: 22 }}>
+          <CustomText style={{ ...styles.title, fontSize: 22 }}>
             Disponibilidad
-          </CustomTextComponent>
+          </CustomText>
           <Icon name='chevron-right' style={{ ...styles.iconStyle }}></Icon>
         </TouchableOpacity>
 
@@ -206,12 +218,12 @@ const DetailsScreen = ({ navigation, route }: Props) => {
 
         <TouchableOpacity style={{ ...styles.boxCards, paddingHorizontal: wp('5%'), justifyContent: 'space-between' }}>
           <View style={{width: wp('70%')}}>
-            <CustomTextComponent style={{ ...styles.title, fontSize: 22 }}>
+            <CustomText style={{ ...styles.title, fontSize: 22 }}>
               Politicas de cancelación
-            </CustomTextComponent>
-            <CustomTextComponent>
+            </CustomText>
+            <CustomText>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga a quisquam consequatur aliquid facilis molestias saepe veniam excepturi ipsa? Doloremque adipisci, temporibus consequatur quas iure labore officia optio quaerat ipsum.
-            </CustomTextComponent>
+            </CustomText>
 
           </View>
           <Icon name='chevron-right' style={{ ...styles.iconStyle }}></Icon>
@@ -221,26 +233,26 @@ const DetailsScreen = ({ navigation, route }: Props) => {
 
 
         <View style={{ ...styles.boxCards, paddingHorizontal: wp('5%'), }}>
-          <CustomTextComponent style={{ ...styles.title, fontSize: 22 }}>
+          <CustomText style={{ ...styles.title, fontSize: 22 }}>
             Reglas de la casa
-          </CustomTextComponent>
+          </CustomText>
         </View>
 
         <View style={{ paddingHorizontal: wp('3%'), marginBottom: hp('3%') }}>
           <View style={{ ...styles.rows }}>
-            <CustomTextComponent style={{ ...styles.morePlus }} >
+            <CustomText style={{ ...styles.morePlus }} >
               Llegar despues de las 15:00
-            </CustomTextComponent>
+            </CustomText>
           </View>
           <View style={{ ...styles.rows }}>
-            <CustomTextComponent style={{ ...styles.morePlus }} >
+            <CustomText style={{ ...styles.morePlus }} >
               Máximo 6 huéspedes
-            </CustomTextComponent> 
+            </CustomText> 
           </View>
           <View style={{ ...styles.rows }}>
-            <CustomTextComponent style={{ ...styles.morePlus }} >
+            <CustomText style={{ ...styles.morePlus }} >
               No mascotas
-            </CustomTextComponent>
+            </CustomText>
           </View>
         </View>
 
@@ -248,25 +260,38 @@ const DetailsScreen = ({ navigation, route }: Props) => {
 
         <TouchableOpacity style={{ flexDirection: 'row', width: wp('90%'), height: 60, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
           <Icon name='flag' style={{...styles.iconStyle}}></Icon>
-          <CustomTextComponent style={{color: colorsApp.primary()}}>
+          <CustomText style={{color: colorsApp.primary()}}>
             Denunciar publicación
-          </CustomTextComponent>
+          </CustomText>
         </TouchableOpacity>
 
         <View style={{ marginBottom: hp('10%') }} />
       </ScrollView>
 
-      <View style={{ ...styles.boxButtomReserv }}>
-        <CustomTextComponent style={{...styles.priceFormater }}>
-          $ {formatNumber(location.price.base)}
-        </CustomTextComponent>
-        <TouchableOpacity style={{ ...styles.buttomReserv }}>
-          <CustomTextComponent style={{ color: '#fff', fontSize: 20 }}>
+  
 
-            Reservar
-          </CustomTextComponent>
-        </TouchableOpacity>
+      <View style={{ ...styles.boxButtomReserv }}>
+        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+          <View style={{paddingHorizontal: wp('2')}}>
+            <Pressable onPress={() => {setShowRangeReserve(true)}}>
+              <CustomText style={{...styles.priceFormater }}>
+                {formatCurrency(publicationSelected?.price.base ?? 0)}
+                <CustomText style={{fontSize:hp(1.7), fontWeight:'normal'}}> noche</CustomText>
+              </CustomText>
+              <CustomText style={{fontSize:hp(1.5), fontWeight:'bold', textDecorationLine:'underline'}}>
+                { shortFormatDate(selectedStartDate) } - {shortFormatDate(selectedEndDate)}
+              </CustomText>
+            </Pressable>
+
+          </View>
+          <TouchableOpacity style={{ ...styles.buttomReserv }}>
+            <CustomText style={{ color: '#fff', fontSize: hp(1.8), fontWeight:"bold" }}>
+              Reservar
+            </CustomText>
+          </TouchableOpacity>
+        </View>
       </View>
+      <RangeReserve/>
     </SafeAreaView >
   )
 }
@@ -282,11 +307,9 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('3%')
   },
   priceFormater: {
-    fontSize: 23,
-    fontWeight: '600',
-    // marginVertical: '1%',
-    paddingHorizontal: wp('2%')
-    },
+    fontSize: hp(2),
+    fontWeight: 'bold',
+  },
   rows: {
     flexDirection: 'row',
     alignItems: 'center'
@@ -294,13 +317,13 @@ const styles = StyleSheet.create({
   buttomReserv: {
     width: '40%',
     height: '90%',
-    borderRadius: 15,
-    backgroundColor: colorsApp.danger(),
+    borderRadius: hp(1),
+    backgroundColor: colorsApp.primary(),
     justifyContent: 'center',
     alignItems: 'center'
   },
   title: {
-    fontSize: 30,
+    fontSize: hp(2),
     flex: 1,
     fontWeight: '600'
   },
@@ -318,15 +341,17 @@ const styles = StyleSheet.create({
   },
   boxButtomReserv: {
     position: 'absolute',
-    bottom: -40,
+    bottom: -hp(5),
     width: wp('100%'),
-    height: hp('8%'),
+    height: hp('12%'),
     backgroundColor: '#fff',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingHorizontal: wp('8%'),
-    paddingVertical: hp('1%')
+    justifyContent: 'center',
+    // flexDirection: 'row',
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('1%'),
+    paddingBottom:hp(2.5),
+    borderTopColor:"black",
+    borderTopWidth:hp(0.05)
   },
   cardSlipingscities: {
     width: wp('35%'),
@@ -348,18 +373,17 @@ const styles = StyleSheet.create({
   },
   sliderContainer: {
     width: '100%',
-    // height: '18%',
   },
   container: {
     // paddingHorizontal: wp('1%'),
     // marginTop: hp('5%'),
-    width: '100%',
-    backgroundColor: '#fff',
+    // width: '100%',
+    // backgroundColor: '#fff',
     marginBottom: hp('5%'),
   },
   iconStyle: {
     color: colorsApp.blackLeather(),
-    fontSize: 35,
+    fontSize: hp(2.5),
   },
   picturePerson: {
     width: 50,

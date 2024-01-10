@@ -1,14 +1,18 @@
 import { StyleSheet, Text, TextProps, TextStyle, View } from 'react-native'
 import React, { ReactNode } from 'react'
+import { widthPercentageToDP as wp,heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+
 
 interface CustomTextProps extends TextProps {
   children: ReactNode;
 }
 
-const CustomTextComponent =  ({ children, style, ...restProps }: CustomTextProps) => {
+const CustomText =  ({ children, style, ...restProps }: CustomTextProps) => {
   const textStyles: TextStyle = {
+    fontSize:hp(1.8),
     color: '#000',
-    ...(style as TextStyle), // Añadir estilos adicionales si se proporcionan
+    ...(style as TextStyle), 
   };
 
   return (
@@ -18,6 +22,6 @@ const CustomTextComponent =  ({ children, style, ...restProps }: CustomTextProps
   );
 };
 
-export default CustomTextComponent
+export default CustomText
 
 const styles = StyleSheet.create({})

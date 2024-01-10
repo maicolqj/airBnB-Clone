@@ -1,7 +1,7 @@
 import { Modal, ScrollView, StyleSheet, TouchableOpacity, View, } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomTextComponent from '../../../../components/CustonTextComponent';
+import CustomText from '../../../../components/Generals/CustomText';
 import CounterButtonComponent from './CounterButtonComponent';
 import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -132,9 +132,9 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
                 <TouchableOpacity onPress={() => setModalUseState(false)}>
                     <Icon name='close' style={{ fontSize: 25, color: colorsApp.blackLeather() }}></Icon>
                 </TouchableOpacity>
-                <CustomTextComponent style={{ ...styles.title }} >
+                <CustomText style={{ ...styles.title }} >
                     Filtros
-                </CustomTextComponent>
+                </CustomText>
             </View>
 
           
@@ -142,9 +142,9 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
 
             <ScrollView style={{ ...styles.scroll }}>
 
-            <CustomTextComponent style={{marginTop: hp('2%'), alignSelf: 'center', fontSize: hp('2%'), marginBottom: hp('4%')}}>
+            <CustomText style={{marginTop: hp('2%'), alignSelf: 'center', fontSize: hp('2%'), marginBottom: hp('4%')}}>
                 Filtra tus busquedas y encuentra más rapido lo que buscas.
-            </CustomTextComponent>
+            </CustomText>
 
                 <DividerComponent />
 
@@ -186,9 +186,9 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
 
 
                     <TouchableOpacity style={{marginVertical: hp('2%'), paddingHorizontal: wp('5%'), backgroundColor: colorsApp.blackLeather(0.90), width: wp('50%'), paddingVertical: hp('1%'), justifyContent: 'center', alignItems: 'center', borderRadius: 15}} activeOpacity={0.8} onPress={() => clearDates()}>
-                        <CustomTextComponent style={{ fontSize: hp('2%'), color: '#fff'}}>
+                        <CustomText style={{ fontSize: hp('2%'), color: '#fff'}}>
                             Borrar Fechas
-                        </CustomTextComponent>
+                        </CustomText>
                     </TouchableOpacity>
                 </View>
 
@@ -196,40 +196,40 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
                 <DividerComponent />
 
                 <View style={{ ...styles.boxCounters }}>
-                    <CustomTextComponent style={{ fontSize: 20 }}>
+                    <CustomText style={{ fontSize: 20 }}>
                         Adultos:
-                    </CustomTextComponent>
+                    </CustomText>
                     {/* Counter Adults */}
                     <CounterButtonComponent counterName="adultos" onPress={handleCounterChange} counterValue={counters.adultos} />
                 </View>
 
                 <View style={{ ...styles.boxCounters }}>
-                    <CustomTextComponent style={{ fontSize: 20 }}>
+                    <CustomText style={{ fontSize: 20 }}>
                         Niños:
-                    </CustomTextComponent>
+                    </CustomText>
                     {/* Counter Kids */}
                     <CounterButtonComponent counterName="ninos" onPress={handleCounterChange} counterValue={counters.ninos} />
                 </View>
                 <View style={{ ...styles.boxCounters }}>
-                    <CustomTextComponent style={{ fontSize: 20 }}>
+                    <CustomText style={{ fontSize: 20 }}>
                         bebés:
-                    </CustomTextComponent>
+                    </CustomText>
                     {/* Counter Babies */}
                     <CounterButtonComponent counterName="bebes" onPress={handleCounterChange} counterValue={counters.bebes} />
                 </View>
                 <View style={{ ...styles.boxCounters }}>
-                    <CustomTextComponent style={{ fontSize: 20 }}>
+                    <CustomText style={{ fontSize: 20 }}>
                         Mascotas:
-                    </CustomTextComponent>
+                    </CustomText>
                     {/* Counter Pets */}
                     <CounterButtonComponent counterName="mascotas" onPress={handleCounterChange} counterValue={counters.mascotas} />
                 </View>
 
 
                 <TouchableOpacity onPress={handleAceptFilters} style={{ ...styles.buttomAcept }}>
-                    <CustomTextComponent style={{ color: '#fff', fontSize: hp('2%') }}>
+                    <CustomText style={{ color: '#fff', fontSize: hp('2%') }}>
                         Buscar
-                    </CustomTextComponent>
+                    </CustomText>
                 </TouchableOpacity>
 
                 <DividerComponent />

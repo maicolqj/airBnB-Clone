@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
-import CustonTextComponent from '../../../../components/CustonTextComponent';
+import CustonTextComponent from '../../../../components/Generals/CustomText';
 
 interface Props {
     navigation: any,
@@ -69,32 +69,18 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     buttomSearch: {
-        width: wp('90%'),
-        height: hp('7%'),
-        backgroundColor: 'white',
-        borderRadius: 25,
+        // backgroundColor: 'white',
         paddingHorizontal: '15%',
-        paddingVertical: '2%',
+        paddingVertical: '3%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+       
     },
     container: {
-        marginTop: hp('4.5%'),
-        paddingHorizontal: wp('4%'),
-        paddingVertical: hp('2%'),
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: '#fff',
+        justifyContent: 'center',
     },
     containerPlaceholder: {
         width: '100%',
@@ -102,7 +88,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: '10%'
     },
     searchButton: {
-        fontSize: 30,
+        fontSize: hp(2.5),
         color: colorsApp.blackLeather()
     }
 })

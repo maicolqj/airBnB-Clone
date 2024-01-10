@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import CustomTextComponent from '../../../../components/CustonTextComponent';
+import CustomText from '../../../../components/Generals/CustomText';
 import { CountersType } from '../../../../types/GlobalTypes';
 import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
 
@@ -19,22 +19,22 @@ const CounterButtonComponent = ({ counterName, onPress, counterValue }: CounterB
                 onPress={() => onPress(counterName, -1)}
                 disabled={counterValue <= 0 ? true : false}
             >
-                <CustomTextComponent style={{ fontSize: 25, color: '#fff', }}>
+                <CustomText style={{ fontSize: 25, color: '#fff', }}>
                     -
-                </CustomTextComponent>
+                </CustomText>
             </TouchableOpacity>
             <View style={{ paddingHorizontal: 10, width: 45, height: 35,  justifyContent: 'center', alignItems: 'center' }}>
-                <CustomTextComponent style={{ paddingHorizontal: 2 }}>
+                <CustomText style={{ paddingHorizontal: 2 }}>
                 {counterValue}
-                </CustomTextComponent>
+                </CustomText>
             </View>
             <TouchableOpacity
                 style={{ width: 35, height: 35, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: 'black' }}
                 onPress={() => onPress(counterName, 1)}
             >
-                <CustomTextComponent style={{ fontSize: 25, color: '#fff' }}>
+                <CustomText style={{ fontSize: 25, color: '#fff' }}>
                     +
-                </CustomTextComponent>
+                </CustomText>
             </TouchableOpacity>
         </View>
     );

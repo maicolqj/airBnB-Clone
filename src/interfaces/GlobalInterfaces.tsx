@@ -6,6 +6,13 @@ export interface SearchPublications {
     message: string;
 }
 
+export interface User {
+    id: Number
+    name: String,
+    image: String
+}
+
+
 export interface Publication {
     id:                    number;
     title:                 string;
@@ -25,6 +32,9 @@ export interface Publication {
     images:                Image[];
     rel_ubicacion:         RelUbicacion;
     price:                 Price;
+    qualification: number;
+    user: User;
+    details: Array <Detail>
 }
 
 export interface Image {
@@ -61,4 +71,36 @@ export interface FilterData {
     // city:      string;
     // price_min: number;
     // price_max: number;
+}
+
+export interface Detail {
+    id: number
+    name: string
+    type: Type
+    quantity: number
+    new_quantity: number
+    publication_id: Number
+    icon: string
+    value: number
+    visible_in_subtitle: number
+    required_price: Boolean
+    price: number
+}
+
+export interface Type {
+    id: number
+    name: string,
+    icon: string
+    description: string
+    default_quantity: number
+    selectable_on_reservation: Boolean
+    group_detail: GroupDetail
+    fields: string
+
+}
+
+export interface GroupDetail {
+    id: number
+    singular_name: string
+    plural_name: string
 }

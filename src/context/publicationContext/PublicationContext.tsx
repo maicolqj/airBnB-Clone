@@ -1,101 +1,272 @@
 import React, { createContext, useEffect, useState } from "react";
-import { FilterData, Publication, SearchPublications } from "../../interfaces/GlobalInterfaces";
+import {
+  FilterData,
+  Publication,
+  SearchPublications
+} from "../../interfaces/GlobalInterfaces";
 import BackendApi from "../../api/backendApi";
+import { fetchApi } from "../../api/ApiService";
+import moment from "moment";
+import { getDatesBetweenRange, removeHyphenEndText } from "../../helpers/formats";
+import { MarkedDates } from "react-native-calendars/src/types";
+import { colorsApp } from "../../styles/globalColors/GlobalColors";
 
 type PublicationsContextProps = {
-    isLoading: boolean;
-    publications: Publication[];
-    loadPublications: () => Promise<void>;
-    loadPublicationsById: (id: string) => Promise<Publication>;
-    updateFilters: (partialFilters: Partial<FilterData>) => void; // Cambio aquí
-    filters: FilterData;
+  isLoading: boolean;
+  isMorePage: boolean;
+  publications: Publication[];
+  publicationSelected: Publication|undefined
+  reserveDays: string[] | []
+  loadPublications: () => Promise<void>;
+  setPublicationSelected: Function
+  getVisibleInSubtitle: Function
+  loadPublicationsBySlug: (slug: string) => void;
+  updateFilters: (partialFilters: Partial<FilterData>) => void; // Cambio aquí
+  filters: FilterData;
+  showRangeReserve: boolean;
+  setShowRangeReserve: Function
+  handleDayPress:Function
+  getMarkedDates: Function
+  priceRangeSelected:number
+  setInitalDates:Function,
+  selectedStartDate:string|null
+  selectedEndDate:string|null
+  quantityRangeSelected:number
 };
 
+export const PublicationsContext = createContext(
+  {} as PublicationsContextProps,
+);
 
-export const PublicationsContext = createContext({} as PublicationsContextProps);
+export const PublicationsProvider = ({children}: any) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isMorePage, setIsMorePage] = useState(true);
+  const [showRangeReserve,setShowRangeReserve] = useState(false)
+  const [publications, setPublications] = useState<Publication[]>([]);
+  const [publicationSelected, setPublicationSelected] = useState<Publication>()
+  const [reserveDays, setReserveDays] = useState<string[] | []>([])
 
-export const PublicationsProvider = ({ children }: any) => {
+  // Fechas seleccinadas en el calendario de reserva
+  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
+  const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
+  const [priceRangeSelected, setPriceRangeSelected] = useState<number>(0);
+  const [quantityRangeSelected, setQuantityRangeSelected] = useState<number>(0);
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [publications, setPublications] = useState<Publication[]>([])
-    const [filters, setFilters] = useState({
-        page: 1,
-        limit: 3,
-        adultos: 0,
-        ninos: 0,
-        bebes: 0,
-        mascotas: 0,
-        category: ''
-        // city: '',
-        // price_min: 393626,
-        // price_max: 1768515,
-        // checkin: "2023-11-18",
-        // checkout: "2023-11-24"
-    });
+  const [filters, setFilters] = useState({
+    page: 0,
+    limit: 3,
+    adultos: 0,
+    ninos: 0,
+    bebes: 0,
+    mascotas: 0,
+    category: ""
+  });
 
-    console.log(`FILTROS DESDE EL CONTEXT ${JSON.stringify(filters)}`);
+  useEffect(()=>{
+    let quantityDays = 0
+    if (selectedStartDate && selectedEndDate) {
+      quantityDays = getDatesBetweenRange(selectedStartDate,selectedEndDate).length - 1
+    }
+    setQuantityRangeSelected(quantityDays)
+    setPriceRangeSelected(quantityDays * (publicationSelected?.price.base ?? 0))
     
-    // useEffect(() => {
-    //     loadPublications()
-    // }, [])
+  },[selectedStartDate,selectedEndDate])
 
-    const updateFilters = (data: Partial<FilterData>) => {
-        // console.log('Updating filters:', data);
-        setFilters(prevFilters => {
-            return {
-                ...prevFilters,
-                ...data,
-            };
-        });
-    };
-
-    const loadPublications = async () => {
-
-        try {
-
-            setIsLoading(true);
-
-            const queryString = Object.entries({ ...filters })
-                .map(([key, value]) => `${key}=${value}`)
-                .join('&');
+  useEffect(()=>{
+    if (publicationSelected) {
+      setInitalDates()
+    }
+  },[reserveDays])
 
 
-            const resp = await BackendApi.get<SearchPublications>(`/publication/search-publications?${queryString}`);
+  const updateFilters = (data: Partial<FilterData>) => {
+    // console.log('Updating filters:', data);
+    setFilters((prevFilters) => {
+      return {
+        ...prevFilters,
+        ...data
+      };
+    });
+  };
 
-            if (filters.page === 1) {
-                setPublications(resp.data.data);
-            } else {
-                setPublications((prevPublications) => [...prevPublications, ...resp.data.data]);
+  const loadPublications = async () => {
+    try {
+      if (isLoading) {
+          return
+      }
+      setIsLoading(true);
+
+      const params = {
+        ...filters,
+        page:filters.page + 1
+      }
+      const queryString = new URLSearchParams(params).toString()
+      const resp = await fetchApi(`/publication/search-publications?${queryString}`,{
+        method:'GET'
+      })
+      if (resp.code == 200) {
+        updateFilters({...filters, page: params.page,})
+        let newPublications = [] as Publication[]
+        publications.forEach(publication =>{
+            if (!resp.data.some((item:Publication) => publication.id == item.id)) {
+                newPublications.push(publication)
             }
+        })
+        setPublications([...newPublications,...resp.data] );
+        if (resp.data.length < filters.limit) {
+            setIsMorePage(false)
+        }
+      }
 
-            // if (!isLoading) {
-            //     setFilters((prevFilters) => ({ ...prevFilters }));
-            // }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);
+  const loadPublicationsBySlug = async (slug:string) => {
+    const resp = await fetchApi(`/publication/datail-complements/${slug}`,{
+      method:'GET'
+    })
+    console.log('loadPublicationsBySlug',resp);
+    
+    if (resp.status) {
+      setPublicationSelected(resp.data.publication)
+      setReserveDays(resp.data.reserve_days)
+      
+      // setDatesReservated()
+      // getLocalStorage()
+      // setInitStorage()
+      // setPrice(publicationStorage.value?.quantityDays ? (publication.value?.price?.base*publicationStorage.value?.quantityDays ) : publication.value?.price?.base)
+    }
+  };
 
+  const setInitalDates = ()=>{
+    let initialStartDate = moment()
+    let initialEndDate = moment().add(1,'day')
+    while (reserveDays.some(day => day == initialStartDate.format("YYYY-MM-DD")) || reserveDays.some(day => day == initialEndDate.format("YYYY-MM-DD"))) {
+      initialStartDate.add(1,'day')
+      initialEndDate.add(1,'day')
+    }
+    setSelectedStartDate(initialStartDate.format("YYYY-MM-DD"))
+    setSelectedEndDate(initialEndDate.format("YYYY-MM-DD"))
+  
+}
+
+  const handleDayPress = (day: any) => {
+    const dateStr = day.dateString;
+    if (!selectedStartDate || selectedEndDate) {
+      setSelectedStartDate(dateStr);
+      setSelectedEndDate(null);
+    } else {
+      if (dateStr > selectedStartDate) {
+        const rangeSelected = getDatesBetweenRange(selectedStartDate,dateStr)
+        let islockedInRange = false
+        for (let index = 0; index < reserveDays.length; index++) {
+          islockedInRange = rangeSelected.some(rangeDay => rangeDay == reserveDays[index])
+          if (islockedInRange) break
+        }
+        if (!islockedInRange) {
+          setSelectedEndDate(dateStr);
+        }else{
+          setInitalDates()
+        }
+      } else {
+        setSelectedStartDate(dateStr);
+        setSelectedEndDate(null);
+      }
+    }
+  };
+
+  const getMarkedDates = (): MarkedDates => {
+    const markedDays: MarkedDates = {};
+
+    if (selectedStartDate) {
+        markedDays[selectedStartDate] = { color: colorsApp.primary(), startingDay: true };
+    }
+    if (selectedEndDate) {
+        markedDays[selectedEndDate] = { color: colorsApp.primary(), endingDay: true };
+    }
+    if (selectedStartDate && selectedEndDate) {
+        const startDate = new Date(selectedStartDate);
+        const endDate = new Date(selectedEndDate);
+
+        const startDateStr = startDate.toISOString().split('T')[0]
+        const endDateStr = endDate.toISOString().split('T')[0]
+        for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
+            const currentDateStr = currentDate.toISOString().split('T')[0];
+            markedDays[currentDateStr] = { 
+              color: (currentDateStr != startDateStr && currentDateStr != endDateStr) ? colorsApp.primary(0.2)  : colorsApp.primary(), 
+              startingDay: currentDateStr == startDateStr && true, 
+              endingDay: currentDateStr == endDateStr && true
+            };
         }
 
+      }
+      reserveDays.forEach((day) => {
+        markedDays[day] = { 
+          disabled:true,
+          disableTouchEvent:true
+        };
+      });
+    
+    return markedDays;
+  };
+  const getVisibleInSubtitle = () => {
+    let details = publicationSelected?.details
+    let groups = {}
+    details?.forEach(detail => {            
+        if (detail.type.visible_in_subtitle) {
+            const rel_tipo_detalle = detail.type;
+            const { group_detail } = rel_tipo_detalle
+            if (!groups[group_detail.singular_name]) {
+                groups[group_detail.singular_name] = {
+                    name: group_detail.singular_name,
+                    quantity: detail.quantity
+                };
+            } else {
+                groups[group_detail.singular_name].quantity += detail.quantity
+            }
+            groups[group_detail.singular_name].name = groups[group_detail.singular_name].quantity > 1 ? group_detail.plural_name : group_detail.singular_name
+        }
+    });
+    let text = ``
+    for (const key in groups) {
+        let element = groups[key]
+        if (element.quantity > 0) {
+            text += `${element.quantity} ${element.name} - `
+        }
     }
+    return removeHyphenEndText(text)
+  }
 
-
-    const loadPublicationsById = async () => {
-        throw new Error("Not implemented");
-    }
-
-    return (
-        <PublicationsContext.Provider value={{
-            publications,
-            isLoading,
-            filters,
-            updateFilters,
-            loadPublications,
-            loadPublicationsById,
-        }}>
-            {children}
-        </PublicationsContext.Provider>
-    )
-}
+  return (
+    <PublicationsContext.Provider
+      value={{
+        publications,
+        isLoading,
+        isMorePage,
+        filters,
+        updateFilters,
+        loadPublications,
+        loadPublicationsBySlug,
+        setPublicationSelected,
+        publicationSelected,
+        reserveDays,
+        getVisibleInSubtitle,
+        showRangeReserve,
+        setShowRangeReserve,
+        handleDayPress,
+        getMarkedDates,
+        priceRangeSelected,
+        setInitalDates,
+        selectedStartDate,
+        selectedEndDate,
+        quantityRangeSelected
+      }}
+    >
+      {children}
+    </PublicationsContext.Provider>
+  );
+};

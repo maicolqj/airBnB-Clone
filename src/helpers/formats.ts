@@ -1,0 +1,73 @@
+import moment from "moment";
+import 'moment/locale/es';
+
+
+export const formatCurrency = (price:number) =>{
+    const formatoMonedaColombiana = new Intl.NumberFormat("es-CO", {
+        style: "currency",
+        currency: "COP",
+      });
+    return formatoMonedaColombiana.format(price).replace(/,00$/, "") + " COP";
+}
+
+export const shortText = (texto:String, longitudMaxima:number=10, text:string='...') => {
+    if (texto && texto.length > longitudMaxima) {
+    return texto.slice(0, longitudMaxima) + text;
+    } else {
+    return texto;
+    }
+}
+
+export const removeHyphenEndText = (text:string) => {
+    let lastPosition = text.lastIndexOf("-")
+    if (lastPosition !== -1) {
+        return text.slice(0, lastPosition) + text.slice(lastPosition + 1);
+    }
+    return text
+}
+
+export const getDatesBetweenRange = (start_date:string, end_date:string) => {
+    let dates = [];
+
+    const startDate = new Date(start_date);
+    const endDate = new Date(end_date);
+
+    for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
+        const currentDateStr = currentDate.toISOString().split('T')[0];
+        dates.push(currentDateStr)
+    }
+    return dates;
+}
+
+export const shortFormatDate = (date:string|null) => {
+    moment.locale('es');
+    return date ? moment(date).format("DD MMM") : ''
+}  
+
+export const reserveFormatDate = (date:string|null) => {
+    moment.locale('es');
+    return date ? moment(date).format('ddd, DD MMM') : ''
+} 
+
+export const formatEsCalendar = () => {
+    return {
+        monthNames: [
+          'Enero',
+          'Febrero',
+          'Marzo',
+          'Abril',
+          'Mayo',
+          'Junio',
+          'Julio',
+          'Agosto',
+          'Septiembre',
+          'Octubre',
+          'Noviembre',
+          'Diciembre'
+        ],
+        monthNamesShort: ['Ene','Feb', 'Mar', 'Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+        today: 'Hoy'
+      }
+}
