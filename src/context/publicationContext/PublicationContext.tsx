@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import {
+  Detail,
   FilterData,
   Publication,
   SearchPublications
@@ -32,6 +33,11 @@ type PublicationsContextProps = {
   selectedStartDate:string|null
   selectedEndDate:string|null
   quantityRangeSelected:number
+  showChooseGuestReserve: boolean
+  setShowChooseGuestReserve: Function
+  IncrementDetail:(detailId:number) =>void
+  DecrementDetail:(detailId:number) =>void
+  guestDetails: Detail[] | [],
 };
 
 export const PublicationsContext = createContext(
@@ -42,6 +48,7 @@ export const PublicationsProvider = ({children}: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMorePage, setIsMorePage] = useState(true);
   const [showRangeReserve,setShowRangeReserve] = useState(false)
+  const [showChooseGuestReserve,setShowChooseGuestReserve] = useState(false)
   const [publications, setPublications] = useState<Publication[]>([]);
   const [publicationSelected, setPublicationSelected] = useState<Publication>()
   const [reserveDays, setReserveDays] = useState<string[] | []>([])
@@ -51,6 +58,7 @@ export const PublicationsProvider = ({children}: any) => {
   const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
   const [priceRangeSelected, setPriceRangeSelected] = useState<number>(0);
   const [quantityRangeSelected, setQuantityRangeSelected] = useState<number>(0);
+  const [guestDetails,setGuestDetails] = useState<Detail[]>([])
 
   const [filters, setFilters] = useState({
     page: 0,
@@ -132,13 +140,12 @@ export const PublicationsProvider = ({children}: any) => {
     console.log('loadPublicationsBySlug',resp);
     
     if (resp.status) {
+      resp.data.publication.details.map((detail:any) => {
+        detail.new_quantity = detail.type.default_quantity
+      })
+      setGuestDetails(resp.data.publication.details)
       setPublicationSelected(resp.data.publication)
       setReserveDays(resp.data.reserve_days)
-      
-      // setDatesReservated()
-      // getLocalStorage()
-      // setInitStorage()
-      // setPrice(publicationStorage.value?.quantityDays ? (publication.value?.price?.base*publicationStorage.value?.quantityDays ) : publication.value?.price?.base)
     }
   };
 
@@ -151,7 +158,6 @@ export const PublicationsProvider = ({children}: any) => {
     }
     setSelectedStartDate(initialStartDate.format("YYYY-MM-DD"))
     setSelectedEndDate(initialEndDate.format("YYYY-MM-DD"))
-  
 }
 
   const handleDayPress = (day: any) => {
@@ -213,6 +219,7 @@ export const PublicationsProvider = ({children}: any) => {
     
     return markedDays;
   };
+
   const getVisibleInSubtitle = () => {
     let details = publicationSelected?.details
     let groups = {}
@@ -241,6 +248,26 @@ export const PublicationsProvider = ({children}: any) => {
     return removeHyphenEndText(text)
   }
 
+  const IncrementDetail = (detailId:number) =>{
+    let newGuestDetails = [...guestDetails]
+    newGuestDetails.map((detail,key) => {
+      if (detail.id == detailId ) {
+        detail.new_quantity = detail?.new_quantity >= detail?.quantity ? detail?.new_quantity : detail?.new_quantity+1
+      }
+    });
+    setGuestDetails(newGuestDetails)
+  }
+
+  const DecrementDetail = (detailId:number) =>{
+    let newGuestDetails = [...guestDetails]
+    newGuestDetails.map((detail,key) => {
+      if (detail.id == detailId ) {
+        detail.new_quantity = detail?.new_quantity <= detail.type.default_quantity ? detail?.new_quantity : detail?.new_quantity-1
+      }
+    });
+    setGuestDetails(newGuestDetails)
+  }
+
   return (
     <PublicationsContext.Provider
       value={{
@@ -263,7 +290,13 @@ export const PublicationsProvider = ({children}: any) => {
         setInitalDates,
         selectedStartDate,
         selectedEndDate,
-        quantityRangeSelected
+        quantityRangeSelected,
+        showChooseGuestReserve,
+        setShowChooseGuestReserve,
+        guestDetails,
+        IncrementDetail,
+        DecrementDetail,
+
       }}
     >
       {children}

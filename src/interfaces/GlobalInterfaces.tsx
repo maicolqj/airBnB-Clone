@@ -35,6 +35,12 @@ export interface Publication {
     qualification: number;
     user: User;
     details: Array <Detail>
+    city: City
+}
+
+export interface City {
+    id: number;
+    name: string;
 }
 
 export interface Image {

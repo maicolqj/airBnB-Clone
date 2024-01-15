@@ -12,7 +12,7 @@ import { formatCurrency, formatEsCalendar, reserveFormatDate } from "../../helpe
 
 
 const RangeReserve = () => {
-    // LocaleConfig.defaultLocale = 'fr';
+    // Dar formato en español al calendario
     LocaleConfig.locales['es'] = formatEsCalendar()
     LocaleConfig.defaultLocale = 'es';
 
@@ -32,7 +32,6 @@ const RangeReserve = () => {
         selectedStartDate,
         selectedEndDate,
         publicationSelected
-        
     } = useContext(PublicationsContext)
 
     useEffect(()=>{
@@ -75,33 +74,28 @@ const RangeReserve = () => {
 
                     {/* Calendario */}
                     <View style={{alignItems:'center',}}>
-                        <CalendarList
-                            style={{
-                            }}
-                            onDayPress={(day) => handleDayPress(day)}
-                            markingType={'period'}
-                            markedDates={getMarkedDates()}
-
-                            // hideExtraDays={true}
-                            // firstDay={1}
-                            // hideExtraDays={true}
-                            // hideDayNames={true}
-
-                            scrollEnabled={true}
-                            minDate={minDate}
-                            maxDate={maxDate}
-                            calendarWidth={wp(85)}
-                            theme={{
-                                backgroundColor: '#ffffff',
-                                calendarBackground: '#ffffff',
-                                textSectionTitleColor: '#b6c1cd',
-                                selectedDayBackgroundColor: colorsApp.blackLeather(),
-                                selectedDayTextColor: '#ffffff',
-                                todayTextColor: '#00adf5',
-                                dayTextColor: '#2d4150',
-                                textDisabledColor: colorsApp.blackLeather(0.25)
-                            }}
-                        />
+                        {
+                            selectedStartDate &&
+                            <CalendarList
+                                onDayPress={(day) => handleDayPress(day)}
+                                markingType={'period'}
+                                markedDates={getMarkedDates()}
+                                scrollEnabled={true}
+                                minDate={minDate}
+                                maxDate={maxDate}
+                                calendarWidth={wp(85)}
+                                theme={{
+                                    backgroundColor: '#ffffff',
+                                    calendarBackground: '#ffffff',
+                                    textSectionTitleColor: '#b6c1cd',
+                                    selectedDayBackgroundColor: colorsApp.blackLeather(),
+                                    selectedDayTextColor: '#ffffff',
+                                    todayTextColor: '#00adf5',
+                                    dayTextColor: '#2d4150',
+                                    textDisabledColor: colorsApp.blackLeather(0.25)
+                                }}
+                            />
+                        }
                     </View>
                 </View>
 

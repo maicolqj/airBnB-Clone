@@ -9,6 +9,7 @@ import { Publication } from '../../interfaces/GlobalInterfaces';
 import Login from '../../screens/stackScreens/Auth/LoginScreen';
 import { AuthContext } from '../../context/publicationContext/AuthContext';
 import Init from '../../components/Splash/Init';
+import ConfirmAndPay from '../../screens/stackScreens/detailsScreen/ConfirmAndPay';
 
 export type RootInitialStackParams = {
     Init:undefined
@@ -16,6 +17,7 @@ export type RootInitialStackParams = {
     SearchScreen: undefined
     Login: undefined
     FavoritesSities: undefined
+    ConfirmAndPay: undefined
     DetailsScreen: {data: Publication}
 }
 
@@ -41,6 +43,7 @@ const InitialStackNavigation = () => {
                         <Stack.Screen name='botomTabs' component={botomTabs} />
                         <Stack.Screen name='SearchScreen' component={SearchScreen} />
                         <Stack.Screen name='DetailsScreen' component={DetailsScreen} />
+                        <Stack.Screen name='ConfirmAndPay' component={ConfirmAndPay} />
                         <Stack.Screen name='FavoritesSities' component={FavoritesSities} />
                     </>
                 }

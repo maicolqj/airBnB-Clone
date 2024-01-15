@@ -13,7 +13,7 @@ import DividerComponent from '../../../components/DividerComponent';
 import GeneralButtonComponent from '../../../components/GeneralButtonComponent';
 import { formatCurrency, shortFormatDate } from '../../../helpers/formats';
 import { PublicationsContext } from '../../../context/publicationContext/PublicationContext';
-import RangeReserve from '../../../components/Publications/RangeReserve';
+import RangeReserve from '../../../components/DetailScreen/RangeReserve';
 
 interface Props extends StackScreenProps<RootInitialStackParams, 'DetailsScreen'> { }
 
@@ -41,8 +41,6 @@ const DetailsScreen = ({ navigation, route }: Props) => {
   
   return (
     <SafeAreaView style={{ ...customStyles.safeArea, ...styles.container }}>
-      
-      
         
       {/* <CustomStatusBarComponent colorBar='rgba(255, 255, 255, 0.01)' /> */}
       <ScrollView style={{  marginBottom: hp('2% '), }} showsVerticalScrollIndicator={false}>
@@ -284,7 +282,10 @@ const DetailsScreen = ({ navigation, route }: Props) => {
             </Pressable>
 
           </View>
-          <TouchableOpacity style={{ ...styles.buttomReserv }}>
+          <TouchableOpacity 
+            style={{ ...styles.buttomReserv }}
+            onPress={() => navigation.navigate('ConfirmAndPay')}
+          >
             <CustomText style={{ color: '#fff', fontSize: hp(1.8), fontWeight:"bold" }}>
               Reservar
             </CustomText>
