@@ -1,6 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import {
   Detail,
+  DetailField,
+  Field,
   FilterData,
   Publication,
   SearchPublications
@@ -35,14 +37,24 @@ type PublicationsContextProps = {
   quantityRangeSelected:number
   showChooseGuestReserve: boolean
   setShowChooseGuestReserve: Function
-  IncrementDetail:(detailId:number) =>void
-  DecrementDetail:(detailId:number) =>void
+  incrementDetail:(detailId:number) =>void
+  decrementDetail:(detailId:number) =>void
   guestDetails: Detail[] | [],
+  fieldGuestDetails:DetailField[] | [],
+  setValueGuestDetails: (keyGuestDetail:number,keyField:number, value:any) => void
 };
 
 export const PublicationsContext = createContext(
   {} as PublicationsContextProps,
 );
+
+const parseFields = (fields: string) => {
+  let parse: [Field] = JSON.parse(fields);
+  if (parse && parse.fields) {
+      return parse.fields;
+  }
+  return []
+}
 
 export const PublicationsProvider = ({children}: any) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -59,6 +71,7 @@ export const PublicationsProvider = ({children}: any) => {
   const [priceRangeSelected, setPriceRangeSelected] = useState<number>(0);
   const [quantityRangeSelected, setQuantityRangeSelected] = useState<number>(0);
   const [guestDetails,setGuestDetails] = useState<Detail[]>([])
+  const [fieldGuestDetails,setFieldGuestDetails] = useState<DetailField[] | []>([])
 
   const [filters, setFilters] = useState({
     page: 0,
@@ -86,9 +99,28 @@ export const PublicationsProvider = ({children}: any) => {
     }
   },[reserveDays])
 
+  useEffect(()=>{
+    formatGuestFields()
+  },[guestDetails])
+
+  const formatGuestFields = () =>{
+    let newFieldGuestDetails:any = []
+    guestDetails.forEach((detail) => {
+      for (let index = 0; index < detail.new_quantity; index++) {
+        const fields = parseFields(detail.type.fields)
+        newFieldGuestDetails.push({
+          id: detail.type.id,
+          name: detail.type.name,
+          fields,
+          position: index + 1
+        })
+      }
+    })
+    setFieldGuestDetails(newFieldGuestDetails)
+  }
+
 
   const updateFilters = (data: Partial<FilterData>) => {
-    // console.log('Updating filters:', data);
     setFilters((prevFilters) => {
       return {
         ...prevFilters,
@@ -248,7 +280,7 @@ export const PublicationsProvider = ({children}: any) => {
     return removeHyphenEndText(text)
   }
 
-  const IncrementDetail = (detailId:number) =>{
+  const incrementDetail = (detailId:number) =>{
     let newGuestDetails = [...guestDetails]
     newGuestDetails.map((detail,key) => {
       if (detail.id == detailId ) {
@@ -258,7 +290,7 @@ export const PublicationsProvider = ({children}: any) => {
     setGuestDetails(newGuestDetails)
   }
 
-  const DecrementDetail = (detailId:number) =>{
+  const decrementDetail = (detailId:number) =>{
     let newGuestDetails = [...guestDetails]
     newGuestDetails.map((detail,key) => {
       if (detail.id == detailId ) {
@@ -267,6 +299,15 @@ export const PublicationsProvider = ({children}: any) => {
     });
     setGuestDetails(newGuestDetails)
   }
+
+  const setValueGuestDetails = (keyGuestDetail:number,keyField:number,value:any) =>{
+    let newFieldGuestDetails = [...fieldGuestDetails]
+    newFieldGuestDetails[keyGuestDetail].fields[keyField].value = value
+    setFieldGuestDetails(newFieldGuestDetails);
+    
+  }
+
+ 
 
   return (
     <PublicationsContext.Provider
@@ -294,8 +335,10 @@ export const PublicationsProvider = ({children}: any) => {
         showChooseGuestReserve,
         setShowChooseGuestReserve,
         guestDetails,
-        IncrementDetail,
-        DecrementDetail,
+        incrementDetail,
+        decrementDetail,
+        fieldGuestDetails,
+        setValueGuestDetails
 
       }}
     >

@@ -110,3 +110,19 @@ export interface GroupDetail {
     singular_name: string
     plural_name: string
 }
+
+export interface Field {
+    id: number
+    name: string
+    label: string
+    regex: string
+    type: string,
+    value: any
+    options: any[]
+}
+export interface DetailField {
+    id: number
+    name: string
+    fields: Field[]
+    position: number
+}

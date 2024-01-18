@@ -14,7 +14,7 @@ interface MypProps {
 }
 
 const EditChooseGuests = ({detail}:MypProps) => {
-    const {IncrementDetail, DecrementDetail} = useContext(PublicationsContext)
+    const {incrementDetail, decrementDetail} = useContext(PublicationsContext)
 
     const isDecrementtDisabled = ():boolean =>{
         if (detail.new_quantity <= detail.type.default_quantity || detail.new_quantity < 1) {
@@ -41,7 +41,7 @@ const EditChooseGuests = ({detail}:MypProps) => {
             <View style={{flexDirection:'row', alignItems:'center'}}>
                 <Pressable 
                     style={[styles.bottomActions, isDecrementtDisabled() && styles.bottomDisabled] }
-                    onPress={() => DecrementDetail(detail.id)}
+                    onPress={() => decrementDetail(detail.id)}
                     disabled={isDecrementtDisabled()}
                 >
                     <Icon name='minus' style={{ fontSize:hp(2) }}></Icon>
@@ -51,7 +51,7 @@ const EditChooseGuests = ({detail}:MypProps) => {
                 </CustomText>
                 <Pressable 
                     style={[styles.bottomActions, isIncremenDisabled() && styles.bottomDisabled]}
-                    onPress={() => IncrementDetail(detail.id)}
+                    onPress={() => incrementDetail(detail.id)}
                     disabled={isIncremenDisabled()}
                 >
                     <Icon name='plus' style={{ fontSize:hp(2) }}></Icon>

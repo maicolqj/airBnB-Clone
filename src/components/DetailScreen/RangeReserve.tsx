@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     buttomFooter: {
         padding:hp(1.2),
         borderRadius: hp(1),
-        backgroundColor: colorsApp.primary(),
+        backgroundColor: colorsApp.blackLeather(),
         justifyContent: 'center',
         alignItems: 'center',
     },
