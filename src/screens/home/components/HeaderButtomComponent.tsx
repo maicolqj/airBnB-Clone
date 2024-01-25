@@ -2,8 +2,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
-import CustonTextComponent from '../../../../components/Generals/CustomText';
+import { colorsApp } from '../../../styles/globalColors/GlobalColors';
+import CustonTextComponent from '../../../components/Generals/CustomText';
 
 interface Props {
     navigation: any,

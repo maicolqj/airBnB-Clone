@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fetchApi } from '../../api/ApiService';
-import { User } from '../../interfaces/UserInterfaces';
+import { fetchApi } from '../api/ApiService';
+import { User } from '../interfaces/UserInterfaces';
 
 type AuthContextProps = {
     isAuthenticated: boolean
@@ -59,7 +59,7 @@ export const  AuthProvider = ({ children }:  any) =>{
     const signIn = async({ email, password }:LoginParams) => {
         setLoadingLogin(true)
         try {
-            const resp = await fetchApi('/auth/login',{
+            const resp = await fetchApi('/auth/login-with-email',{
                 method:'POST',
                 body:{ email, password, device_name } as LoginParams
             })

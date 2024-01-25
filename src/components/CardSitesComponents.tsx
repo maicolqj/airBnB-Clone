@@ -18,7 +18,7 @@ const CardSitesComponents = ({ navigation, publication }: Props) => {
 
   return (
     <View style={{ ...styles.container }} >
-      <Pressable style={{ ...styles.buttomContainer }} onPress={() => navigation.navigate('FavoritesSities')}>
+      <Pressable style={{ ...styles.buttomContainer }} onPress={() => navigation.navigate('Favorites')}>
         <Icon name='heart-outline' style={{ ...styles.iconStyle }}></Icon>
       </Pressable>
       <View style={{

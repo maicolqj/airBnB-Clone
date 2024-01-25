@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import CustomText from "../Generals/CustomText";
-import { PublicationsContext } from "../../context/publicationContext/PublicationContext";
+import { PublicationsContext } from "../../context/PublicationContext";
 import { formatCurrency } from "../../helpers/formats";
 
 const PriceInfo = ()=>{

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { SetStateAction, useState } from 'react'
 import { TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
+import { colorsApp } from '../../../styles/globalColors/GlobalColors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 

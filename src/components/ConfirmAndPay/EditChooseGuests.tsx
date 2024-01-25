@@ -6,7 +6,7 @@ import { shortText } from "../../helpers/formats";
 import { Detail } from "../../interfaces/GlobalInterfaces";
 import { StyleSheet } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { PublicationsContext } from "../../context/publicationContext/PublicationContext";
+import { PublicationsContext } from "../../context/PublicationContext";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 
 interface MypProps {

@@ -5,7 +5,7 @@ import Modal from "react-native-modal";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import moment from "moment";
-import { PublicationsContext } from "../../context/publicationContext/PublicationContext";
+import { PublicationsContext } from "../../context/PublicationContext";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomText from "../Generals/CustomText";
 import { formatCurrency, formatEsCalendar, reserveFormatDate } from "../../helpers/formats";

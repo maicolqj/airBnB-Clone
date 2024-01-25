@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import CustomText from '../../../../components/Generals/CustomText';
-import { CountersType } from '../../../../types/GlobalTypes';
-import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
+import CustomText from '../../../components/Generals/CustomText';
+import { CountersType } from '../../../types/GlobalTypes';
+import { colorsApp } from '../../../styles/globalColors/GlobalColors';
 
 interface CounterButtonProps {
     counterName: keyof CountersType;
@@ -10,7 +10,7 @@ interface CounterButtonProps {
     onPress: (counterName: keyof CountersType, value: number) => void;
 }
 
-const CounterButtonComponent = ({ counterName, onPress, counterValue }: CounterButtonProps) => {
+const CounterButtonComponent = ({ counterName, onPress, counterValue=0 }: CounterButtonProps) => {
 
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>

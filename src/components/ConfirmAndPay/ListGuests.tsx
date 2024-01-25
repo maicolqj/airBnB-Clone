@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { PublicationsContext } from "../../context/publicationContext/PublicationContext";
+import { PublicationsContext } from "../../context/PublicationContext";
 import FormGuest from "./FormGuest";
 import { DetailField } from "../../interfaces/GlobalInterfaces";
 
@@ -37,12 +37,12 @@ const ListGuests = () => {
                         style={styles.containerGuest} key={index}
                         onPress={() => handlerEdit(index,item)}
                     >
-                        <View >
+                        <View>
                             <CustomText style={{fontSize:hp(1.6), fontWeight:'600'}}>{item.name} {item.position}</CustomText>
                             {renderSubtitle(item)}
                         </View>
                         <View>
-                        <Icon name={'edit'} style={{fontSize:hp(2)}}></Icon>
+                            <Icon name={'edit'} style={{fontSize:hp(2)}}></Icon>
                         </View>
                     </TouchableOpacity>
                 ))

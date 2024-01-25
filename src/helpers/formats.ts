@@ -71,3 +71,13 @@ export const formatEsCalendar = () => {
         today: 'Hoy'
       }
 }
+
+export const getBaseUrl = (urlCompleta:string) => {
+    const urlPartes = urlCompleta.split('?'); // Dividir la URL en dos partes usando el signo de interrogación
+  
+    if (urlPartes.length >= 2) {
+      const baseUrl = urlPartes[0]; // La primera parte es la base URL
+      return baseUrl;
+    }
+    return urlCompleta; // Si no hay signo de interrogación, la URL completa es la base URL
+};

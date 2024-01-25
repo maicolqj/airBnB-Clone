@@ -2,20 +2,20 @@ import { SafeAreaView, StyleSheet, View, TouchableOpacity,  FlatList, ActivityIn
 import React, { useContext, useEffect, useState } from 'react'
 import HeaderButtomComponent from './components/HeaderButtomComponent';
 
-import { customStyles } from '../../../styles/globalComponentsStyles/GlobalComponentStyles';
-import CustomStatusBarComponent from '../../../components/CustomStatusBarComponent';
+import { customStyles } from '../../styles/globalComponentsStyles/GlobalComponentStyles';
+import CustomStatusBarComponent from '../../components/CustomStatusBarComponent';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { colorsApp } from '../../../styles/globalColors/GlobalColors';
+import { colorsApp } from '../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import CardSitesComponents from '../../../components/CardSitesComponents';
-import CustomText from '../../../components/Generals/CustomText';
+import CardSitesComponents from '../../components/CardSitesComponents';
+import CustomText from '../../components/Generals/CustomText';
 import MapComponent from './components/MapComponent';
-import { PublicationsContext } from '../../../context/publicationContext/PublicationContext';
+import { PublicationsContext } from '../../context/PublicationContext';
 import ModalComponent from './components/ModalComponent';
 
 
 
-const ExploreScreen = ({ navigation, route }: any) => {
+const Home = ({ navigation, route }: any) => {
 
   const [selectedButton, setSelectedButton] = useState<string | null>('apartaestudio');
   const [content, setContent] = useState<string[]>([]);
@@ -37,33 +37,8 @@ const ExploreScreen = ({ navigation, route }: any) => {
     if (isLoading || !isMorePage) {
       return;
     }
-
-    // if (isLoading) {
-    //   setPage(page + 1);
-    //   updateFilters({
-    //     ...filters,
-    //     page: page,
-    //     // limit: 3,
-    //   })
-    // }
-
-    
     loadPublications()
-
   };
-
-  const handleButtonPress = async (rental: string) => {
-    setSelectedButton(rental);
-    updateFilters({
-      ...filters,
-      category: rental
-    })
-  }
-
-
-  const renderPublicationItem = ({ item }: any) => (
-    <CardSitesComponents navigation={navigation} publication={item} />
-  );
 
   return (
     <SafeAreaView style={{ ...customStyles.safeArea }}>
@@ -96,7 +71,8 @@ const ExploreScreen = ({ navigation, route }: any) => {
                 onEndReached={handleScrollEnd}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={() => (isLoading && <ActivityIndicator size="large" color={colorsApp.primary()} />)}
-                renderItem={renderPublicationItem}
+                renderItem={({item}) => <CardSitesComponents navigation={navigation} publication={item} />}
+
               />
             :
             <MapComponent setModalUseState={setViewMAp} modalUseState={viewMAp} />
@@ -107,13 +83,11 @@ const ExploreScreen = ({ navigation, route }: any) => {
           !viewMAp &&
           <TouchableOpacity style={{ ...styles.buttonMap }} onPress={() => setViewMAp(true)}>
             <CustomText style={{ ...styles.textButtom }}>
-              MAPA
+              Mapa
             </CustomText>
             <Icon name='map' style={{ ...styles.iconMap }}></Icon>
           </TouchableOpacity>
         }
-
-
       </View>
 
       <ModalComponent modalUseState={isModalVisible} setModalUseState={setIsModalVisible} />
@@ -121,7 +95,7 @@ const ExploreScreen = ({ navigation, route }: any) => {
   )
 }
 
-export default ExploreScreen
+export default Home
 
 const styles = StyleSheet.create({
   TopButtoms: {

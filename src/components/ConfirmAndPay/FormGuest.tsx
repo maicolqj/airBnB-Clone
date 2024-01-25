@@ -7,7 +7,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import { DetailField } from "../../interfaces/GlobalInterfaces";
 import CustomInput from "../Generals/CustomInput";
-import { PublicationsContext } from "../../context/publicationContext/PublicationContext";
+import { PublicationsContext } from "../../context/PublicationContext";
 import CustomSelect from "../Generals/CustomSelect";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";

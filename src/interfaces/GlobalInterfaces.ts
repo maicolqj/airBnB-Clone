@@ -65,16 +65,15 @@ export interface RelUbicacion {
 
 
 export interface FilterData {
-    page?:      number;
-    limit?:     number;
+    page:      number;
+    limit:     number;
     adultos?:   number;
     ninos?:     number;
     bebes?:     number;
     mascotas?:  number;
-    category?: string;
     checkin?:   string | null;
     checkout?:  string | null;
-    // city:      string;
+    city?:      any;
     // price_min: number;
     // price_max: number;
 }

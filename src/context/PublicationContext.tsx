@@ -6,13 +6,13 @@ import {
   FilterData,
   Publication,
   SearchPublications
-} from "../../interfaces/GlobalInterfaces";
-import BackendApi from "../../api/backendApi";
-import { fetchApi } from "../../api/ApiService";
+} from "../interfaces/GlobalInterfaces";
+import BackendApi from "../api/backendApi";
+import { fetchApi } from "../api/ApiService";
 import moment from "moment";
-import { getDatesBetweenRange, removeHyphenEndText } from "../../helpers/formats";
+import { getDatesBetweenRange, removeHyphenEndText } from "../helpers/formats";
 import { MarkedDates } from "react-native-calendars/src/types";
-import { colorsApp } from "../../styles/globalColors/GlobalColors";
+import { colorsApp } from "../styles/globalColors/GlobalColors";
 
 type PublicationsContextProps = {
   isLoading: boolean;
@@ -41,7 +41,9 @@ type PublicationsContextProps = {
   decrementDetail:(detailId:number) =>void
   guestDetails: Detail[] | [],
   fieldGuestDetails:DetailField[] | [],
-  setValueGuestDetails: (keyGuestDetail:number,keyField:number, value:any) => void
+  setValueGuestDetails: (keyGuestDetail:number,keyField:number, value:any) => void,
+  clearStoreReserve:Function,
+  complementFilters:any
 };
 
 export const PublicationsContext = createContext(
@@ -73,14 +75,11 @@ export const PublicationsProvider = ({children}: any) => {
   const [guestDetails,setGuestDetails] = useState<Detail[]>([])
   const [fieldGuestDetails,setFieldGuestDetails] = useState<DetailField[] | []>([])
 
-  const [filters, setFilters] = useState({
+  const [complementFilters, setComplementFilters] = useState<Array<any>>()
+
+  const [filters, setFilters] = useState<FilterData>({
     page: 0,
-    limit: 3,
-    adultos: 0,
-    ninos: 0,
-    bebes: 0,
-    mascotas: 0,
-    category: ""
+    limit: 10,
   });
 
   useEffect(()=>{
@@ -103,6 +102,10 @@ export const PublicationsProvider = ({children}: any) => {
     formatGuestFields()
   },[guestDetails])
 
+  useEffect(()=>{
+    getComplementFilters()
+  },[])
+
   const formatGuestFields = () =>{
     let newFieldGuestDetails:any = []
     guestDetails.forEach((detail) => {
@@ -119,6 +122,31 @@ export const PublicationsProvider = ({children}: any) => {
     setFieldGuestDetails(newFieldGuestDetails)
   }
 
+  const getComplementFilters = async()=>{
+    try {
+        if (complementFilters && complementFilters.length > 0) {
+            return
+        }
+        const resp = await fetchApi(`/publication/get-complement-filters`,{
+          method:'GET'
+        })
+       
+        if (resp.status) {
+            let moreFilters:any = {};
+            resp.data.guestTpes.forEach((item:any) => {
+                moreFilters[item.data] = 0
+            });
+            setComplementFilters(resp.data)
+            
+            if (resp.data.cities && resp.data.cities.length > 0) {
+              moreFilters['city'] = resp.data.cities[0]
+            }
+            updateFilters(moreFilters)
+        }
+    } catch (error:any) {
+        throw new Error(error?.message);
+    }
+  }
 
   const updateFilters = (data: Partial<FilterData>) => {
     setFilters((prevFilters) => {
@@ -129,6 +157,14 @@ export const PublicationsProvider = ({children}: any) => {
     });
   };
 
+  const formatFilters = () => {
+    let newFilters = {...filters}
+    if (newFilters.city) {
+      newFilters.city = newFilters.city?.slug
+    }
+    return newFilters
+  }
+
   const loadPublications = async () => {
     try {
       if (isLoading) {
@@ -136,8 +172,8 @@ export const PublicationsProvider = ({children}: any) => {
       }
       setIsLoading(true);
 
-      const params = {
-        ...filters,
+      const params:any = {
+        ...formatFilters(),
         page:filters.page + 1
       }
       const queryString = new URLSearchParams(params).toString()
@@ -146,6 +182,7 @@ export const PublicationsProvider = ({children}: any) => {
       })
       if (resp.code == 200) {
         updateFilters({...filters, page: params.page,})
+        
         let newPublications = [] as Publication[]
         publications.forEach(publication =>{
             if (!resp.data.some((item:Publication) => publication.id == item.id)) {
@@ -304,10 +341,13 @@ export const PublicationsProvider = ({children}: any) => {
     let newFieldGuestDetails = [...fieldGuestDetails]
     newFieldGuestDetails[keyGuestDetail].fields[keyField].value = value
     setFieldGuestDetails(newFieldGuestDetails);
-    
   }
 
- 
+  const clearStoreReserve = () => {
+    setGuestDetails([])
+    setReserveDays([])
+    setPublicationSelected(undefined)
+  }
 
   return (
     <PublicationsContext.Provider
@@ -338,7 +378,9 @@ export const PublicationsProvider = ({children}: any) => {
         incrementDetail,
         decrementDetail,
         fieldGuestDetails,
-        setValueGuestDetails
+        setValueGuestDetails,
+        clearStoreReserve,
+        complementFilters
 
       }}
     >

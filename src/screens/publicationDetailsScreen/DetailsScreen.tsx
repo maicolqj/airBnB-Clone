@@ -1,19 +1,19 @@
 import { Image, SafeAreaView, StyleSheet, View, ScrollView, TouchableOpacity, StatusBar, Pressable } from 'react-native';
 import React, { useContext, useEffect } from 'react'
-import { RootInitialStackParams } from '../../../routes/stackNavigation/InitialStackNavigation';
+import { RootInitialStackParams } from '../../routes/stackNavigation/InitialStackNavigation';
 import { StackScreenProps } from '@react-navigation/stack';
-import CustomText from '../../../components/Generals/CustomText';
-import { customStyles } from '../../../styles/globalComponentsStyles/GlobalComponentStyles';
-import CustomStatusBarComponent from '../../../components/CustomStatusBarComponent';
+import CustomText from '../../components/Generals/CustomText';
+import { customStyles } from '../../styles/globalComponentsStyles/GlobalComponentStyles';
+import CustomStatusBarComponent from '../../components/CustomStatusBarComponent';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { colorsApp } from '../../../styles/globalColors/GlobalColors';
+import { colorsApp } from '../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import DividerComponent from '../../../components/DividerComponent';
-import GeneralButtonComponent from '../../../components/GeneralButtonComponent';
-import { formatCurrency, shortFormatDate } from '../../../helpers/formats';
-import { PublicationsContext } from '../../../context/publicationContext/PublicationContext';
-import RangeReserve from '../../../components/DetailScreen/RangeReserve';
+import DividerComponent from '../../components/DividerComponent';
+import GeneralButtonComponent from '../../components/GeneralButtonComponent';
+import { formatCurrency, shortFormatDate } from '../../helpers/formats';
+import { PublicationsContext } from '../../context/PublicationContext';
+import RangeReserve from '../../components/DetailScreen/RangeReserve';
 
 interface Props extends StackScreenProps<RootInitialStackParams, 'DetailsScreen'> { }
 

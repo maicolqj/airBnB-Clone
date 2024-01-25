@@ -1,18 +1,18 @@
 import React, { useContext, useState } from "react";
 import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { widthPercentageToDP as wp,heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import CustomText from "../../../components/Generals/CustomText";
-import CustomInput from "../../../components/Generals/CustomInput";
+import CustomText from "../../components/Generals/CustomText";
+import CustomInput from "../../components/Generals/CustomInput";
 import Icon from 'react-native-vector-icons/FontAwesome'; // Asegúrate de importar el icono correcto
-import { colorsApp } from "../../../styles/globalColors/GlobalColors";
-import { customStyles } from "../../../styles/globalComponentsStyles/GlobalComponentStyles";
-import { useForm } from "../../../hooks/useForm";
-import { throw_if } from "../../../helpers/Exception";
-import { AuthContext, LoginParams } from "../../../context/publicationContext/AuthContext";
+import { colorsApp } from "../../styles/globalColors/GlobalColors";
+import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
+import { useForm } from "../../hooks/useForm";
+import { throw_if } from "../../helpers/Exception";
+import { AuthContext, LoginParams } from "../../context/AuthContext";
 
 const Login = () => {
     const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    const logo = require("../../../assets/system/logos/logo.png")
+    const logo = require("../../assets/system/logos/logo.png")
     const [hidePass,setHidePass] = useState(true);
     const {email,password, onChange} = useForm({
         email:'david.raga@alquilapp.com',
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         marginTop: hp(1),
         paddingLeft:0,
         paddingRight:hp(1),
-        backgroundColor:colorsApp.light(1),
+        backgroundColor:colorsApp.light(0.2),
     },
     icon: {
         marginRight: 5,

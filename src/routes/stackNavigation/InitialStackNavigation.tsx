@@ -1,22 +1,20 @@
 import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { botomTabs } from '../bottomTabNavigation/BottonTabNavigation';
-import SearchScreen from '../../screens/stackScreens/searchScreen/SearchScreen';
-import DetailsScreen from '../../screens/stackScreens/detailsScreen/DetailsScreen';
-import FavoritesSities from '../../screens/stackScreens/favoritesSities/FavoritesSities';
+import { RootBottomTabsNavigator, botomTabs } from '../bottomTabNavigation/BottonTabNavigation';
+import DetailsScreen from '../../screens/publicationDetailsScreen/DetailsScreen';
 import { Publication } from '../../interfaces/GlobalInterfaces';
-import Login from '../../screens/stackScreens/Auth/LoginScreen';
-import { AuthContext } from '../../context/publicationContext/AuthContext';
+import Login from '../../screens/auth/LoginScreen';
+import { AuthContext } from '../../context/AuthContext';
 import Init from '../../components/Splash/Init';
-import ConfirmAndPay from '../../screens/stackScreens/detailsScreen/ConfirmAndPay';
+import ConfirmAndPay from '../../screens/publicationDetailsScreen/ConfirmAndPay';
 
-export type RootInitialStackParams = {
+export type RootInitialStackParams = RootBottomTabsNavigator & {
     Init:undefined
     botomTabs: undefined
     SearchScreen: undefined
     Login: undefined
-    FavoritesSities: undefined
+    Favorites: undefined
     ConfirmAndPay: undefined
     DetailsScreen: {data: Publication}
 }
@@ -41,10 +39,15 @@ const InitialStackNavigation = () => {
                     :
                     <>
                         <Stack.Screen name='botomTabs' component={botomTabs} />
-                        <Stack.Screen name='SearchScreen' component={SearchScreen} />
+                        {/* <Stack.Screen name='SearchScreen' component={SearchScreen} /> */}
+
+                        {/* Rutas para detalle de publicación y reservar */}
                         <Stack.Screen name='DetailsScreen' component={DetailsScreen} />
                         <Stack.Screen name='ConfirmAndPay' component={ConfirmAndPay} />
-                        <Stack.Screen name='FavoritesSities' component={FavoritesSities} />
+
+                        {/* Rutas para el detalle de una reserva */}
+                        
+
                     </>
                 }
 

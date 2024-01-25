@@ -1,15 +1,25 @@
 import React from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
-import WebView from "react-native-webview";
-import CustomText from "../Generals/CustomText";
+import { StyleSheet, View } from "react-native";
+import WebView, { WebViewNavigation } from "react-native-webview";
 import Modal from "react-native-modal";
-import Init from "../Splash/Init";
+import { getBaseUrl } from "../../helpers/formats";
 
 interface MyProps {
     show:boolean
     setShow:Function
+    urlRedirect:string
+    finishPay:() => void
 }
-const WebViewPay = ({show,setShow}:MyProps) => {
+
+const urlFinishes = ['https://epayco.com/']
+const WebViewPay = ({show,setShow,urlRedirect,finishPay}:MyProps) => {
+
+    const handleNavigationStateChange = (navState:WebViewNavigation) => {
+        // Verifica si la URL actual indica que el pago se ha completado
+        if (urlFinishes.includes(getBaseUrl(navState.url))) {
+            finishPay()
+        }
+    };
 
     return (
         <View >
@@ -20,15 +30,10 @@ const WebViewPay = ({show,setShow}:MyProps) => {
             >
                 <View style={styles.continerModal}>
                     <WebView
-                        source={{ uri: 'https://reactnative.dev/' }}
+                        source={{ uri: urlRedirect }}
                         style={styles.webView}
                         startInLoadingState={true}
-                       
-                        // renderLoading={() => 
-                        //     <View style={{flex:1, justifyContent:'center', alignItems:'center', height:'100%'}}>
-                        //         <ActivityIndicator/>
-                        //     </View>
-                        // }
+                        onNavigationStateChange={handleNavigationStateChange}
                     >
                     </WebView>
                 </View>

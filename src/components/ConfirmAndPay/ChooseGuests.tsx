@@ -4,7 +4,7 @@ import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomText from "../Generals/CustomText";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
-import { PublicationsContext } from "../../context/publicationContext/PublicationContext";
+import { PublicationsContext } from "../../context/PublicationContext";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import { ScrollView } from "react-native-gesture-handler";
 import { Detail } from "../../interfaces/GlobalInterfaces";

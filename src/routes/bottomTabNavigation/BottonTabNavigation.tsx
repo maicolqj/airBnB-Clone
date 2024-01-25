@@ -7,69 +7,102 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 
 
-import ExploreScreen from '../../screens/bottomTabScreens/exploreScreen/ExploreScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colorsApp } from '../../styles/globalColors/GlobalColors';
+import Home from '../../screens/home/Home';
+import CustomText from '../../components/Generals/CustomText';
+import { ScreenProps } from 'react-native-screens';
+import Favorities from '../../screens/favorities/Favorities';
+import Messages from '../../screens/messages/Messages';
+import Profile from '../../screens/profile/Profile';
+import Reserves from '../../screens/reserves/Reserves';
 
 
 
 export type RootBottomTabsNavigator = {
-    ExploreScreen: undefined
+    Home: undefined,
+    Favorites: undefined,
+    Messages: undefined,
+    Profile: undefined,
+    Reserves: undefined
 }
 const BottomTabAndroid = createMaterialBottomTabNavigator<RootBottomTabsNavigator>();
 const BottomTabIos = createBottomTabNavigator<RootBottomTabsNavigator>();
 
+const renderLabel = (focused:boolean, routName:string) => {
+    let title: string = ''
+    switch (routName) {
+        case 'Home':
+            title = 'Home'
+            break;
+        case 'Favorites':
+            title = 'Favoritos'
+            break;
+        case 'Reserves':
+            title = 'Viajes'
+            break;
+        case 'Messages':
+            title = 'Mensajes'
+            break;
+        case 'Profile':
+            title = 'Perfil'
+            break;
+        default:
+            break;
+    }
+    return <CustomText style={{fontSize:hp(1.3), color:focused ? colorsApp.primary() : colorsApp.light()}}>{title}</CustomText>
+}
 
+const renderIcon = (focused:boolean, routName:string) => {
+    let iconName: string = ''
+    switch (routName) {
+        case 'Home':
+            iconName = 'search-outline'
+            break;
+        case 'Favorites':
+            iconName = 'heart-outline'
+            break;
+        case 'Reserves':
+            iconName = 'rocket-outline'
+            break;
+        case 'Messages':
+            iconName = 'chatbox-outline'
+            break;
+        case 'Profile':
+            iconName = 'person-outline'
+            break;
+        default:
+            break;
+
+            
+    }
+    return <Icon name={iconName} color={focused ? colorsApp.primary() : colorsApp.light()} size={25}></Icon>
+}
 
 const BottomTabNavigationIos = () => {
     return (
         <BottomTabIos.Navigator  screenOptions={({ route }) => ({
-
-            headerShown: false,
-            tabBarLabel: () => null,
-            tabBarPressColor: 'rgba( 0, 11, 40, 0.25 )',
-            tabBarIcon: ({ color, focused }) => {
-                let iconName: string = ''
-                switch (route.name) {
-                    case 'ExploreScreen':
-                        iconName = 'search'
-                        break;
-                    default:
-                        break;
-                }
-      
-                return <Icon name={iconName} color={colorsApp.blackLeather()} size={25}></Icon>
-            },
-            
-        })
-      
-        }>
-            <BottomTabIos.Screen name='ExploreScreen' component={ExploreScreen} />
+                headerShown: false,
+                tabBarLabel: ({focused }) => renderLabel(focused, route.name),
+                // tabBarPressColor: 'rgba( 0, 11, 40, 0.25 )',
+                tabBarIcon: ({focused }) => renderIcon(focused, route.name),
+            })}
+        >
+            <BottomTabIos.Screen name='Home' component={Home}  />
+            <BottomTabIos.Screen name='Favorites' component={Favorities} />
+            <BottomTabIos.Screen name='Reserves' component={Reserves} />
+            <BottomTabIos.Screen name='Messages' component={Messages} />
+            <BottomTabIos.Screen name='Profile' component={Profile} />
         </BottomTabIos.Navigator>
     )
 }
 
 const BottomTabNavigationAndroid = () => {
     return (
-        <BottomTabAndroid.Navigator  
-
-        screenOptions={({ route }) => ({
-            
-            tabBarIcon: ({ color, focused }) => {
-              let iconName: string = ''
-              switch (route.name) {
-                case 'ExploreScreen':
-                  iconName = 'search-outline'
-                  break;
-                
-                default:
-                  break;
-              }
-    
-              return <Icon name={iconName} color={color} size={25}></Icon>
-            },
-
-          })}
+        <BottomTabAndroid.Navigator  screenOptions={({ route }) => ({
+                // tabBarLabel: ({focused }) => renderLabel(focused, route.name),
+                tabBarIcon: ({focused }) => renderIcon(focused, route.name),
+            })}
             activeColor={colorsApp.blackLeather()}
             sceneAnimationType='opacity'
             sceneAnimationEnabled={true}
@@ -83,8 +116,11 @@ const BottomTabNavigationAndroid = () => {
               height: hp('7%'),             
             }}
             
-            >
-            <BottomTabAndroid.Screen name='ExploreScreen' component={ExploreScreen} />
+        >
+            <BottomTabAndroid.Screen name='Home' component={Home}  />
+            <BottomTabAndroid.Screen name='Favorites' component={Home} />
+            <BottomTabAndroid.Screen name='Messages' component={Home} />
+            <BottomTabAndroid.Screen name='Profile' component={Home} />
         </BottomTabAndroid.Navigator>
     )
 }

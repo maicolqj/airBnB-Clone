@@ -1,14 +1,17 @@
 import React from 'react'
-import { PublicationsProvider } from './src/context/publicationContext/PublicationContext'
+import { PublicationsProvider } from './src/context/PublicationContext'
 import InitialStackNavigation from './src/routes/stackNavigation/InitialStackNavigation'
-import { AuthProvider } from './src/context/publicationContext/AuthContext'
+import { AuthProvider } from './src/context/AuthContext'
+import { ReserveProvider } from './src/context/ReserveContext'
 
 
 const AppContextState = ({children}: any) => {
   return (
     <AuthProvider>
       <PublicationsProvider>
-        {children}
+        <ReserveProvider>
+          {children}  
+        </ReserveProvider>
       </PublicationsProvider>
     </AuthProvider>
   )
