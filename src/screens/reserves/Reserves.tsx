@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
-import CustomText from "../../components/Generals/CustomText";
+import CustomText from "../../components/generals/CustomText";
 import { ReserveContext } from "../../context/ReserveContext";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import ItemReserve from "./components/ItemReserve";

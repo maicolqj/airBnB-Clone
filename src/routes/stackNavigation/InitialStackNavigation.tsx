@@ -6,8 +6,10 @@ import DetailsScreen from '../../screens/publicationDetailsScreen/DetailsScreen'
 import { Publication } from '../../interfaces/GlobalInterfaces';
 import Login from '../../screens/auth/LoginScreen';
 import { AuthContext } from '../../context/AuthContext';
-import Init from '../../components/Splash/Init';
+import Init from '../../components/splash/Init';
 import ConfirmAndPay from '../../screens/publicationDetailsScreen/ConfirmAndPay';
+import ReserveDetail from '../../screens/reserves/ReserveDetail';
+import { Reserve } from '../../interfaces/ReserveInterface';
 
 export type RootInitialStackParams = RootBottomTabsNavigator & {
     Init:undefined
@@ -16,7 +18,8 @@ export type RootInitialStackParams = RootBottomTabsNavigator & {
     Login: undefined
     Favorites: undefined
     ConfirmAndPay: undefined
-    DetailsScreen: {data: Publication}
+    ReserveDetail:{reserve: Reserve}
+    DetailsScreen: {publication: Publication}
 }
 
 const Stack = createStackNavigator<RootInitialStackParams>();
@@ -46,6 +49,7 @@ const InitialStackNavigation = () => {
                         <Stack.Screen name='ConfirmAndPay' component={ConfirmAndPay} />
 
                         {/* Rutas para el detalle de una reserva */}
+                        <Stack.Screen name='ReserveDetail' component={ReserveDetail} />
                         
 
                     </>

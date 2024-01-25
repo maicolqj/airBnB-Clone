@@ -7,8 +7,8 @@ import CustomStatusBarComponent from '../../components/CustomStatusBarComponent'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { colorsApp } from '../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import CardSitesComponents from '../../components/CardSitesComponents';
-import CustomText from '../../components/Generals/CustomText';
+import ItemPublication from './components/ItemPublication';
+import CustomText from '../../components/generals/CustomText';
 import MapComponent from './components/MapComponent';
 import { PublicationsContext } from '../../context/PublicationContext';
 import ModalComponent from './components/ModalComponent';
@@ -71,7 +71,7 @@ const Home = ({ navigation, route }: any) => {
                 onEndReached={handleScrollEnd}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={() => (isLoading && <ActivityIndicator size="large" color={colorsApp.primary()} />)}
-                renderItem={({item}) => <CardSitesComponents navigation={navigation} publication={item} />}
+                renderItem={({item}) => <ItemPublication navigation={navigation} publication={item} />}
 
               />
             :

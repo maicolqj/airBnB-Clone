@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import CustomText from "../Generals/CustomText";
+import CustomText from "../../../components/generals/CustomText";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { shortFormatDate } from "../../helpers/formats";
-import { PublicationsContext } from "../../context/PublicationContext";
+import { shortFormatDate } from "../../../helpers/formats";
+import { PublicationsContext } from "../../../context/PublicationContext";
 import { Image } from "@rneui/themed";
-import { colorsApp } from "../../styles/globalColors/GlobalColors";
+import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 
 const ImageAndTitle = ()=>{
     const {publicationSelected} = useContext(PublicationsContext)

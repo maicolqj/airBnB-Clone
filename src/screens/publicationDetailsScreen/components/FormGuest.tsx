@@ -2,16 +2,16 @@ import React, { useContext, useEffect } from "react";
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomText from "../Generals/CustomText";
+import CustomText from "../../../components/generals/CustomText";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { colorsApp } from "../../styles/globalColors/GlobalColors";
-import { DetailField } from "../../interfaces/GlobalInterfaces";
-import CustomInput from "../Generals/CustomInput";
-import { PublicationsContext } from "../../context/PublicationContext";
-import CustomSelect from "../Generals/CustomSelect";
+import { colorsApp } from "../../../styles/globalColors/GlobalColors";
+import { DetailField } from "../../../interfaces/GlobalInterfaces";
+import CustomInput from "../../../components/generals/CustomInput";
+import { PublicationsContext } from "../../../context/PublicationContext";
+import CustomSelect from "../../../components/generals/CustomSelect";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
-import { throw_if } from "../../helpers/Exception";
+import { customStyles } from "../../../styles/globalComponentsStyles/GlobalComponentStyles";
+import { throw_if } from "../../../helpers/Exception";
 
 interface MypProps {
     keyGuestDetail?:number,

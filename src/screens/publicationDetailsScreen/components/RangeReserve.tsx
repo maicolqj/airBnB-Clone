@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 import { CalendarList, LocaleConfig } from "react-native-calendars";
 import Modal from "react-native-modal";
-import { colorsApp } from "../../styles/globalColors/GlobalColors";
+import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import moment from "moment";
-import { PublicationsContext } from "../../context/PublicationContext";
+import { PublicationsContext } from "../../../context/PublicationContext";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomText from "../Generals/CustomText";
-import { formatCurrency, formatEsCalendar, reserveFormatDate } from "../../helpers/formats";
+import CustomText from "../../../components/generals/CustomText";
+import { formatCurrency, formatEsCalendar, reserveFormatDate } from "../../../helpers/formats";
 
 
 const RangeReserve = () => {

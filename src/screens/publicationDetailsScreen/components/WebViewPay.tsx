@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import WebView, { WebViewNavigation } from "react-native-webview";
 import Modal from "react-native-modal";
-import { getBaseUrl } from "../../helpers/formats";
+import { getBaseUrl } from "../../../helpers/formats";
 
 interface MyProps {
     show:boolean

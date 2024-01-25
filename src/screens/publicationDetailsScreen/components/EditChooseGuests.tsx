@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { Pressable, View } from "react-native";
-import CustomText from "../Generals/CustomText";
+import CustomText from "../../../components/generals/CustomText";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { shortText } from "../../helpers/formats";
-import { Detail } from "../../interfaces/GlobalInterfaces";
+import { shortText } from "../../../helpers/formats";
+import { Detail } from "../../../interfaces/GlobalInterfaces";
 import { StyleSheet } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { PublicationsContext } from "../../context/PublicationContext";
-import { colorsApp } from "../../styles/globalColors/GlobalColors";
+import { PublicationsContext } from "../../../context/PublicationContext";
+import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 
 interface MypProps {
     detail: Detail

@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Pressable } from "react-native";
-import CustomText from "./Generals/CustomText";
+import CustomText from "./generals/CustomText";
 import { colorsApp } from "../styles/globalColors/GlobalColors";
 
 interface Props {

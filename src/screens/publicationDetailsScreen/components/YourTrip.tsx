@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import CustomText from "../Generals/CustomText";
+import CustomText from "../../../components/generals/CustomText";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { removeHyphenEndText, shortFormatDate } from "../../helpers/formats";
-import { PublicationsContext } from "../../context/PublicationContext";
-import RangeReserve from "../DetailScreen/RangeReserve";
+import { removeHyphenEndText, shortFormatDate } from "../../../helpers/formats";
+import { PublicationsContext } from "../../../context/PublicationContext";
+import RangeReserve from "./RangeReserve";
 import ChooseGuests from "./ChooseGuests";
 
 const YourTrip = ()=>{

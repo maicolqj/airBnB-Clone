@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colorsApp } from '../../../styles/globalColors/GlobalColors';
-import CustonTextComponent from '../../../components/Generals/CustomText';
+import CustonTextComponent from '../../../components/generals/CustomText';
 
 interface Props {
     navigation: any,

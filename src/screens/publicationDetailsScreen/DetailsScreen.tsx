@@ -2,7 +2,7 @@ import { Image, SafeAreaView, StyleSheet, View, ScrollView, TouchableOpacity, St
 import React, { useContext, useEffect } from 'react'
 import { RootInitialStackParams } from '../../routes/stackNavigation/InitialStackNavigation';
 import { StackScreenProps } from '@react-navigation/stack';
-import CustomText from '../../components/Generals/CustomText';
+import CustomText from '../../components/generals/CustomText';
 import { customStyles } from '../../styles/globalComponentsStyles/GlobalComponentStyles';
 import CustomStatusBarComponent from '../../components/CustomStatusBarComponent';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -13,7 +13,7 @@ import DividerComponent from '../../components/DividerComponent';
 import GeneralButtonComponent from '../../components/GeneralButtonComponent';
 import { formatCurrency, shortFormatDate } from '../../helpers/formats';
 import { PublicationsContext } from '../../context/PublicationContext';
-import RangeReserve from '../../components/DetailScreen/RangeReserve';
+import RangeReserve from './components/RangeReserve';
 
 interface Props extends StackScreenProps<RootInitialStackParams, 'DetailsScreen'> { }
 
@@ -28,7 +28,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
     selectedStartDate,
     selectedEndDate
   } = useContext(PublicationsContext)
-  const location = route.params.data;
+  const location = route.params.publication;
 
 
   useEffect(()=>{

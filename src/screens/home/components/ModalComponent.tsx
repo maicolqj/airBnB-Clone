@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, TouchableOpacity, View, } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomText from '../../../components/Generals/CustomText';
+import CustomText from '../../../components/generals/CustomText';
 import CounterButtonComponent from './CounterButtonComponent';
 import { colorsApp } from '../../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';

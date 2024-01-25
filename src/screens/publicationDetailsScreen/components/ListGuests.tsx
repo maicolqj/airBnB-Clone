@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import CustomText from "../Generals/CustomText";
+import CustomText from "../../../components/generals/CustomText";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { colorsApp } from "../../styles/globalColors/GlobalColors";
+import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { PublicationsContext } from "../../context/PublicationContext";
+import { PublicationsContext } from "../../../context/PublicationContext";
 import FormGuest from "./FormGuest";
-import { DetailField } from "../../interfaces/GlobalInterfaces";
+import { DetailField } from "../../../interfaces/GlobalInterfaces";
 
 
 const ListGuests = () => {

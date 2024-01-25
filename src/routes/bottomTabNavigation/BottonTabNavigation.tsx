@@ -10,7 +10,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colorsApp } from '../../styles/globalColors/GlobalColors';
 import Home from '../../screens/home/Home';
-import CustomText from '../../components/Generals/CustomText';
+import CustomText from '../../components/generals/CustomText';
 import { ScreenProps } from 'react-native-screens';
 import Favorities from '../../screens/favorities/Favorities';
 import Messages from '../../screens/messages/Messages';

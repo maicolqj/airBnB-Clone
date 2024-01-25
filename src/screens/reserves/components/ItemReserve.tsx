@@ -1,21 +1,30 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Reserve } from "../../../interfaces/ReserveInterface";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-import CustomText from "../../../components/Generals/CustomText";
+import CustomText from "../../../components/generals/CustomText";
 import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import moment from "moment";
+import { useNavigation } from "@react-navigation/native";
+import { RootInitialStackParams } from "../../../routes/stackNavigation/InitialStackNavigation";
 
 interface MyProps {
     reserve:Reserve
 }
 const ItemReserve = ({reserve}:MyProps) => {
+    const navigation = useNavigation<any>()
     const FormattedDate = ( dateString:string ) => {
         const formattedDate = moment(dateString).format('DD [de] MMM [de] YYYY');
         return formattedDate
     };
     return (
-        <View style={styles.container}>
+        <TouchableOpacity 
+            style={styles.container}
+            onPress={() => {
+                // navigation.navigate('ReserveDetail',{})
+                navigation.navigate('ReserveDetail', {reserve: reserve})
+            }}
+        >
             <View style={styles.containerImage}>
                 <Image
                     source={{ uri: reserve.publication?.images[0]?.url }}
@@ -30,7 +39,7 @@ const ItemReserve = ({reserve}:MyProps) => {
                 <CustomText style={{...styles.text}}>Anfitrion: {reserve.publication?.user?.name}</CustomText>
                 <CustomText style={{...styles.text}}>{FormattedDate(reserve.start_date)} - {FormattedDate(reserve.end_date)}</CustomText>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 const styles = StyleSheet.create({

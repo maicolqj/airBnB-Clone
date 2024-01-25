@@ -7,6 +7,7 @@ import { DataSearchReserve } from '../interfaces/ReserveInterface';
 type ReserveContextProps = {
     dataReserve:DataSearchReserve
     loadReserves:() => void
+    loadReserveById:(id:number) => void
 }
 
 
@@ -66,10 +67,20 @@ export const  ReserveProvider = ({ children }:  any) =>{
             })
         }
     }
+
+    const loadReserveById = async(id:number) =>{
+        const resp = await fetchApi(`/reserve/${id}`,{
+            method:'GET'
+        })
+
+        console.log('loadReserveById', resp);
+        
+    }
     return (
         <ReserveContext.Provider value={{
             dataReserve,
-            loadReserves
+            loadReserves,
+            loadReserveById
         }}>
             { children }
         </ReserveContext.Provider>

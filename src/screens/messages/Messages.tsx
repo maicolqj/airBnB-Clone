@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, View } from "react-native";
-import CustomText from "../../components/Generals/CustomText";
+import CustomText from "../../components/generals/CustomText";
 
 const Messages = () => {
     return (

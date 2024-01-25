@@ -2,19 +2,19 @@ import { StyleSheet, View, TouchableOpacity, Dimensions, Alert, Pressable } from
 import React from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Image } from 'react-native';
-import { colorsApp } from '../styles/globalColors/GlobalColors';
+import { colorsApp } from '../../../styles/globalColors/GlobalColors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import CustomText from './Generals/CustomText';
-import { Publication } from '../interfaces/GlobalInterfaces';
-import { formatCurrency, shortText } from '../helpers/formats';
+import CustomText from '../../../components/generals/CustomText';
+import { Publication } from '../../../interfaces/GlobalInterfaces';
+import { formatCurrency, shortText } from '../../../helpers/formats';
 
 interface Props {
   navigation: any
   publication: Publication
 }
 
-const CardSitesComponents = ({ navigation, publication }: Props) => {
+const ItemPublication = ({ navigation, publication }: Props) => {
 
   return (
     <View style={{ ...styles.container }} >
@@ -51,7 +51,7 @@ const CardSitesComponents = ({ navigation, publication }: Props) => {
 
       <Pressable 
         style={{ ...styles.dataContainer }}
-        onPress={() => navigation.navigate('DetailsScreen', {data: publication})}
+        onPress={() => navigation.navigate('DetailsScreen', {publication: publication})}
       >
 
         {/* NAME LOCATION AND RANKING */}
@@ -80,7 +80,7 @@ const CardSitesComponents = ({ navigation, publication }: Props) => {
   )
 }
 
-export default CardSitesComponents
+export default ItemPublication
 
 const styles = StyleSheet.create({
   buttomContainer: {
