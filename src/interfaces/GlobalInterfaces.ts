@@ -36,6 +36,14 @@ export interface Publication {
     user: User;
     details: Array <Detail>
     city: City
+    rel_categoria: Category
+}
+
+export interface Category {
+    id: number
+    name: string
+    icon: string
+    selected: Boolean
 }
 
 export interface City {

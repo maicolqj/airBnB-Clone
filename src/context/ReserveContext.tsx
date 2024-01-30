@@ -2,12 +2,13 @@ import React, { createContext, useReducer, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchApi } from '../api/ApiService';
 import { User } from '../interfaces/UserInterfaces';
-import { DataSearchReserve } from '../interfaces/ReserveInterface';
+import { DataSearchReserve, Reserve } from '../interfaces/ReserveInterface';
 
 type ReserveContextProps = {
     dataReserve:DataSearchReserve
+    reserveSelected:Reserve|null
     loadReserves:() => void
-    loadReserveById:(id:number) => void
+    loadReserveById:(id:number, addReserveList?:boolean) => void
 }
 
 
@@ -22,6 +23,7 @@ export const  ReserveProvider = ({ children }:  any) =>{
         isMorePage:true,
         reserves:[]
     })
+    const [reserveSelected, setReserveSelected] = useState<Reserve|null>(null)
 
     const loadReserves = async() => {
         try {
@@ -68,11 +70,22 @@ export const  ReserveProvider = ({ children }:  any) =>{
         }
     }
 
-    const loadReserveById = async(id:number) =>{
+    const loadReserveById = async(id:number, addReserveList?:boolean) =>{
         const resp = await fetchApi(`/reserve/${id}`,{
             method:'GET'
         })
-
+        if (resp.code == 200) {
+            setReserveSelected(resp.data)
+            if (addReserveList) {
+                setDataReserve((prevData) => {
+                    return {
+                        ...prevData, 
+                        reserves: [...[resp.data], ...prevData.reserves,]
+                    }
+                })
+            }
+        }
+        console.log('addReserveList', addReserveList);
         console.log('loadReserveById', resp);
         
     }
@@ -80,7 +93,8 @@ export const  ReserveProvider = ({ children }:  any) =>{
         <ReserveContext.Provider value={{
             dataReserve,
             loadReserves,
-            loadReserveById
+            loadReserveById,
+            reserveSelected
         }}>
             { children }
         </ReserveContext.Provider>

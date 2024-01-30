@@ -34,7 +34,7 @@ const ItemPublication = ({ navigation, publication }: Props) => {
             <Pressable 
               style={{ height: '100%', }} 
               key={item.url}
-              onPress={() => navigation.navigate('DetailsScreen', {data: publication})}
+              onPress={() => navigation.navigate('DetailsScreen', {publication: publication})}
             >
               <Image
                 source={{ uri: item.url }}

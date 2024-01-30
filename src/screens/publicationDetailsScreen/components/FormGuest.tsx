@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         // width:'80%'
     },
     btnDisabled:{
-        backgroundColor: colorsApp.primary(0.4)
+        backgroundColor: colorsApp.blackLeather(0.4)
     },
     label:{
         // paddingVertical:hp(2)

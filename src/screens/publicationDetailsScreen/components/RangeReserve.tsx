@@ -102,7 +102,7 @@ const RangeReserve = () => {
                 <View style={styles.footerModal}>
                     <View>
                         <CustomText style={{fontSize:hp(2), fontWeight:'bold' }}>
-                            {formatCurrency(publicationSelected?.price.base ?? 0)}
+                            {formatCurrency(publicationSelected?.price?.base ?? 0)}
                             <CustomText style={{fontSize:hp(1.7), fontWeight:'normal'}}> noche</CustomText>
                         </CustomText>
                     </View>

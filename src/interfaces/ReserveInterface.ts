@@ -32,7 +32,7 @@ export interface Reserve {
     end_date:string,
     state_type:State,
     rel_huesped:User,
-    price:Number,
+    price:number,
     payment:any,
     reserve_days:Array<ReserveDays>
 }

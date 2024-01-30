@@ -18,7 +18,7 @@ export type RootInitialStackParams = RootBottomTabsNavigator & {
     Login: undefined
     Favorites: undefined
     ConfirmAndPay: undefined
-    ReserveDetail:{reserve: Reserve}
+    ReserveDetail:{reserve: Reserve, addReserveList?:boolean}
     DetailsScreen: {publication: Publication}
 }
 

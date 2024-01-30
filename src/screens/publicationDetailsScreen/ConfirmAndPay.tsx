@@ -16,6 +16,7 @@ import WebViewPay from "./components/WebViewPay";
 import { throw_if } from "../../helpers/Exception";
 import { fetchApi } from "../../api/ApiService";
 import { getBaseUrl } from "../../helpers/formats";
+import { Reserve } from "../../interfaces/ReserveInterface";
 
 interface Props extends StackScreenProps<RootInitialStackParams, 'ConfirmAndPay'> { }
 
@@ -31,6 +32,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
     const [showWebView,SetShowWebView] = useState(false)
     const [urlRedirect, setUrlRdirect] = useState()
     const [msgValidation,setMsgValidation] = useState<string|null>(null)
+    const [reserve, setReserve] = useState<Reserve|null>(null)
     const handlerBack = () => {
         navigation.pop()
     }
@@ -70,7 +72,12 @@ const ConfirmAndPay = ({navigation}: Props) => {
     }
 
     const finishPayInWebView = () => {
-        navigation.navigate('Home')
+        if (reserve) {
+            navigation.navigate('ReserveDetail', {reserve: reserve,addReserveList:true})
+        }else{
+            navigation.navigate('Home')
+        }
+
         clearStoreReserve()
         SetShowWebView(false);
     }
@@ -80,6 +87,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
             setMsgValidation(null)
             validate()
             let filterDetails = publicationSelected?.details.filter(item => item.new_quantity > 0) ?? []
+            
             const data = {
                 publicationId: publicationSelected?.id,
                 price: priceRangeSelected,
@@ -88,7 +96,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 guests: formatFieldGuestToApi(),
                 details: filterDetails.map(detail => {
                     return {
-                        id: detail.id,
+                        id: detail.type.id,
                         quantity: detail.new_quantity
                     }
                 })
@@ -97,10 +105,12 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 method:'POST',
                 body:data
             })
-
+            console.log('data',data);
             console.log('handlerPay',resp);
             
             throw_if(!resp.status, resp.message)
+
+            setReserve(resp.data)
             if (resp.data.interactive) { // si la reserva no es automática
                 Alert.alert('¡Gracias por tu reserva! Hemos recibido tu solicitud y ahora está pendiente de la validación del anfitrión. Te notificaremos tan pronto como haya una actualización. Mientras tanto, siéntete libre de explorar otras opciones.')
                 navigation.navigate('Home')

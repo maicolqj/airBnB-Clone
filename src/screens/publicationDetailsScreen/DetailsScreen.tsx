@@ -30,7 +30,6 @@ const DetailsScreen = ({ navigation, route }: Props) => {
   } = useContext(PublicationsContext)
   const location = route.params.publication;
 
-
   useEffect(()=>{
     // (async () => {
       setPublicationSelected(location)
@@ -273,7 +272,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
           <View style={{paddingHorizontal: wp('2')}}>
             <Pressable onPress={() => {setShowRangeReserve(true)}}>
               <CustomText style={{...styles.priceFormater }}>
-                {formatCurrency(publicationSelected?.price.base ?? 0)}
+                {formatCurrency(publicationSelected?.price?.base ?? 0)}
                 <CustomText style={{fontSize:hp(1.7), fontWeight:'normal'}}> noche</CustomText>
               </CustomText>
               <CustomText style={{fontSize:hp(1.5), fontWeight:'bold', textDecorationLine:'underline'}}>
