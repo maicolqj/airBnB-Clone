@@ -60,8 +60,11 @@ const parseFields = (fields: string) => {
 }
 
 export const PublicationsProvider = ({children}: any) => {
+  
   const [isLoading, setIsLoading] = useState(false);
   const [isMorePage, setIsMorePage] = useState(true);
+
+
   const [showRangeReserve,setShowRangeReserve] = useState(false)
   const [showChooseGuestReserve,setShowChooseGuestReserve] = useState(false)
   const [publications, setPublications] = useState<Publication[]>([]);
@@ -149,8 +152,13 @@ export const PublicationsProvider = ({children}: any) => {
     }
   }
 
-  const updateFilters = (data: Partial<FilterData>) => {
+  const updateFilters =  (data: Partial<FilterData>) => {
     setFilters((prevFilters) => {
+      // console.log('prevFilters',prevFilters);
+      // console.log('data',data);
+      // if (reloadPublications) {
+      //   loadPublications()
+      // }
       return {
         ...prevFilters,
         ...data
@@ -179,6 +187,7 @@ export const PublicationsProvider = ({children}: any) => {
       }
       const queryString = new URLSearchParams(params).toString()
       console.log('loadPublications',`/publication/search-publications?${queryString}`);
+      console.log('filters',filters);
       
       const resp = await fetchApi(`/publication/search-publications?${queryString}`,{
         method:'GET'

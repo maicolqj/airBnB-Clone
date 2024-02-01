@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 interface configFetch {
     method:string|"POST"|"GET"|"PUT"
     body?:any
@@ -7,6 +9,7 @@ interface configFetch {
 const baseUrl = `${process.env.PATH_SERVER}/api`
 
 export const fetchApi = async(path:string,config:configFetch)=>{
+    // const {isAuthenticated} = useContext(AuthContext)
     try {
         const token = await AsyncStorage.getItem('token');
         config.headers = {
@@ -19,6 +22,7 @@ export const fetchApi = async(path:string,config:configFetch)=>{
             config.body = JSON.stringify(config.body)
         }
         console.log('api', `${baseUrl}${path}`);
+        // console.log('fetchApi =>isAuthenticated',isAuthenticated);
         
         let resp = await fetch(`${baseUrl}${path}`,config)
         if (resp.status === 401) {

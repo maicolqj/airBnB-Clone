@@ -80,9 +80,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.airbnb_clone"
+    namespace "com.Alquilapp"
     defaultConfig {
-        applicationId "com.airbnb_clone"
+        applicationId "com.Alquilapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

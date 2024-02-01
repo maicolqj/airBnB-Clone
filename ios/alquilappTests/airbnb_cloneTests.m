@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface airbnb_cloneTests : XCTestCase
+@interface AlquilappTests : XCTestCase
 
 @end
 
-@implementation airbnb_cloneTests
+@implementation AlquilappTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {

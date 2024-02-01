@@ -6,7 +6,7 @@ const Init = () => {
     const logo = require("../../assets/system/logos/logo.png")
     return (
         <View style={styles.container}>
-            <FastImage 
+            <Image 
                 source={logo}
                 style={styles.logo}
                 resizeMode="center"

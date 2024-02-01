@@ -40,7 +40,7 @@ const Login = () => {
     }
 
     return (
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
             <ScrollView style={{backgroundColor:'white'}}>
                 <View style={styles.container}>
                     {/* Titulo */}
@@ -50,7 +50,7 @@ const Login = () => {
 
                     {/* Logo */}
                     <View style={styles.containerLogo}>
-                        <FastImage 
+                        <Image 
                             source={logo}
                             resizeMode="center"
                         />

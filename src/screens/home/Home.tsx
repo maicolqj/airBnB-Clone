@@ -22,7 +22,7 @@ const Home = ({ navigation }: any) => {
   const [viewMAp, setViewMAp] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { publications, isLoading, isMorePage, loadPublications } = useContext(PublicationsContext);
+  const { publications, isLoading, isMorePage, loadPublications, filters } = useContext(PublicationsContext);
 
   useEffect(() => {
     loadPublications()
@@ -38,6 +38,11 @@ const Home = ({ navigation }: any) => {
     }
     loadPublications()
   };
+
+  const test = () =>{
+    console.log('filtrando', filters);
+    
+  }
 
   return (
     <SafeAreaView style={{ ...customStyles.safeArea }}>
@@ -89,7 +94,7 @@ const Home = ({ navigation }: any) => {
         } */}
       </View>
 
-      <ModalFilter modalUseState={isModalVisible} setModalUseState={setIsModalVisible} />
+      <ModalFilter modalUseState={isModalVisible} setModalUseState={setIsModalVisible} sendDataToMainScreen={test} />
     </SafeAreaView>
   )
 }

@@ -62,16 +62,20 @@ const ModalFilter = ({ modalUseState, setModalUseState, sendDataToMainScreen }: 
         setCounters(moreFilters)
     },[complementFilters])
 
-    const handleAceptFilters = async () => {
+    const handleAceptFilters = () => {
         updateFilters({
             page:0, // para reinicar la busqueda
             ...counters,
             checkin: selectedStartDate,
             checkout: selectedEndDate
         })
-        await setIsMorePage(true)
-        setModalUseState(false);
+
+        setIsMorePage(true)
+        sendDataToMainScreen()
         loadPublications()
+
+        setModalUseState(false);
+        
 
     };
 
@@ -221,7 +225,7 @@ export default ModalFilter
 const styles = StyleSheet.create({
     continerModal:{
         height:'90%',
-        width:'100%' ,
+        width:'100%',
         padding:20, 
         borderTopLeftRadius:30, 
         borderTopRightRadius:30, 

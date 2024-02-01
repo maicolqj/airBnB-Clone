@@ -73,6 +73,7 @@ export interface RelUbicacion {
 
 
 export interface FilterData {
+    isMorePage?: boolean;
     page:      number;
     limit:     number;
     adultos?:   number;

@@ -1,4 +1,4 @@
-package com.airbnb_clone;
+package com.Alquilapp;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
