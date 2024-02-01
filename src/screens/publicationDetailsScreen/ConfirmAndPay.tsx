@@ -17,6 +17,7 @@ import { throw_if } from "../../helpers/Exception";
 import { fetchApi } from "../../api/ApiService";
 import { getBaseUrl } from "../../helpers/formats";
 import { Reserve } from "../../interfaces/ReserveInterface";
+import { WebViewNavigation } from "react-native-webview";
 
 interface Props extends StackScreenProps<RootInitialStackParams, 'ConfirmAndPay'> { }
 
@@ -32,7 +33,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
     const [showWebView,SetShowWebView] = useState(false)
     const [urlRedirect, setUrlRdirect] = useState()
     const [msgValidation,setMsgValidation] = useState<string|null>(null)
-    const [reserve, setReserve] = useState<Reserve|null>(null)
+    const [reserve, setReserve] = useState<Reserve>()
     const handlerBack = () => {
         navigation.pop()
     }
@@ -71,15 +72,13 @@ const ConfirmAndPay = ({navigation}: Props) => {
         })
     }
 
-    const finishPayInWebView = () => {
-        if (reserve) {
+    const finishPayInWebView = (navState:WebViewNavigation) => {
+        if (reserve && navState.url.includes(reserve.match_url_response)) {
             navigation.navigate('ReserveDetail', {reserve: reserve,addReserveList:true})
-        }else{
-            navigation.navigate('Home')
-        }
 
-        clearStoreReserve()
-        SetShowWebView(false);
+            clearStoreReserve()
+            SetShowWebView(false);
+        }
     }
     
     const handlerPay = async () => {
@@ -105,9 +104,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 method:'POST',
                 body:data
             })
-            console.log('data',data);
-            console.log('handlerPay',resp);
-            
+           
             throw_if(!resp.status, resp.message)
 
             setReserve(resp.data)
@@ -121,7 +118,6 @@ const ConfirmAndPay = ({navigation}: Props) => {
 
         } catch (error:any) {
             setMsgValidation(error.message)
-            console.log('error',error.message);
         }
     }
 
@@ -164,7 +160,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 show={showWebView}
                 setShow={SetShowWebView}
                 urlRedirect={urlRedirect ?? ''}
-                finishPay={() => finishPayInWebView()}
+                onNavigationStateChange={finishPayInWebView}
             />
         </SafeAreaView>
     )

@@ -7,6 +7,7 @@ import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 import { RootInitialStackParams } from "../../../routes/stackNavigation/InitialStackNavigation";
+import FastImage from "react-native-fast-image";
 
 interface MyProps {
     reserve:Reserve
@@ -26,8 +27,8 @@ const ItemReserve = ({reserve}:MyProps) => {
             }}
         >
             <View style={styles.containerImage}>
-                <Image
-                    source={{ uri: reserve.publication?.images[0]?.url }}
+                <FastImage
+                    source={{ uri: reserve.publication?.images[0]?.url, priority:'high' }}
                     style={styles.image}
                     // resizeMode='center'
                 />

@@ -8,6 +8,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import CustomText from '../../../components/generals/CustomText';
 import { Publication } from '../../../interfaces/GlobalInterfaces';
 import { formatCurrency, shortText } from '../../../helpers/formats';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
   navigation: any
@@ -36,8 +37,8 @@ const ItemPublication = ({ navigation, publication }: Props) => {
               key={item.url}
               onPress={() => navigation.navigate('DetailsScreen', {publication: publication})}
             >
-              <Image
-                source={{ uri: item.url }}
+              <FastImage
+                source={{ uri: item.url, priority:'high' }}
                 style={{ 
                   width:'100%',
                   height: hp('30%'),
@@ -58,13 +59,14 @@ const ItemPublication = ({ navigation, publication }: Props) => {
         <View style={{ paddingVertical: 4, justifyContent: 'space-evenly', flexDirection: 'row', width: '100%', alignItems: 'center' }}>
           <CustomText style={{ fontSize: hp(2), flex: 1, fontWeight: 'bold' }}>{shortText(publication.title,25)}</CustomText>
           {
-            publication?.qualification &&
+            publication?.qualification ?
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <CustomText>
                   <Icon name='star' style={{  fontSize: hp(2) }}></Icon>
                 </CustomText>
                 <CustomText >{publication?.qualification}</CustomText>
               </View>
+            : null
           }
           
         </View>

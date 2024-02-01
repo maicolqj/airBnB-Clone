@@ -1,39 +1,29 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import WebView, { WebViewNavigation } from "react-native-webview";
+import WebView, { WebViewNavigation, WebViewProps } from "react-native-webview";
 import Modal from "react-native-modal";
 import { getBaseUrl } from "../../../helpers/formats";
 
-interface MyProps {
+type MyProps = WebViewProps & {
     show:boolean
     setShow:Function
     urlRedirect:string
-    finishPay:() => void
 }
 
-const urlFinishes = ['https://epayco.com/']
-const WebViewPay = ({show,setShow,urlRedirect,finishPay}:MyProps) => {
-
-    const handleNavigationStateChange = (navState:WebViewNavigation) => {
-        // Verifica si la URL actual indica que el pago se ha completado
-        if (urlFinishes.includes(getBaseUrl(navState.url))) {
-            finishPay()
-        }
-    };
-
+const WebViewPay = ({show,setShow,urlRedirect, ...restProps}:MyProps) => {
     return (
         <View >
             <Modal 
                 isVisible={show} 
                 style={{margin:0,justifyContent: 'flex-end'}}
-                onBackdropPress={() => setShow(false)}
+                // onBackdropPress={() => setShow(false)}
             >
                 <View style={styles.continerModal}>
                     <WebView
                         source={{ uri: urlRedirect }}
                         style={styles.webView}
                         startInLoadingState={true}
-                        onNavigationStateChange={handleNavigationStateChange}
+                        {...restProps}
                     >
                     </WebView>
                 </View>

@@ -12,6 +12,7 @@ import { Picker } from '@react-native-picker/picker';
 import { CountersType } from '../../../types/GlobalTypes';
 import { PublicationsContext } from '../../../context/PublicationContext';
 import { Calendar, } from 'react-native-calendars';
+import moment from 'moment';
 
 interface Props {
     modalUseState: boolean,
@@ -27,19 +28,15 @@ interface MarkedDates {
     };
 }
 
-const city = {
-    "city1": "BOGOTA",
-}
 
-const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen }: Props) => {
+
+const ModalFilter = ({ modalUseState, setModalUseState, sendDataToMainScreen }: Props) => {
 
     
-    const {complementFilters} = useContext(PublicationsContext)
+    const {complementFilters,setIsMorePage, loadPublications} = useContext(PublicationsContext)
 
-    const [isWifi, setIsWifi] = useState(false);
     const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
     const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
-    const [selectedLocation, setSelectedLocation] = useState();
 
     const { updateFilters } = useContext(PublicationsContext)
 
@@ -65,13 +62,16 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
         setCounters(moreFilters)
     },[complementFilters])
 
-    const handleAceptFilters = () => {
-        const updated = updateFilters({
+    const handleAceptFilters = async () => {
+        updateFilters({
+            page:0, // para reinicar la busqueda
             ...counters,
             checkin: selectedStartDate,
             checkout: selectedEndDate
         })
+        await setIsMorePage(true)
         setModalUseState(false);
+        loadPublications()
 
     };
 
@@ -129,29 +129,22 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
                 style={{margin:0,justifyContent: 'flex-end'}}
                 onBackdropPress={() => setModalUseState(false)}
                 animationIn={'fadeInUp'}
-                // fadeInUp
-                // slideInUp
-                // zoomIn
                 animationInTiming={800}
             >
                 <View style={styles.continerModal}>
                     {/* Header */}
                     <View style={{ ...styles.headerModal }}>
-
                         <TouchableOpacity onPress={() => setModalUseState(false)}>
                             <Icon name='close' style={{ fontSize: 25, color: colorsApp.blackLeather() }}></Icon>
                         </TouchableOpacity>
-                        <CustomText style={{ ...styles.title }} >
-                            Filtros
-                        </CustomText>
+                        <CustomText style={{ ...styles.title }} >Filtros</CustomText>
                     </View>
 
                     <ScrollView 
                         showsVerticalScrollIndicator={false}
-                        style={{ ...styles.scroll }}
                     >
                         <CustomText 
-                            style={{marginTop: hp('2%'), alignSelf: 'center', fontSize: hp('2%'), marginBottom: hp('4%')}}>
+                            style={{marginTop: hp('2%'), alignSelf: 'center', marginBottom: hp('4%')}}>
                             Filtra tus busquedas y encuentra más rapido lo que buscas.
                         </CustomText>
 
@@ -174,26 +167,22 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
                                 style={{
                                     width: '100%',
                                 }}
-                                current={'2023-11-16'}
+                                current={moment().format('YYYY-MM-DD')}
                                 onDayPress={handleDayPress}
                                 markedDates={getMarkedDates()}
-                                theme={{
-                                    backgroundColor: '#ffffff',
-                                    calendarBackground: '#ffffff',
-                                    textSectionTitleColor: '#b6c1cd',
-                                    selectedDayBackgroundColor: colorsApp.blackLeather(),
-                                    selectedDayTextColor: '#ffffff',
-                                    todayTextColor: '#00adf5',
-                                    dayTextColor: '#2d4150',
-                                    textDisabledColor: colorsApp.blackLeather(0.25)
-                                }}
+                               
                             />
 
 
-                            <TouchableOpacity style={{marginVertical: hp('2%'), paddingHorizontal: wp('5%'), backgroundColor: colorsApp.blackLeather(0.90), width: wp('50%'), paddingVertical: hp('1%'), justifyContent: 'center', alignItems: 'center', borderRadius: 15}} activeOpacity={0.8} onPress={() => clearDates()}>
-                                <CustomText style={{ fontSize: hp('2%'), color: '#fff'}}>
-                                    Borrar Fechas
-                                </CustomText>
+                            <TouchableOpacity 
+                                onPress={() => clearDates()}
+                                style={{
+                                    justifyContent:'flex-end',
+                                    alignItems:'flex-end',
+                                    marginHorizontal:wp(3)
+                                }}
+                            >
+                                <CustomText style={styles.textCleanDates}>Borrar Fechas </CustomText>
                             </TouchableOpacity>
                         </View>
 
@@ -203,27 +192,22 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
                             complementFilters?.guestTpes && complementFilters.guestTpes.map((item:any, key:number) => {
                                 return (
                                     <View style={{ ...styles.boxCounters }} key={key}>
-                                        <CustomText style={{ fontSize: 20 }}>
-                                            {item.name}:
-                                        </CustomText>
+                                        <CustomText >{item.name}:</CustomText>
                                         {/* Counter Adults */}
                                         <CounterButtonComponent counterName={item.data} onPress={handleCounterChange} counterValue={counters[item.data]} />
                                     </View>
-
                                 )
                             })
                         }
 
 
                         <TouchableOpacity onPress={handleAceptFilters} style={{ ...styles.buttomAcept }}>
-                            <CustomText style={{ color: '#fff', fontSize: hp('2%') }}>
-                                Buscar
-                            </CustomText>
+                            <CustomText style={{ color: '#fff' }}>Buscar</CustomText>
                         </TouchableOpacity>
 
                         <DividerComponent />
 
-                        <View style={{ marginBottom: hp('15%') }} />
+                        <View style={{ marginBottom: hp(10) }} />
                     </ScrollView>
                 </View>
             </Modal>
@@ -232,7 +216,7 @@ const ModalComponent = ({ modalUseState, setModalUseState, sendDataToMainScreen 
     )
 }
 
-export default ModalComponent
+export default ModalFilter
 
 const styles = StyleSheet.create({
     continerModal:{
@@ -274,13 +258,6 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 18
     },
-    scroll: {
-        // width: '100%',
-        // // flex: 1,
-        // backgroundColor: '#fff',
-        // paddingHorizontal: wp('5%'),
-        // paddingVertical: hp('1%')
-    },
     checkboxContainer: {
         flexDirection: 'row',
         marginBottom: 20,
@@ -294,16 +271,19 @@ const styles = StyleSheet.create({
     boxCounters: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: wp('3%'),
+        paddingHorizontal: wp(3),
         justifyContent: 'space-between',
-        marginVertical: hp('2%')
+        marginVertical: hp(1.3)
     },
 
     boxCards: {
-        marginVertical: hp('2%'),
-        paddingHorizontal: wp('2%'),
+        marginVertical: hp(1.3),
+        paddingHorizontal: wp(2),
         flexDirection: 'row',
         alignItems: 'center'
     },
+    textCleanDates: {
+       textDecorationLine:'underline'
+    }
 
 })

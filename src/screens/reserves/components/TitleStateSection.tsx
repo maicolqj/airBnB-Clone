@@ -19,7 +19,7 @@ const TitleStateSection = () =>{
 
     return (
         <View style={styles.section}>
-            <View>
+            <View style={{width:'70%'}}>
                 <CustomText style={{fontSize:hp(1.6)}}>{reserveSelected?.publication.title}</CustomText>
                 <CustomText style={{fontSize:hp(1.6), fontWeight:'600'}}>{reservationNights()} noches en {reserveSelected?.publication?.city?.name}</CustomText>
             </View>
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     },
     badge:{
         padding:wp(2),
-        borderRadius:hp(1)
+        borderRadius:hp(1),
+        maxWidth:'30%'
     },
 })
 

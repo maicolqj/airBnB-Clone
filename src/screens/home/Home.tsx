@@ -11,19 +11,18 @@ import ItemPublication from './components/ItemPublication';
 import CustomText from '../../components/generals/CustomText';
 import MapComponent from './components/MapComponent';
 import { PublicationsContext } from '../../context/PublicationContext';
-import ModalComponent from './components/ModalComponent';
+import ModalFilter from './components/ModalFilter';
 
 
 
-const Home = ({ navigation, route }: any) => {
+const Home = ({ navigation }: any) => {
 
   const [selectedButton, setSelectedButton] = useState<string | null>('apartaestudio');
   const [content, setContent] = useState<string[]>([]);
   const [viewMAp, setViewMAp] = useState(false);
-  const [page, setPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { publications, isLoading, isMorePage, updateFilters, filters, loadPublications } = useContext(PublicationsContext);
+  const { publications, isLoading, isMorePage, loadPublications } = useContext(PublicationsContext);
 
   useEffect(() => {
     loadPublications()
@@ -79,7 +78,7 @@ const Home = ({ navigation, route }: any) => {
         }
 
 
-        {
+        {/* {
           !viewMAp &&
           <TouchableOpacity style={{ ...styles.buttonMap }} onPress={() => setViewMAp(true)}>
             <CustomText style={{ ...styles.textButtom }}>
@@ -87,10 +86,10 @@ const Home = ({ navigation, route }: any) => {
             </CustomText>
             <Icon name='map' style={{ ...styles.iconMap }}></Icon>
           </TouchableOpacity>
-        }
+        } */}
       </View>
 
-      <ModalComponent modalUseState={isModalVisible} setModalUseState={setIsModalVisible} />
+      <ModalFilter modalUseState={isModalVisible} setModalUseState={setIsModalVisible} />
     </SafeAreaView>
   )
 }

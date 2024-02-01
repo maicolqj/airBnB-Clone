@@ -85,9 +85,6 @@ export const  ReserveProvider = ({ children }:  any) =>{
                 })
             }
         }
-        console.log('addReserveList', addReserveList);
-        console.log('loadReserveById', resp);
-        
     }
     return (
         <ReserveContext.Provider value={{

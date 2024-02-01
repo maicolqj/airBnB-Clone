@@ -6,6 +6,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import { ReserveContext } from "../../../context/ReserveContext";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/native";
+import FastImage from "react-native-fast-image";
 
 
 const DateSection = () =>{
@@ -35,7 +36,7 @@ const DateSection = () =>{
                     {formatDate(reserveSelected?.start_date)} <Icon name='arrow-forward-outline' style={{ marginVertical: wp('10') }}></Icon> {formatDate(reserveSelected?.end_date)}
                 </CustomText>
                 
-                <CustomText style={{fontSize:hp(1.6), fontWeight:'400', paddingTop:hp(0.6)}}>{reserveSelected?.publication.rel_categoria?.name} - 5 huesped</CustomText>
+                <CustomText style={{fontSize:hp(1.6), fontWeight:'400', paddingTop:hp(0.6)}}>{reserveSelected?.publication.rel_categoria?.name} - {reserveSelected?.guest_quantity} huesped</CustomText>
                 
                 <CustomText style={{fontSize:hp(1.6), fontWeight:'600', paddingTop:hp(0.6)}}>Anfitrion: {reserveSelected?.publication?.user?.name}</CustomText>
 
@@ -48,8 +49,8 @@ const DateSection = () =>{
                 </Pressable>
             </View>
             <View >
-                <Image
-                    source={{ uri: reserveSelected?.publication?.images[0]?.url }}
+                <FastImage
+                    source={{ uri: reserveSelected?.publication?.images[0]?.url, priority:'normal' }}
                     style={styles.image}
                 />
             </View>

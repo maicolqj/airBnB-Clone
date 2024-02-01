@@ -14,6 +14,7 @@ import GeneralButtonComponent from '../../components/GeneralButtonComponent';
 import { formatCurrency, shortFormatDate } from '../../helpers/formats';
 import { PublicationsContext } from '../../context/PublicationContext';
 import RangeReserve from './components/RangeReserve';
+import FastImage from 'react-native-fast-image';
 
 interface Props extends StackScreenProps<RootInitialStackParams, 'DetailsScreen'> { }
 
@@ -73,8 +74,8 @@ const DetailsScreen = ({ navigation, route }: Props) => {
               style={{padding: 0, margin:0}}
               renderItem={({ item }) => (
                 <View style={{ height: hp('33%'), }} key={item.url}>
-                  <Image
-                    source={{ uri: item.url }}
+                  <FastImage
+                    source={{ uri: item.url, priority:'normal' }}
                     style={{ width: '100%', height: '100%'}}
                   // resizeMode='cover'
                   />
@@ -99,7 +100,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
 
 
         <View style={{ ...styles.boxCards }}>
-          <Image source={{uri:publicationSelected?.user?.image}}
+          <FastImage source={{uri:publicationSelected?.user?.image ,priority:'normal'}}
             style={{ ...styles.picturePerson, marginHorizontal: wp('2%') }} resizeMode='contain' />
           <View style={{ marginHorizontal: wp('3%') }}>
             <View style={{ ...styles.rows }}>
@@ -149,10 +150,10 @@ const DetailsScreen = ({ navigation, route }: Props) => {
               {
                 publicationSelected?.images.map((item, id) => (
                   <TouchableOpacity style={{ ...styles.cardSlipingscities }} key={id} activeOpacity={0.8}>
-                    <Image source={{ uri: item.url }}
+                    <FastImage source={{ uri: item.url, priority:'normal' }}
                       style={{ width: '100%', height: '100%', borderRadius: 25 }}
                     // resizeMode='center'
-                    ></Image>
+                    />
                   </TouchableOpacity>
                 ))
               }

@@ -6,14 +6,15 @@ import { shortFormatDate } from "../../../helpers/formats";
 import { PublicationsContext } from "../../../context/PublicationContext";
 import { Image } from "@rneui/themed";
 import { colorsApp } from "../../../styles/globalColors/GlobalColors";
+import FastImage from "react-native-fast-image";
 
 const ImageAndTitle = ()=>{
     const {publicationSelected} = useContext(PublicationsContext)
     return (
         <View style={styles.sectionImage}>
             <View style={styles.containerImage}>
-                <Image
-                    source={{ uri: publicationSelected?.images[0].url }}
+                <FastImage
+                    source={{ uri: publicationSelected?.images[0].url, priority:'normal' }}
                     style={{ width: '92%', height: '98%', borderRadius:hp(1)}}
                 />
             </View>

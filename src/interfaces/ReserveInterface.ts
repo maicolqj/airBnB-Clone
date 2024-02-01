@@ -35,4 +35,6 @@ export interface Reserve {
     price:number,
     payment:any,
     reserve_days:Array<ReserveDays>
+    guest_quantity: number
+    match_url_response:string
 }

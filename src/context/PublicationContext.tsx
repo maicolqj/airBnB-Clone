@@ -43,7 +43,8 @@ type PublicationsContextProps = {
   fieldGuestDetails:DetailField[] | [],
   setValueGuestDetails: (keyGuestDetail:number,keyField:number, value:any) => void,
   clearStoreReserve:Function,
-  complementFilters:any
+  complementFilters:any,
+  setIsMorePage:Function
 };
 
 export const PublicationsContext = createContext(
@@ -177,6 +178,8 @@ export const PublicationsProvider = ({children}: any) => {
         page:filters.page + 1
       }
       const queryString = new URLSearchParams(params).toString()
+      console.log('loadPublications',`/publication/search-publications?${queryString}`);
+      
       const resp = await fetchApi(`/publication/search-publications?${queryString}`,{
         method:'GET'
       })
@@ -184,11 +187,14 @@ export const PublicationsProvider = ({children}: any) => {
         updateFilters({...filters, page: params.page,})
         
         let newPublications = [] as Publication[]
-        publications.forEach(publication =>{
-            if (!resp.data.some((item:Publication) => publication.id == item.id)) {
-                newPublications.push(publication)
-            }
-        })
+        // if (filters.page > 1) {
+          publications.forEach(publication =>{
+              if (!resp.data.some((item:Publication) => publication.id == item.id)) {
+                  newPublications.push(publication)
+              }
+          })
+        // }
+        
         setPublications([...newPublications,...resp.data] );
         if (resp.data.length < filters.limit) {
             setIsMorePage(false)
@@ -206,8 +212,6 @@ export const PublicationsProvider = ({children}: any) => {
     const resp = await fetchApi(`/publication/datail-complements/${slug}`,{
       method:'GET'
     })
-    console.log('loadPublicationsBySlug',resp);
-    
     if (resp.status) {
       resp.data.publication.details.map((detail:any) => {
         detail.new_quantity = detail.type.default_quantity
@@ -380,7 +384,8 @@ export const PublicationsProvider = ({children}: any) => {
         fieldGuestDetails,
         setValueGuestDetails,
         clearStoreReserve,
-        complementFilters
+        complementFilters,
+        setIsMorePage
 
       }}
     >

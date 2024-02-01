@@ -27,7 +27,7 @@ const ReserveDetail = ({navigation, route}:Props) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-            // Evita que el usuario regrese a la pantalla de reserva
+            // Evita que el usuario regrese a la pantalla de paga y confirma
             e.preventDefault();
             navigation.navigate('Reserves')
         });

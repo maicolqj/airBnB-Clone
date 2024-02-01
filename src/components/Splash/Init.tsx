@@ -1,11 +1,12 @@
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
+import FastImage from "react-native-fast-image";
 
 const Init = () => {
     const logo = require("../../assets/system/logos/logo.png")
     return (
         <View style={styles.container}>
-            <Image 
+            <FastImage 
                 source={logo}
                 style={styles.logo}
                 resizeMode="center"
