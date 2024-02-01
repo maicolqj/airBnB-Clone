@@ -13,11 +13,12 @@ import { CountersType } from '../../../types/GlobalTypes';
 import { PublicationsContext } from '../../../context/PublicationContext';
 import { Calendar, } from 'react-native-calendars';
 import moment from 'moment';
+import { FilterData } from '../../../interfaces/GlobalInterfaces';
 
 interface Props {
     modalUseState: boolean,
     setModalUseState: React.Dispatch<React.SetStateAction<boolean>>
-    sendDataToMainScreen?: any
+    handlerFilter: Function
 }
 
 interface MarkedDates {
@@ -30,7 +31,7 @@ interface MarkedDates {
 
 
 
-const ModalFilter = ({ modalUseState, setModalUseState, sendDataToMainScreen }: Props) => {
+const ModalFilter = ({ modalUseState, setModalUseState, handlerFilter }: Props) => {
 
     
     const {complementFilters,setIsMorePage, loadPublications} = useContext(PublicationsContext)
@@ -53,7 +54,6 @@ const ModalFilter = ({ modalUseState, setModalUseState, sendDataToMainScreen }: 
     };
 
     useEffect(() =>{
-
         let moreFilters:any = {};
         complementFilters?.guestTpes.forEach((item:any) => {
             moreFilters[item.data] = 0
@@ -62,19 +62,24 @@ const ModalFilter = ({ modalUseState, setModalUseState, sendDataToMainScreen }: 
         setCounters(moreFilters)
     },[complementFilters])
 
-    const handleAceptFilters = () => {
-        updateFilters({
+    const onPressFilter = () => {
+        handlerFilter({
             page:0, // para reinicar la busqueda
             ...counters,
             checkin: selectedStartDate,
             checkout: selectedEndDate
-        })
+        } as FilterData)
+        // updateFilters({
+        //     page:0, // para reinicar la busqueda
+        //     ...counters,
+        //     checkin: selectedStartDate,
+        //     checkout: selectedEndDate
+        // })
 
-        setIsMorePage(true)
-        sendDataToMainScreen()
-        loadPublications()
+        // setIsMorePage(true)
+        // loadPublications()
 
-        setModalUseState(false);
+        // setModalUseState(false);
         
 
     };
@@ -205,7 +210,7 @@ const ModalFilter = ({ modalUseState, setModalUseState, sendDataToMainScreen }: 
                         }
 
 
-                        <TouchableOpacity onPress={handleAceptFilters} style={{ ...styles.buttomAcept }}>
+                        <TouchableOpacity onPress={onPressFilter} style={{ ...styles.buttomAcept }}>
                             <CustomText style={{ color: '#fff' }}>Buscar</CustomText>
                         </TouchableOpacity>
 

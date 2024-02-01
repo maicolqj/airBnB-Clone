@@ -12,6 +12,7 @@ import CustomText from '../../components/generals/CustomText';
 import MapComponent from './components/MapComponent';
 import { PublicationsContext } from '../../context/PublicationContext';
 import ModalFilter from './components/ModalFilter';
+import { FilterData } from '../../interfaces/GlobalInterfaces';
 
 
 
@@ -39,8 +40,8 @@ const Home = ({ navigation }: any) => {
     loadPublications()
   };
 
-  const test = () =>{
-    console.log('filtrando', filters);
+  const handlerFilter = (filter:FilterData) =>{
+    console.log('filtrando', filter);
     
   }
 
@@ -94,7 +95,11 @@ const Home = ({ navigation }: any) => {
         } */}
       </View>
 
-      <ModalFilter modalUseState={isModalVisible} setModalUseState={setIsModalVisible} sendDataToMainScreen={test} />
+      <ModalFilter 
+        modalUseState={isModalVisible} 
+        setModalUseState={setIsModalVisible} 
+        handlerFilter={handlerFilter} 
+      />
     </SafeAreaView>
   )
 }

@@ -176,7 +176,7 @@ export const PublicationsProvider = ({children}: any) => {
 
   const loadPublications = async () => {
     try {
-      if (isLoading) {
+      if (isLoading || !isMorePage) {
           return
       }
       setIsLoading(true);
