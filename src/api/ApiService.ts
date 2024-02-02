@@ -1,12 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PATH_SERVER } from "@env"
+
 interface configFetch {
     method:string|"POST"|"GET"|"PUT"
     body?:any
     headers?:any
 }
-const baseUrl = `${process.env.PATH_SERVER}/api`
+const baseUrl = `${PATH_SERVER}/api`
 
 export const fetchApi = async(path:string,config:configFetch)=>{
+    
     try {
         const token = await AsyncStorage.getItem('token');
         config.headers = {

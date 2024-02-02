@@ -86,7 +86,13 @@ const BottomTabNavigationIos = () => {
                 tabBarLabel: ({focused }) => renderLabel(focused, route.name),
                 // tabBarPressColor: 'rgba( 0, 11, 40, 0.25 )',
                 tabBarIcon: ({focused }) => renderIcon(focused, route.name),
+                tabBarStyle:{
+                    height:hp(7),
+                    paddingBottom:hp(1)
+                },
+                
             })}
+            // sceneContainerStyle={{height:hp(5)}}
         >
             <BottomTabIos.Screen name='Home' component={Home}  />
             <BottomTabIos.Screen name='Favorites' component={Favorities} />
@@ -99,21 +105,21 @@ const BottomTabNavigationIos = () => {
 
 const BottomTabNavigationAndroid = () => {
     return (
-        <BottomTabAndroid.Navigator  screenOptions={({ route }) => ({
+        <BottomTabAndroid.Navigator   screenOptions={({ route }) => ({
                 // tabBarLabel: ({focused }) => renderLabel(focused, route.name),
                 tabBarIcon: ({focused }) => renderIcon(focused, route.name),
             })}
-            activeColor={colorsApp.blackLeather()}
-            sceneAnimationType='opacity'
-            sceneAnimationEnabled={true}
-            labeled={false}
+            // activeColor={colorsApp.blackLeather()}
+            // sceneAnimationType='opacity'
+            // sceneAnimationEnabled={true}
+            labeled={true}
             
             barStyle={{
               backgroundColor: '#fff',
-              elevation: 2,
+            //   elevation: 2,
               borderTopWidth: 0.9,
               borderColor: 'rgba(0,0,0,0.05)',
-              height: hp('7%'),             
+            //   paddingVertical: hp(0.1),             
             }}
             
         >
@@ -126,4 +132,4 @@ const BottomTabNavigationAndroid = () => {
 }
 
 export const botomTabs =
-  Platform.OS === 'ios' ? BottomTabNavigationIos : BottomTabNavigationAndroid;
+  Platform.OS === 'ios' ? BottomTabNavigationIos : BottomTabNavigationIos;

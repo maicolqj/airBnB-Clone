@@ -15,7 +15,9 @@ const WebViewPay = ({show,setShow,urlRedirect, ...restProps}:MyProps) => {
         <View >
             <Modal 
                 isVisible={show} 
-                style={{margin:0,justifyContent: 'flex-end'}}
+                style={{
+                    margin:0,justifyContent: 'flex-end',
+                }}
                 // onBackdropPress={() => setShow(false)}
             >
                 <View style={styles.continerModal}>
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
         height:'93%', 
         borderTopLeftRadius:30, 
         borderTopRightRadius:30, 
-        backgroundColor:'white'
+        backgroundColor:'white',
     },
     webView:{
         borderTopLeftRadius:30, 

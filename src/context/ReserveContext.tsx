@@ -7,6 +7,7 @@ import { DataSearchReserve, Reserve } from '../interfaces/ReserveInterface';
 type ReserveContextProps = {
     dataReserve:DataSearchReserve
     reserveSelected:Reserve|null
+    isLoadingReserveDetail:boolean,
     loadReserves:() => void
     loadReserveById:(id:number, addReserveList?:boolean) => void
 }
@@ -24,6 +25,7 @@ export const  ReserveProvider = ({ children }:  any) =>{
         reserves:[]
     })
     const [reserveSelected, setReserveSelected] = useState<Reserve|null>(null)
+    const [isLoadingReserveDetail, setIsLoadingReserveDetail] = useState<boolean>(false)
 
     const loadReserves = async() => {
         try {
@@ -71,6 +73,7 @@ export const  ReserveProvider = ({ children }:  any) =>{
     }
 
     const loadReserveById = async(id:number, addReserveList?:boolean) =>{
+        setIsLoadingReserveDetail(true)
         const resp = await fetchApi(`/reserve/${id}`,{
             method:'GET'
         })
@@ -85,10 +88,12 @@ export const  ReserveProvider = ({ children }:  any) =>{
                 })
             }
         }
+        setIsLoadingReserveDetail(false)
     }
     return (
         <ReserveContext.Provider value={{
             dataReserve,
+            isLoadingReserveDetail,
             loadReserves,
             loadReserveById,
             reserveSelected

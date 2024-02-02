@@ -23,12 +23,16 @@ const Home = ({ navigation }: any) => {
   const [viewMAp, setViewMAp] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { publications, isLoading, isMorePage, loadPublications, filters } = useContext(PublicationsContext);
+  const { publications, isLoading, isMorePage, loadPublications,getComplementFilters, filters } = useContext(PublicationsContext);
 
   useEffect(() => {
-    loadPublications()
+    initial()
   }, [])
 
+  const initial = async () => {
+    await getComplementFilters()
+    await loadPublications()
+  }
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };

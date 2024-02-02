@@ -54,6 +54,8 @@ const ModalFilter = ({ modalUseState, setModalUseState, handlerFilter }: Props) 
     };
 
     useEffect(() =>{
+        console.log('complementFilters:useEffect', complementFilters);
+        
         let moreFilters:any = {};
         complementFilters?.guestTpes.forEach((item:any) => {
             moreFilters[item.data] = 0

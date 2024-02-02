@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { colorsApp } from "../globalColors/GlobalColors";
 import { widthPercentageToDP as wp,heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -7,6 +7,7 @@ export const customStyles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: "#fff",
+        paddingTop: Platform.OS === 'android' ? hp(2) : 0
     },
     button:{
         marginVertical:hp(1),

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Alert, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -34,6 +34,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
     const [urlRedirect, setUrlRdirect] = useState()
     const [msgValidation,setMsgValidation] = useState<string|null>(null)
     const [reserve, setReserve] = useState<Reserve>()
+    const [isLoadingApi, setIsLoadingApi] = useState<boolean>(false)
     const handlerBack = () => {
         navigation.pop()
     }
@@ -83,6 +84,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
     
     const handlerPay = async () => {
         try {
+            setIsLoadingApi(true)
             setMsgValidation(null)
             validate()
             let filterDetails = publicationSelected?.details.filter(item => item.new_quantity > 0) ?? []
@@ -104,9 +106,10 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 method:'POST',
                 body:data
             })
-           
+            console.log('resp',resp);
+            
             throw_if(!resp.status, resp.message)
-
+            
             setReserve(resp.data)
             if (resp.data.interactive) { // si la reserva no es automática
                 Alert.alert('¡Gracias por tu reserva! Hemos recibido tu solicitud y ahora está pendiente de la validación del anfitrión. Te notificaremos tan pronto como haya una actualización. Mientras tanto, siéntete libre de explorar otras opciones.')
@@ -115,15 +118,18 @@ const ConfirmAndPay = ({navigation}: Props) => {
             }
             setUrlRdirect(resp.data.url_redirect_app)
             SetShowWebView(true);
+            setIsLoadingApi(false)
 
         } catch (error:any) {
             setMsgValidation(error.message)
+        } finally {
+            setIsLoadingApi(false)
         }
     }
 
    
     return (
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={customStyles.safeArea}>
             {/* Header */}
             <CustomHeader title="Confirma y paga" onPressBack={handlerBack}></CustomHeader>
             <ScrollView style={{}}>
@@ -150,9 +156,15 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 {/* Boton pagar */}
                 <TouchableOpacity
                     style={[customStyles.button, styles.btnPay ]}
+                    disabled={isLoadingApi}
                     onPress={() => handlerPay()}
                 >
-                    <CustomText style={{color:'white', fontWeight:'bold'}}>Confirmar y pagar</CustomText>
+                    {
+                        isLoadingApi ?
+                            <ActivityIndicator color='white' />
+                        :
+                            <CustomText style={{color:'white', fontWeight:'bold'}}>Confirmar y pagar</CustomText>
+                    }
                 </TouchableOpacity>
 
             </ScrollView>

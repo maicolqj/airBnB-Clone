@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import CustomText from "../../components/generals/CustomText";
 import CustomHeader from "../../components/CustomHeader";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -14,6 +14,8 @@ import TitleStateSection from "./components/TitleStateSection";
 import DateSection from "./components/DateSection";
 import PolicySection from "./components/PolicySection";
 import PriceAndPaySection from "./components/PriceAndPaySection";
+import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
+import LoadingData from "../../components/LoadingData";
 
 {/* <ion-icon name="arrow-forward-outline"></ion-icon> */}
 
@@ -23,7 +25,7 @@ const ReserveDetail = ({navigation, route}:Props) => {
     const reserveRoute = route.params.reserve
     const addReserveList = route.params.addReserveList
 
-    const {loadReserveById, reserveSelected} = useContext(ReserveContext)
+    const {loadReserveById, reserveSelected, isLoadingReserveDetail} = useContext(ReserveContext)
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e) => {
@@ -52,23 +54,30 @@ const ReserveDetail = ({navigation, route}:Props) => {
 
 
     return (
-        <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
+        <SafeAreaView style={customStyles.safeArea}>
             <CustomHeader title={`Reserva ${reserveSelected?.id}` } onPressBack={handlerBack}></CustomHeader>
 
-            <ScrollView style={{marginTop:hp(2)}}>
-                
-                {/* Titulo de publicacion y estado */}
-                <TitleStateSection/>
-                {/* Fechas de reserva */}
-                <DateSection/>
+            {
+                isLoadingReserveDetail ? 
+                   <LoadingData/>
+                :
+                <>
+                    <ScrollView style={{marginTop:hp(2)}}>
+                        
+                        {/* Titulo de publicacion y estado */}
+                        <TitleStateSection/>
+                        {/* Fechas de reserva */}
+                        <DateSection/>
 
-                {/* Politica de cancelación */}
-                <PolicySection/>
+                        {/* Politica de cancelación */}
+                        <PolicySection/>
 
-                {/* Precios*/}
-                <PriceAndPaySection/>
-                
-            </ScrollView>
+                        {/* Precios*/}
+                        <PriceAndPaySection/>
+                        
+                    </ScrollView>
+                </>
+            }
         </SafeAreaView>
     )
 }

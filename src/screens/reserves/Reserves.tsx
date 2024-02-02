@@ -6,6 +6,8 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-nati
 import ItemReserve from "./components/ItemReserve";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import moment from "moment";
+import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
+import HeaderScreenTab from "../../components/HeaderScreenTab";
 
 const Reserves = () => {
     const {dataReserve,loadReserves} = useContext(ReserveContext)
@@ -22,10 +24,8 @@ const Reserves = () => {
         loadReserves()
     }
     return (
-        <SafeAreaView style={{backgroundColor:'white', flex:1}}>
-            <View style={styles.constainerText}>
-                <CustomText style={styles.title}>Viajes</CustomText>
-            </View>
+        <SafeAreaView style={customStyles.safeArea}>
+            <HeaderScreenTab title="Viajes" />
             <FlatList
                 // refreshControl={
                 //   <RefreshControl refreshing={true} onRefresh={handleRefresh}></RefreshControl >

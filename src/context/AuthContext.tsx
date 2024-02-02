@@ -63,6 +63,8 @@ export const  AuthProvider = ({ children }:  any) =>{
                 method:'POST',
                 body:{ email, password, device_name } as LoginParams
             })
+            console.log('signIn', resp);
+            
             if (resp.code == 200) {
                 const token = resp?.data?.token
                 setIsAuthenticated(true)

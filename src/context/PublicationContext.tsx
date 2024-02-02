@@ -24,6 +24,7 @@ type PublicationsContextProps = {
   setPublicationSelected: Function
   getVisibleInSubtitle: Function
   loadPublicationsBySlug: (slug: string) => void;
+  isLoadingPublicationSlug:boolean
   updateFilters: (partialFilters: Partial<FilterData>) => void; // Cambio aquí
   filters: FilterData;
   showRangeReserve: boolean;
@@ -44,7 +45,8 @@ type PublicationsContextProps = {
   setValueGuestDetails: (keyGuestDetail:number,keyField:number, value:any) => void,
   clearStoreReserve:Function,
   complementFilters:any,
-  setIsMorePage:Function
+  setIsMorePage:Function,
+  getComplementFilters: Function
 };
 
 export const PublicationsContext = createContext(
@@ -69,6 +71,7 @@ export const PublicationsProvider = ({children}: any) => {
   const [showChooseGuestReserve,setShowChooseGuestReserve] = useState(false)
   const [publications, setPublications] = useState<Publication[]>([]);
   const [publicationSelected, setPublicationSelected] = useState<Publication>()
+  const [isLoadingPublicationSlug, setIsLoadingPublicationSlug] = useState<boolean>(false)
   const [reserveDays, setReserveDays] = useState<string[] | []>([])
 
   // Fechas seleccinadas en el calendario de reserva
@@ -79,7 +82,7 @@ export const PublicationsProvider = ({children}: any) => {
   const [guestDetails,setGuestDetails] = useState<Detail[]>([])
   const [fieldGuestDetails,setFieldGuestDetails] = useState<DetailField[] | []>([])
 
-  const [complementFilters, setComplementFilters] = useState<Array<any>>()
+  const [complementFilters, setComplementFilters] = useState<any>()
 
   const [filters, setFilters] = useState<FilterData>({
     page: 0,
@@ -106,9 +109,6 @@ export const PublicationsProvider = ({children}: any) => {
     formatGuestFields()
   },[guestDetails])
 
-  useEffect(()=>{
-    getComplementFilters()
-  },[])
 
   const formatGuestFields = () =>{
     let newFieldGuestDetails:any = []
@@ -140,6 +140,9 @@ export const PublicationsProvider = ({children}: any) => {
             resp.data.guestTpes.forEach((item:any) => {
                 moreFilters[item.data] = 0
             });
+
+            console.log('getComplementFilters =>resp.data',resp.data);
+            
             setComplementFilters(resp.data)
             
             if (resp.data.cities && resp.data.cities.length > 0) {
@@ -218,6 +221,8 @@ export const PublicationsProvider = ({children}: any) => {
   }
 
   const loadPublicationsBySlug = async (slug:string) => {
+    
+    setIsLoadingPublicationSlug(true)
     const resp = await fetchApi(`/publication/datail-complements/${slug}`,{
       method:'GET'
     })
@@ -229,6 +234,7 @@ export const PublicationsProvider = ({children}: any) => {
       setPublicationSelected(resp.data.publication)
       setReserveDays(resp.data.reserve_days)
     }
+    setIsLoadingPublicationSlug(false)
   };
 
   const setInitalDates = ()=>{
@@ -370,7 +376,9 @@ export const PublicationsProvider = ({children}: any) => {
         isMorePage,
         filters,
         updateFilters,
+        getComplementFilters,
         loadPublications,
+        isLoadingPublicationSlug,
         loadPublicationsBySlug,
         setPublicationSelected,
         publicationSelected,

@@ -83,13 +83,13 @@ const FormGuest = ({showModal,setShowModal,guestDetail,keyGuestDetail}:MypProps)
                                 </View>
                             ))
                         }
-                        <TouchableOpacity
+                        <Pressable
                             style={[customStyles.button,styles.btnSave,  !isFormComplete() && styles.btnDisabled]}
                             disabled={!isFormComplete()}
                             onPress={() => setShowModal(false)}
                         >
                             <CustomText style={{color:'white', fontWeight:'bold'}}>Guardar</CustomText>
-                        </TouchableOpacity>
+                        </Pressable>
                     </ScrollView>
                 </View>
             </Modal>
