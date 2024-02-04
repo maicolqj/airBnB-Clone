@@ -1,10 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ViewProps } from 'react-native'
 import React from 'react'
 import { colorsApp } from '../styles/globalColors/GlobalColors'
 
-const DividerComponent = () => {
+interface MyProps extends ViewProps {}
+
+const DividerComponent = ({style, ...restProps}:MyProps) => {
   return (
-    <View style={{...styles.divider}}/>
+    <View 
+      style={[styles.divider,style]}
+      // {...restProps}
+    />
   )
 }
 

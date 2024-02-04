@@ -5,9 +5,8 @@ import {
   Field,
   FilterData,
   Publication,
-  SearchPublications
+  SearchPublication,
 } from "../interfaces/GlobalInterfaces";
-import BackendApi from "../api/backendApi";
 import { fetchApi } from "../api/ApiService";
 import moment from "moment";
 import { getDatesBetweenRange, removeHyphenEndText } from "../helpers/formats";
@@ -15,18 +14,17 @@ import { MarkedDates } from "react-native-calendars/src/types";
 import { colorsApp } from "../styles/globalColors/GlobalColors";
 
 type PublicationsContextProps = {
-  isLoading: boolean;
-  isMorePage: boolean;
-  publications: Publication[];
+  
+  homePublication: SearchPublication
   publicationSelected: Publication|undefined
   reserveDays: string[] | []
-  loadPublications: () => Promise<void>;
+  loadPublications: (resetSearch?:boolean) => Promise<void>;
   setPublicationSelected: Function
   getVisibleInSubtitle: Function
   loadPublicationsBySlug: (slug: string) => void;
   isLoadingPublicationSlug:boolean
   updateFilters: (partialFilters: Partial<FilterData>) => void; // Cambio aquí
-  filters: FilterData;
+  filters: FilterData|undefined;
   showRangeReserve: boolean;
   setShowRangeReserve: Function
   handleDayPress:Function
@@ -45,8 +43,10 @@ type PublicationsContextProps = {
   setValueGuestDetails: (keyGuestDetail:number,keyField:number, value:any) => void,
   clearStoreReserve:Function,
   complementFilters:any,
-  setIsMorePage:Function,
-  getComplementFilters: Function
+  getComplementFilters: Function,
+  favorities:SearchPublication,
+  loadFavorities:Function,
+  toggleFavorite:(publication_id:number) => void
 };
 
 export const PublicationsContext = createContext(
@@ -63,32 +63,58 @@ const parseFields = (fields: string) => {
 
 export const PublicationsProvider = ({children}: any) => {
   
-  const [isLoading, setIsLoading] = useState(false);
-  const [isMorePage, setIsMorePage] = useState(true);
-
-
-  const [showRangeReserve,setShowRangeReserve] = useState(false)
-  const [showChooseGuestReserve,setShowChooseGuestReserve] = useState(false)
-  const [publications, setPublications] = useState<Publication[]>([]);
-  const [publicationSelected, setPublicationSelected] = useState<Publication>()
-  const [isLoadingPublicationSlug, setIsLoadingPublicationSlug] = useState<boolean>(false)
-  const [reserveDays, setReserveDays] = useState<string[] | []>([])
-
-  // Fechas seleccinadas en el calendario de reserva
-  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
-  const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
-  const [priceRangeSelected, setPriceRangeSelected] = useState<number>(0);
-  const [quantityRangeSelected, setQuantityRangeSelected] = useState<number>(0);
-  const [guestDetails,setGuestDetails] = useState<Detail[]>([])
-  const [fieldGuestDetails,setFieldGuestDetails] = useState<DetailField[] | []>([])
-
+  /* Flujo del home */
+  // publicacionse del home que se llenan desde el loadPublications
+  const [homePublication,setHomePublication] = useState<SearchPublication>({
+    publications:[],
+    isMorePage:true,
+    isLoading:false,
+    limit:10,
+    page:0
+  })
+  // Informacion necesaria para ppintar los filtros del home
   const [complementFilters, setComplementFilters] = useState<any>()
+  // Filtros del home
+  const [filters, setFilters] = useState<FilterData>();
+  /* Fin flujo del home */
 
-  const [filters, setFilters] = useState<FilterData>({
-    page: 0,
-    limit: 10,
-  });
+  /* Flujo de reserva */
+  // publicacion seleccionada, para mostrar el detalle se llena desde el loadPublicationSlug
+  const [publicationSelected, setPublicationSelected] = useState<Publication>()
+  // para saber si se está consiltando el loadPublicationSlug
+  const [isLoadingPublicationSlug, setIsLoadingPublicationSlug] = useState<boolean>(false)
+  // Array con los dias reservados o bloqueados que ya tiene una publicación
+  const [reserveDays, setReserveDays] = useState<string[] | []>([])
+  // Array con la configuracion de guests de una publicación
+  const [guestDetails,setGuestDetails] = useState<Detail[]>([])
+  // Fecha inical seleccinada en el calendario cuando se va realizar la reserva
+  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
+  // Fecha final seleccinada en el calendario cuando se va realizar la reserva
+  const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
+  // se calcula de acuerdo a las fechas de selectedStartDate y selectedEndDate seleccionadas
+  const [priceRangeSelected, setPriceRangeSelected] = useState<number>(0);
+  // se calcula de acuerdo a las fechas de selectedStartDate y selectedEndDate seleccionadas
+  const [quantityRangeSelected, setQuantityRangeSelected] = useState<number>(0);
+  // Para activar el modal que se encarga de seleccionar las fechas de reserva
+  const [showRangeReserve,setShowRangeReserve] = useState(false)
+  //Para activar el modal en el que se eligen los huespedes al momento de la reserva
+  const [showChooseGuestReserve,setShowChooseGuestReserve] = useState(false)
+  // La informacion de los huespeds seleccionados
+  const [fieldGuestDetails,setFieldGuestDetails] = useState<DetailField[] | []>([])
+  /* Fin flujo de reserva */
 
+  /* Flujo de favoritos */
+  const [favorities,setFavorities] = useState<SearchPublication>({
+    publications:[],
+    isMorePage:true,
+    isLoading:false,
+    limit:16,
+    page:0
+  })
+  /* Fin flujo de favoritos */
+
+ 
+  // Se calcula la cantidad de dias y el precio que hay en el rango de fecha
   useEffect(()=>{
     let quantityDays = 0
     if (selectedStartDate && selectedEndDate) {
@@ -99,12 +125,14 @@ export const PublicationsProvider = ({children}: any) => {
     
   },[selectedStartDate,selectedEndDate])
 
+  // Para selecciar unas fechas predetermindas teniendo en cuenta los dias reservados de la publicación
   useEffect(()=>{
     if (publicationSelected) {
       setInitalDates()
     }
   },[reserveDays])
 
+  // para armar los datos que se deben pedir en el formulario de acuerdo a los huespeds seleccionados
   useEffect(()=>{
     formatGuestFields()
   },[guestDetails])
@@ -128,40 +156,34 @@ export const PublicationsProvider = ({children}: any) => {
 
   const getComplementFilters = async()=>{
     try {
-        if (complementFilters && complementFilters.length > 0) {
-            return
-        }
-        const resp = await fetchApi(`/publication/get-complement-filters`,{
-          method:'GET'
-        })
-       
-        if (resp.status) {
-            let moreFilters:any = {};
-            resp.data.guestTpes.forEach((item:any) => {
-                moreFilters[item.data] = 0
-            });
+      if (complementFilters && complementFilters.length > 0) {
+          return
+      }
+      const resp = await fetchApi(`/publication/get-complement-filters`,{
+        method:'GET'
+      })
+      
+      if (resp.status) {
+        let moreFilters:any = {};
+        resp.data.guestTpes.forEach((item:any) => {
+            moreFilters[item.data] = 0
+        });
 
-            console.log('getComplementFilters =>resp.data',resp.data);
-            
-            setComplementFilters(resp.data)
-            
-            if (resp.data.cities && resp.data.cities.length > 0) {
-              moreFilters['city'] = resp.data.cities[0]
-            }
-            updateFilters(moreFilters)
+        setComplementFilters(resp.data)
+        
+        if (resp.data.cities && resp.data.cities.length > 0) {
+          moreFilters['city'] = resp.data.cities[0]
         }
+        updateFilters(moreFilters)
+      }
     } catch (error:any) {
+      updateFilters({price_min:0})
         throw new Error(error?.message);
     }
   }
 
   const updateFilters =  (data: Partial<FilterData>) => {
     setFilters((prevFilters) => {
-      // console.log('prevFilters',prevFilters);
-      // console.log('data',data);
-      // if (reloadPublications) {
-      //   loadPublications()
-      // }
       return {
         ...prevFilters,
         ...data
@@ -169,56 +191,143 @@ export const PublicationsProvider = ({children}: any) => {
     });
   };
 
-  const formatFilters = () => {
-    let newFilters = {...filters}
-    if (newFilters.city) {
-      newFilters.city = newFilters.city?.slug
-    }
-    return newFilters
+  const updateHomePublication = (data: Partial<SearchPublication>) => {
+    setHomePublication((prev) => {
+      return {
+        ...prev,
+        ...data
+      };
+    });
   }
 
-  const loadPublications = async () => {
+  const formatFilters = () => {
+    if (filters) {
+      let newFilters = {...filters}
+      if (newFilters.city) {
+        newFilters.city = newFilters.city?.slug
+      }
+      return newFilters
+    }
+    return {}
+  }
+
+  const loadPublications = async (resetSearch:boolean = false) => {
     try {
-      if (isLoading || !isMorePage) {
+      if (homePublication.isLoading) {
+        return
+      }
+      if (!homePublication.isMorePage && !resetSearch) {
           return
       }
-      setIsLoading(true);
+      updateHomePublication({isLoading:true});
 
       const params:any = {
         ...formatFilters(),
-        page:filters.page + 1
+        limit: homePublication.limit,
+        page: resetSearch ? 1 : homePublication.page + 1
       }
-      const queryString = new URLSearchParams(params).toString()
-      console.log('loadPublications',`/publication/search-publications?${queryString}`);
-      console.log('filters',filters);
       
+      const queryString = new URLSearchParams(params).toString()
+      // console.log('loadPublications',`/publication/search-publications?${queryString}`);
       const resp = await fetchApi(`/publication/search-publications?${queryString}`,{
         method:'GET'
       })
+
       if (resp.code == 200) {
-        updateFilters({...filters, page: params.page,})
-        
         let newPublications = [] as Publication[]
-        // if (filters.page > 1) {
-          publications.forEach(publication =>{
+        if (!resetSearch) {
+          homePublication.publications.forEach(publication =>{
               if (!resp.data.some((item:Publication) => publication.id == item.id)) {
                   newPublications.push(publication)
               }
           })
-        // }
-        
-        setPublications([...newPublications,...resp.data] );
-        if (resp.data.length < filters.limit) {
-            setIsMorePage(false)
         }
+        updateHomePublication({
+          publications:[...newPublications,...resp.data],
+          page:params.page,
+          isMorePage: resp.data.length < homePublication.limit ? false : true
+        });
       }
 
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      updateHomePublication({isLoading:false});
     }
   }
+
+  const updateFavorities =  (data: Partial<SearchPublication>) => {
+    setFavorities((prev) => {
+      return {
+        ...prev,
+        ...data
+      };
+    });
+  };
+
+  const loadFavorities = async () => {
+    try {
+      if (favorities.isLoading || !favorities.isMorePage) {
+          return
+      }
+      updateFavorities({isLoading:true});
+
+      const params:any = {
+        limit:favorities.limit,
+        page:favorities.page + 1
+      }
+      const resp = await fetchApi(`/publication/list-favorites`,{
+        method:'GET'
+      })
+      if (resp.code == 200) {
+        updateFavorities({page:params.page});
+        
+        let newPublications = [] as Publication[]
+        favorities.publications.forEach(publication =>{
+            if (!resp.data.some((item:Publication) => publication.id == item.id)) {
+                newPublications.push(publication)
+            }
+        })
+        updateFavorities({
+          publications:[...newPublications,...resp.data],
+          page:params.page,
+          isMorePage: resp.data.length < favorities.limit ? false : true
+        });
+      }
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      updateFavorities({isLoading:false});
+    }
+  }
+
+  const toggleFavorite = (publication_id:number) =>{
+    //Publicaciones: favoritos
+    fetchApi(`/publication/add-favorite`,{method:'POST',body:{publication_id}}).then(resp =>{
+        if (resp.code == 200) {
+          // publicaciones general: home
+          const findPublication = homePublication.publications.find(item => item.id == publication_id)
+          if (findPublication) {
+              findPublication.is_favorite = !findPublication.is_favorite
+          }
+
+          // Publicaciones: favoritos
+          let newFavorities = [...favorities.publications]
+          const findPublicationFavorite = newFavorities.find(item => item.id == publication_id)
+          if (findPublicationFavorite) { //sacar del listado
+              newFavorities = newFavorities.filter(item => item.id != publication_id)
+          }else{
+              findPublication && newFavorities.push(findPublication)
+          }
+          updateFavorities({publications:newFavorities})
+          // Cuando se agrega o se quita de favoritos desde el detalle de la publicación
+          // if (publication.value) {
+          //     publication.value.is_favorite = !publication.value.is_favorite;
+          // }
+        }
+    })
+}
 
   const loadPublicationsBySlug = async (slug:string) => {
     
@@ -371,9 +480,7 @@ export const PublicationsProvider = ({children}: any) => {
   return (
     <PublicationsContext.Provider
       value={{
-        publications,
-        isLoading,
-        isMorePage,
+        homePublication,
         filters,
         updateFilters,
         getComplementFilters,
@@ -402,7 +509,9 @@ export const PublicationsProvider = ({children}: any) => {
         setValueGuestDetails,
         clearStoreReserve,
         complementFilters,
-        setIsMorePage
+        favorities,
+        loadFavorities,
+        toggleFavorite
 
       }}
     >

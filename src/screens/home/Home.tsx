@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, View, TouchableOpacity,  FlatList, ActivityIndicator, Alert, RefreshControl } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import HeaderButtomComponent from './components/HeaderButtomComponent';
 
 import { customStyles } from '../../styles/globalComponentsStyles/GlobalComponentStyles';
@@ -17,54 +17,52 @@ import { FilterData } from '../../interfaces/GlobalInterfaces';
 
 
 const Home = ({ navigation }: any) => {
+  const flatListRef = useRef(null);
 
   const [selectedButton, setSelectedButton] = useState<string | null>('apartaestudio');
   const [content, setContent] = useState<string[]>([]);
+  
   const [viewMAp, setViewMAp] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { publications, isLoading, isMorePage, loadPublications,getComplementFilters, filters } = useContext(PublicationsContext);
+  const { homePublication, loadPublications,getComplementFilters, filters } = useContext(PublicationsContext);
 
   useEffect(() => {
-    initial()
+    getComplementFilters()
   }, [])
 
-  const initial = async () => {
-    await getComplementFilters()
-    await loadPublications()
-  }
+  useEffect(() => {
+    if (filters) {
+      loadPublications(true)
+      // para mover el scroll al inicio de la pantalla
+      if (flatListRef.current) {
+        try {
+          flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+        } catch (error) {
+          console.log('error flatListRef', error);
+        }
+      }
+
+    }
+  },[filters]) 
+
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
   const handleScrollEnd = (event: any) => {
-    if (isLoading || !isMorePage) {
+    if (homePublication.isLoading || !homePublication.isMorePage) {
       return;
     }
     loadPublications()
   };
 
-  const handlerFilter = (filter:FilterData) =>{
-    console.log('filtrando', filter);
-    
-  }
 
   return (
     <SafeAreaView style={{ ...customStyles.safeArea }}>
       <CustomStatusBarComponent />
 
-      <View style={{
-        width: '100%',
-        height: '100%',
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 2,
-      }}>
+      <View style={styles.container}>
         <HeaderButtomComponent navigation={navigation} onModalPress={toggleModal} />
 
         {
@@ -73,13 +71,14 @@ const Home = ({ navigation }: any) => {
                 // refreshControl={
                 //   <RefreshControl refreshing={true} onRefresh={handleRefresh}></RefreshControl >
                 // }
+                ref={flatListRef}
                 style={{paddingHorizontal:wp(4)}}
                 showsVerticalScrollIndicator={false}
-                data={publications}
+                data={homePublication.publications}
                 keyExtractor={(item) => item.id.toString()}
                 onEndReached={handleScrollEnd}
                 onEndReachedThreshold={0.1}
-                ListFooterComponent={() => (isLoading && <ActivityIndicator size="large" color={colorsApp.primary()} />)}
+                ListFooterComponent={() => (homePublication.isLoading && <ActivityIndicator size="large" color={colorsApp.primary()} />)}
                 renderItem={({item}) => <ItemPublication navigation={navigation} publication={item} />}
 
               />
@@ -102,7 +101,6 @@ const Home = ({ navigation }: any) => {
       <ModalFilter 
         modalUseState={isModalVisible} 
         setModalUseState={setIsModalVisible} 
-        handlerFilter={handlerFilter} 
       />
     </SafeAreaView>
   )
@@ -111,6 +109,18 @@ const Home = ({ navigation }: any) => {
 export default Home
 
 const styles = StyleSheet.create({
+  container:{
+    width: '100%',
+    height: '100%',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 2,
+  },
   TopButtoms: {
     flex: 1,
     backgroundColor: '#fff',

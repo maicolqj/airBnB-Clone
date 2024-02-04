@@ -1,5 +1,5 @@
 import { StyleSheet, View, TouchableOpacity, Dimensions, Alert, Pressable } from 'react-native';
-import React from 'react'
+import React, { useContext } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Image } from 'react-native';
 import { colorsApp } from '../../../styles/globalColors/GlobalColors';
@@ -9,6 +9,7 @@ import CustomText from '../../../components/generals/CustomText';
 import { Publication } from '../../../interfaces/GlobalInterfaces';
 import { formatCurrency, shortText } from '../../../helpers/formats';
 import FastImage from 'react-native-fast-image';
+import { PublicationsContext } from '../../../context/PublicationContext';
 
 interface Props {
   navigation: any
@@ -16,11 +17,17 @@ interface Props {
 }
 
 const ItemPublication = ({ navigation, publication }: Props) => {
-
+  const {toggleFavorite} = useContext(PublicationsContext)
+  const iconName = () =>{
+    return publication.is_favorite ? 'heart' : 'heart-outline'
+  }
+  const iconColor = () =>{
+    return publication.is_favorite ? colorsApp.primary() : 'white'
+  }
   return (
     <View style={{ ...styles.container }} >
-      <Pressable style={{ ...styles.buttomContainer }} onPress={() => navigation.navigate('Favorites')}>
-        <Icon name='heart-outline' style={{ ...styles.iconStyle }}></Icon>
+      <Pressable style={{ ...styles.buttomContainer }} onPress={() => toggleFavorite(publication.id)}>
+        <Icon name={iconName()} style={[styles.iconStyle]} color={iconColor()} ></Icon>
       </Pressable>
       <View style={{
         ...styles.sliderContainer
@@ -39,12 +46,7 @@ const ItemPublication = ({ navigation, publication }: Props) => {
             >
               <FastImage
                 source={{ uri: item.url, priority:'high' }}
-                style={{ 
-                  width:'100%',
-                  height: hp('30%'),
-                  borderRadius: 10, 
-                }}
-                // resizeMode='center'
+                style={{ width:'100%', height: hp('30%'), borderRadius: 10}}
               />
             </Pressable>
           )} />
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
     paddingVertical: hp('1%')
   },
   iconStyle: {
-    color: 'white',
     fontSize: hp(3.5),
   },
   slider: {

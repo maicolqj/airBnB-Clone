@@ -15,7 +15,6 @@ import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponen
 import WebViewPay from "./components/WebViewPay";
 import { throw_if } from "../../helpers/Exception";
 import { fetchApi } from "../../api/ApiService";
-import { getBaseUrl } from "../../helpers/formats";
 import { Reserve } from "../../interfaces/ReserveInterface";
 import { WebViewNavigation } from "react-native-webview";
 

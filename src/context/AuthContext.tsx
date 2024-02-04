@@ -52,7 +52,6 @@ export const  AuthProvider = ({ children }:  any) =>{
             console.error('checkToken',error);
         }
         setLoadingCheck(false)
-
     }
     
 

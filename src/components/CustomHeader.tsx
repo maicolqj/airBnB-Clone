@@ -26,7 +26,7 @@ const CustomHeader = ({title, onPressBack}: Props) => {
                         paddingEnd:hp(12)
                     }}
                 >
-                    <Icon name={'chevron-back'} style={{fontSize:hp(2)}}></Icon>
+                    <Icon name={'chevron-back'} style={{fontSize:hp(3)}}></Icon>
                 </Pressable>
 
             }

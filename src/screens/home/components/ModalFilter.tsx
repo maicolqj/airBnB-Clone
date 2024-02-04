@@ -14,11 +14,11 @@ import { PublicationsContext } from '../../../context/PublicationContext';
 import { Calendar, } from 'react-native-calendars';
 import moment from 'moment';
 import { FilterData } from '../../../interfaces/GlobalInterfaces';
+import CustomSelect from '../../../components/generals/CustomSelect';
 
 interface Props {
     modalUseState: boolean,
     setModalUseState: React.Dispatch<React.SetStateAction<boolean>>
-    handlerFilter: Function
 }
 
 interface MarkedDates {
@@ -29,19 +29,31 @@ interface MarkedDates {
     };
 }
 
+const themCalendar = {
+    backgroundColor: '#ffffff',
+    calendarBackground: '#ffffff',
+    textSectionTitleColor: '#b6c1cd',
+    selectedDayBackgroundColor: colorsApp.blackLeather(),
+    selectedDayTextColor: '#ffffff',
+    todayTextColor: '#00adf5',
+    dayTextColor: '#2d4150',
+    textDisabledColor: colorsApp.blackLeather(0.25)
+}
+
+const ModalFilter = ({ modalUseState, setModalUseState }: Props) => {
 
 
-const ModalFilter = ({ modalUseState, setModalUseState, handlerFilter }: Props) => {
 
     
-    const {complementFilters,setIsMorePage, loadPublications} = useContext(PublicationsContext)
+    const { updateFilters } = useContext(PublicationsContext)
+
+
+    const {complementFilters} = useContext(PublicationsContext)
 
     const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
     const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
-
-    const { updateFilters } = useContext(PublicationsContext)
-
     const [counters, setCounters] = useState<object>({});
+    const [city, setCity] = useState<any>(null);
 
     const handleCounterChange = (counterName: keyof CountersType, value: number) => {
         setCounters((prevCounters:any) => {
@@ -54,36 +66,27 @@ const ModalFilter = ({ modalUseState, setModalUseState, handlerFilter }: Props) 
     };
 
     useEffect(() =>{
-        console.log('complementFilters:useEffect', complementFilters);
-        
         let moreFilters:any = {};
         complementFilters?.guestTpes.forEach((item:any) => {
             moreFilters[item.data] = 0
         });
-        
         setCounters(moreFilters)
+
+        
+        if (complementFilters?.cities && complementFilters.cities.length > 0) {
+            console.log('complementFilters?.cities',complementFilters?.cities);
+            setCity(complementFilters.cities[0])
+        }
     },[complementFilters])
 
+
     const onPressFilter = () => {
-        handlerFilter({
-            page:0, // para reinicar la busqueda
+        updateFilters({
             ...counters,
             checkin: selectedStartDate,
             checkout: selectedEndDate
-        } as FilterData)
-        // updateFilters({
-        //     page:0, // para reinicar la busqueda
-        //     ...counters,
-        //     checkin: selectedStartDate,
-        //     checkout: selectedEndDate
-        // })
-
-        // setIsMorePage(true)
-        // loadPublications()
-
-        // setModalUseState(false);
-        
-
+        })
+        setModalUseState(false);
     };
 
     const handleDayPress = (day: any) => {
@@ -126,13 +129,10 @@ const ModalFilter = ({ modalUseState, setModalUseState, handlerFilter }: Props) 
         return markedDays;
     };
 
-
     const clearDates = () => {
         setSelectedStartDate(null);
         setSelectedEndDate(null);
     }
-
-
     return (
         <View>
             <Modal 
@@ -159,31 +159,24 @@ const ModalFilter = ({ modalUseState, setModalUseState, handlerFilter }: Props) 
                             Filtra tus busquedas y encuentra más rapido lo que buscas.
                         </CustomText>
 
-                        {/* <View style={{ width: wp('100%'), paddingHorizontal: wp('5%'), marginVertical: hp('3%') }}>
-                            <Picker
-                                selectedValue={selectedLocation}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    setSelectedLocation(itemValue)
-                                }>
-                                <Picker.Item label={city.city1} value={city.city1} />
-                            </Picker>
-                        </View> */}
-
-                        {/* <DividerComponent /> */}
+                        {/* Ciudaddes */}
+                        <CustomSelect
+                            value={city}
+                            onChange={(value:any) => setCity(value)}
+                            options={complementFilters?.cities ?? []}
+                        />
+                        <DividerComponent style={{width:'100%', marginVertical:hp(1.2)}} />
 
                         {/* CALENDARIO */}
-                        <View style={{ width: wp('100%'), paddingHorizontal: wp('5%'), alignSelf: 'center', marginVertical: hp('3%') }}>
+                        <View style={{ width: wp('100%'), paddingHorizontal: wp('5%'), alignSelf: 'center', marginVertical: hp('1%') }}>
 
                             <Calendar
-                                style={{
-                                    width: '100%',
-                                }}
+                                style={{width: '100%',}}
                                 current={moment().format('YYYY-MM-DD')}
                                 onDayPress={handleDayPress}
                                 markedDates={getMarkedDates()}
-                               
+                                theme={themCalendar}
                             />
-
 
                             <TouchableOpacity 
                                 onPress={() => clearDates()}
@@ -197,29 +190,22 @@ const ModalFilter = ({ modalUseState, setModalUseState, handlerFilter }: Props) 
                             </TouchableOpacity>
                         </View>
 
-                        <DividerComponent />
-
+                        <DividerComponent style={{width:'100%', marginVertical:hp(1.2)}} />
                         {
                             complementFilters?.guestTpes && complementFilters.guestTpes.map((item:any, key:number) => {
                                 return (
                                     <View style={{ ...styles.boxCounters }} key={key}>
                                         <CustomText >{item.name}:</CustomText>
-                                        {/* Counter Adults */}
                                         <CounterButtonComponent counterName={item.data} onPress={handleCounterChange} counterValue={counters[item.data]} />
                                     </View>
                                 )
                             })
                         }
-
-
-                        <TouchableOpacity onPress={onPressFilter} style={{ ...styles.buttomAcept }}>
-                            <CustomText style={{ color: '#fff' }}>Buscar</CustomText>
-                        </TouchableOpacity>
-
-                        <DividerComponent />
-
-                        <View style={{ marginBottom: hp(10) }} />
                     </ScrollView>
+
+                    <TouchableOpacity onPress={onPressFilter} style={{ ...styles.buttomAcept }}>
+                        <CustomText style={{ color: '#fff', fontWeight:'bold' }}>Buscar</CustomText>
+                    </TouchableOpacity>
                 </View>
             </Modal>
 
@@ -240,11 +226,11 @@ const styles = StyleSheet.create({
     },
     buttomAcept: {
         width: wp('90%'),
-        height: ('5%'),
+        paddingVertical:hp(1.5),
         backgroundColor: colorsApp.blackLeather(),
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: hp('5%'),
+        marginVertical: hp(1),
         alignSelf: 'center',
         // paddingVertical: hp('2%'),
         borderRadius: 15
