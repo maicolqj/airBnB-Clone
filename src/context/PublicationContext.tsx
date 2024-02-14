@@ -41,7 +41,7 @@ type PublicationsContextProps = {
   guestDetails: Detail[] | [],
   fieldGuestDetails:DetailField[] | [],
   setValueGuestDetails: (keyGuestDetail:number,keyField:number, value:any) => void,
-  clearStoreReserve:Function,
+  clearStore:Function,
   complementFilters:any,
   getComplementFilters: Function,
   favorities:SearchPublication,
@@ -178,7 +178,7 @@ export const PublicationsProvider = ({children}: any) => {
       }
     } catch (error:any) {
       updateFilters({price_min:0})
-        throw new Error(error?.message);
+      // throw new Error(error?.message);
     }
   }
 
@@ -471,10 +471,17 @@ export const PublicationsProvider = ({children}: any) => {
     setFieldGuestDetails(newFieldGuestDetails);
   }
 
-  const clearStoreReserve = () => {
+  const clearStore = () => {
     setGuestDetails([])
     setReserveDays([])
     setPublicationSelected(undefined)
+    setFavorities({
+      publications:[],
+      isMorePage:true,
+      isLoading:false,
+      limit:16,
+      page:0
+    })
   }
 
   return (
@@ -507,7 +514,7 @@ export const PublicationsProvider = ({children}: any) => {
         decrementDetail,
         fieldGuestDetails,
         setValueGuestDetails,
-        clearStoreReserve,
+        clearStore,
         complementFilters,
         favorities,
         loadFavorities,

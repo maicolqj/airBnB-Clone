@@ -49,6 +49,24 @@ export const reserveFormatDate = (date:string|null) => {
     return date ? moment(date).format('ddd, DD MMM') : ''
 } 
 
+export const capitalizeFirstLetter = (name:string):String =>{
+    if (name) {
+      if (name.length === 0 ){
+        return name; // Retornar la cadena vacía tal como está
+      }
+      return name.charAt(0).toUpperCase();
+    }
+    return ''
+}
+
+export const getFirstWord = (word:string):String =>{
+    let firstName:String = ''
+    if (word) {
+      firstName = word.split(' ')[0];
+    }
+    return firstName
+}
+
 export const formatEsCalendar = () => {
     return {
         monthNames: [

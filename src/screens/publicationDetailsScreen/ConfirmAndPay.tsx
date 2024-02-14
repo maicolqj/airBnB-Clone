@@ -27,7 +27,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
         selectedEndDate,
         priceRangeSelected,
         fieldGuestDetails,
-        clearStoreReserve
+        clearStore
     } = useContext(PublicationsContext)
     const [showWebView,SetShowWebView] = useState(false)
     const [urlRedirect, setUrlRdirect] = useState()
@@ -76,7 +76,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
         if (reserve && navState.url.includes(reserve.match_url_response)) {
             navigation.navigate('ReserveDetail', {reserve: reserve,addReserveList:true})
 
-            clearStoreReserve()
+            clearStore()
             SetShowWebView(false);
         }
     }

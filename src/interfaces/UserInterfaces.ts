@@ -42,6 +42,7 @@ export interface OptionProfile {
     id?: Number
     name: string;
     email: string;
+    phone:string;
     password?: string;
     token?: string;
     image?: string;
@@ -50,6 +51,8 @@ export interface OptionProfile {
     user_interes:Array<any>
     user_sports:Array<any>
     is_host_user: Boolean
+    reviews?:number
+    age_in_pltform?:number
   }
   
   export interface UserIdentity {

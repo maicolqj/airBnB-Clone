@@ -3,6 +3,7 @@ import { PublicationsProvider } from './src/context/PublicationContext'
 import InitialStackNavigation from './src/routes/stackNavigation/InitialStackNavigation'
 import { AuthProvider } from './src/context/AuthContext'
 import { ReserveProvider } from './src/context/ReserveContext'
+import { ProfileProvider } from './src/context/ProfileContext'
 
 
 const AppContextState = ({children}: any) => {
@@ -10,7 +11,9 @@ const AppContextState = ({children}: any) => {
     <AuthProvider>
       <PublicationsProvider>
         <ReserveProvider>
-          {children}  
+          <ProfileProvider>
+            {children}  
+          </ProfileProvider>
         </ReserveProvider>
       </PublicationsProvider>
     </AuthProvider>

@@ -12,6 +12,7 @@ type AuthContextProps = {
     user: User | undefined
     setValidationMessage: (message:string) => void
     signIn: (data:LoginParams) => void
+    logout: Function
 }
 
 export interface LoginParams {
@@ -25,11 +26,17 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export const  AuthProvider = ({ children }:  any) =>{
     const device_name = "APP"
+    // Para identificar si esta autententicado
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    // Para saber cuando esta en proceso de validacion de la autenticacion
     const [loadingCheck, setLoadingCheck] = useState<boolean>(true)
+    // Para saber cuando se esta haciendo la petición de login al servidor
     const [loadingLogin, setLoadingLogin] = useState<boolean>(false)
+    // Para saber cuando hay algun error de validación en el login
     const [validationMessage, setValidationMessage] = useState('');
+    // Token del usuario
     const [token, setToken] = useState<string|undefined>();
+    // Información del usuario
     const [user, setUser] = useState<User>();
 
     useEffect(() => {
@@ -53,8 +60,6 @@ export const  AuthProvider = ({ children }:  any) =>{
         }
         setLoadingCheck(false)
     }
-    
-
     const signIn = async({ email, password }:LoginParams) => {
         setLoadingLogin(true)
         try {
@@ -81,20 +86,13 @@ export const  AuthProvider = ({ children }:  any) =>{
         }
 
     }
-    const logOut = async() => {
-        setLoading(true)
-        try {
-            await AsyncStorage.removeItem('token');
-            dispatch({ type: 'logout' })
-        } catch (error) {
-            dispatch({
-                type: 'addError', 
-                payload: 'No se pudo cerrar sesión' || 'Error interno'
-            })
-        }
-        setLoading(false)
+
+    const logout = async () => {
+        setIsAuthenticated(false)
+        setUser(undefined)
+        AsyncStorage.removeItem('user')
     }
-    
+
 
     return (
         <AuthContext.Provider value={{
@@ -105,7 +103,8 @@ export const  AuthProvider = ({ children }:  any) =>{
             loadingCheck,
             token,
             user,
-            signIn
+            signIn,
+            logout
         }}>
             { children }
         </AuthContext.Provider>

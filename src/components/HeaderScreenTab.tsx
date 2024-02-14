@@ -16,14 +16,14 @@ const HeaderScreenTab = ({title}:MyProps) => {
 }
 const styles = StyleSheet.create({
   constainerText:{
-      paddingLeft:hp(2),
-      paddingVertical:hp(1.3),
-      borderBottomWidth:wp(0.1),
-      borderBottomColor:colorsApp.light(1)
+    paddingLeft:hp(2),
+    paddingVertical:hp(1.3),
+    // borderBottomWidth:wp(0.1),
+    // borderBottomColor:colorsApp.light(1)
   },
   title:{
-      fontWeight:'500',
-      fontSize:hp(3)
+    fontWeight:'500',
+    fontSize:hp(3)
   }
 })
 export default HeaderScreenTab

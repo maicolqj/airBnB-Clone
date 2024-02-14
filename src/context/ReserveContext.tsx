@@ -10,6 +10,7 @@ type ReserveContextProps = {
     isLoadingReserveDetail:boolean,
     loadReserves:() => void
     loadReserveById:(id:number, addReserveList?:boolean) => void
+    clearStore:Function
 }
 
 
@@ -90,13 +91,25 @@ export const  ReserveProvider = ({ children }:  any) =>{
         }
         setIsLoadingReserveDetail(false)
     }
+
+    const clearStore = () => {
+        setDataReserve({
+            limit:10,
+            page:0,
+            isLoading:false,
+            isMorePage:true,
+            reserves:[]
+        })
+        setReserveSelected(null)
+    }
     return (
         <ReserveContext.Provider value={{
             dataReserve,
             isLoadingReserveDetail,
             loadReserves,
             loadReserveById,
-            reserveSelected
+            reserveSelected,
+            clearStore
         }}>
             { children }
         </ReserveContext.Provider>

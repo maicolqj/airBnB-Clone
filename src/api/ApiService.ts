@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PATH_SERVER } from "@env"
 
+// export const PATH_SERVER = "https://dev.alquilapp.com.co"; //Dev
+export const PATH_SERVER = "http://192.168.0.3:9004"; // Local
 interface configFetch {
     method:string|"POST"|"GET"|"PUT"
     body?:any
