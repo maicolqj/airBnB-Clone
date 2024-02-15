@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
 import CustomText from "../../components/generals/CustomText";
 import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
-import HeaderScreenTab from "../../components/HeaderScreenTab";
 import SectionInfoPrincipal from "./components/SectionInfoPrincipal";
 import { ScrollView } from "react-native-gesture-handler";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
@@ -11,10 +10,13 @@ import SectionConfirmedInformation from "./components/SectionConfirmedInformatio
 import { ProfileContext } from "../../context/ProfileContext";
 import SectionValidateIdentity from "./components/SectionValidateIdentity";
 import { AuthContext } from "../../context/AuthContext";
+import ModalEditProfile from "./components/ModalEditProfile";
 
 const Profile = () => {
     const {getProfile} = useContext(ProfileContext)
     const {logout} = useContext(AuthContext)
+
+    const [showModalProfile, setShowModalProfile] = useState<boolean>(false)
     useEffect(()=>{
         getProfile()
     },[])
@@ -27,7 +29,10 @@ const Profile = () => {
                     <SectionInfoPrincipal/>
 
                     {/* Boton par editar o crear perfil */}
-                    <TouchableOpacity style={styles.btns}>
+                    <TouchableOpacity 
+                        style={styles.btns}
+                        onPress={()=>setShowModalProfile(true)}
+                    >
                         <CustomText style={styles.textBtn}>Editar perfil</CustomText>
                     </TouchableOpacity>
 
@@ -49,6 +54,11 @@ const Profile = () => {
                 </TouchableOpacity>
 
             </ScrollView>
+
+            <ModalEditProfile
+                showModal={showModalProfile}
+                setShowModal={setShowModalProfile}
+            />
         </SafeAreaView>
     )
 }
