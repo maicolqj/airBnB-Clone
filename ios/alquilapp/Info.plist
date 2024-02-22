@@ -35,8 +35,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Necesito acceso a la cámara para tomar la  de perfil</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Necesito acceso a las fotos para poder seleccionar la foto de perfil</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/FontAwesome.ttf</string>

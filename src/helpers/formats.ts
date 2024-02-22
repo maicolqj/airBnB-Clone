@@ -1,5 +1,7 @@
 import moment from "moment";
 import 'moment/locale/es';
+import { File } from "../interfaces/GlobalInterfaces";
+import { Asset } from "react-native-image-picker";
 
 
 export const formatCurrency = (price:number) =>{
@@ -65,6 +67,13 @@ export const getFirstWord = (word:string):String =>{
       firstName = word.split(' ')[0];
     }
     return firstName
+}
+
+export const imageToBackend = (file:Asset|undefined) => {
+  if (file?.uri && file?.fileName && file?.type) {
+      return { uri: file.uri, name: file.fileName, type:file.type }
+  }
+  return null
 }
 
 export const formatEsCalendar = () => {

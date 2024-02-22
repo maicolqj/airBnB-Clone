@@ -1,15 +1,49 @@
-import React, { useContext } from "react";
-import { StyleSheet, View, Platform, Pressable } from "react-native";
+import React, { useContext, useState } from "react";
+import { StyleSheet, View, Platform, Pressable, ActivityIndicator } from "react-native";
 import CustomText from "../../../components/generals/CustomText";
 import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { capitalizeFirstLetter } from "../../../helpers/formats";
+import { capitalizeFirstLetter, imageToBackend } from "../../../helpers/formats";
 import { ProfileContext } from "../../../context/ProfileContext";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Image } from "@rneui/themed";
+import TakeImage from "../../../components/file/TakeImge";
+import { respApi } from "../../../interfaces/GlobalInterfaces";
+import { ImagePickerResponse } from "react-native-image-picker";
 
 const ChangeImage = ()=> {
-    const {profile} = useContext(ProfileContext)
+
+    const {profile,updateProfile,changeProfileContext} = useContext(ProfileContext)
+
+    const [openFile,setOpenFile] = useState(false);
+    const [loadingSave,setLoadingSave] = useState(false);
+
+    const handlerTakeImage = async (response:ImagePickerResponse) => {
+        setLoadingSave(true)
+        try {
+            let avatar = imageToBackend(response.assets?.[0] ?? undefined)
+            if (!avatar) {
+                setLoadingSave(false)
+                return
+            }
+            let data = new FormData()
+            data.append('avatar',avatar)
+            
+            const resp:respApi = await updateProfile(data)
+            
+            if (resp.status) {
+                let newProfile = {...profile}
+                newProfile.image = avatar?.uri
+                // actualizar el profile en context
+                changeProfileContext(newProfile)
+            }
+            setOpenFile(false)
+        } catch (error:any) {
+            console.log('savePorfile:error => ', error.message);
+        }
+        setLoadingSave(false)
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.containerImage}>
@@ -20,10 +54,26 @@ const ChangeImage = ()=> {
                     <CustomText  style={styles.textLetter}>{capitalizeFirstLetter(profile?.name ?? '')}</CustomText>
                 }
             </View>
-            <Pressable style={styles.editButton}>
-                <Icon name='camera' style={{ fontSize:hp(2.5),marginRight:hp(1) }}></Icon>
-                <CustomText >Editar</CustomText>
+            <Pressable 
+                style={styles.editButton}
+                onPress={() => setOpenFile(true)}
+                disabled={loadingSave}
+            >
+                {
+                    loadingSave ? <ActivityIndicator color={colorsApp.primary()}  />
+                    :
+                    <>
+                        <Icon name='camera' style={{ fontSize:hp(2.5),marginRight:hp(1) }}></Icon>
+                        <CustomText >Editar</CustomText>
+                    </>
+                }
             </Pressable>
+
+            <TakeImage
+                isVisible={openFile}
+                setIsVisible={setOpenFile}
+                handlerFile={handlerTakeImage}
+            />
         </View>
     )
 }
@@ -55,7 +105,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-around',
         alignItems:'center',
         position: 'absolute',
-        bottom: hp(-1), // Ajusta la posición según tus necesidades
+        bottom: hp(-1),
         backgroundColor: 'white',
         paddingVertical: hp(0.7),
         paddingHorizontal: hp(1),

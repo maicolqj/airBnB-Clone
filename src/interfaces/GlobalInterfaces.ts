@@ -141,3 +141,9 @@ export interface respApi {
     message:string,
     status:boolean
 }
+
+export interface File {
+    uri:any,
+    fileName:any,
+    type:any
+}

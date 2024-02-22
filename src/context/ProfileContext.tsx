@@ -15,7 +15,7 @@ type ProfileContextProps = {
     getInterests:Function 
     profile:User|undefined
     clearStore:Function
-    updateProfile: (data:AdditionalInfoUser) => Promise<respApi>
+    updateProfile: (data:AdditionalInfoUser|FormData) => Promise<respApi>
     changeProfileContext: (profile:User) => void
     getAllInterestAndSport: () => Array<any>
 }
@@ -59,7 +59,7 @@ export const  ProfileProvider = ({ children }:  any) =>{
         }
     }
 
-    const updateProfile = async (data:DataUpdateProfile):Promise<respApi> =>{
+    const updateProfile = async (data:DataUpdateProfile|FormData):Promise<respApi> =>{
         try {
             let resp:respApi = await fetchApi(`/user/edit`, {
                 method:'POST',
