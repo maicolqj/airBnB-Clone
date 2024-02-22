@@ -1,20 +1,15 @@
-import { SafeAreaView, StyleSheet, View, TouchableOpacity,  FlatList, ActivityIndicator, Alert, RefreshControl } from 'react-native';
+import { SafeAreaView, StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import HeaderButtomComponent from './components/HeaderButtomComponent';
 
 import { customStyles } from '../../styles/globalComponentsStyles/GlobalComponentStyles';
 import CustomStatusBarComponent from '../../components/CustomStatusBarComponent';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { colorsApp } from '../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ItemPublication from './components/ItemPublication';
-import CustomText from '../../components/generals/CustomText';
 import MapComponent from './components/MapComponent';
 import { PublicationsContext } from '../../context/PublicationContext';
 import ModalFilter from './components/ModalFilter';
-import { FilterData } from '../../interfaces/GlobalInterfaces';
-
-
 
 const Home = ({ navigation }: any) => {
   const flatListRef = useRef(null);
@@ -72,7 +67,6 @@ const Home = ({ navigation }: any) => {
                 //   <RefreshControl refreshing={true} onRefresh={handleRefresh}></RefreshControl >
                 // }
                 ref={flatListRef}
-                style={{paddingHorizontal:wp(4)}}
                 showsVerticalScrollIndicator={false}
                 data={homePublication.publications}
                 keyExtractor={(item) => item.id.toString()}
@@ -112,24 +106,8 @@ const styles = StyleSheet.create({
   container:{
     width: '100%',
     height: '100%',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 2,
   },
-  TopButtoms: {
-    flex: 1,
-    backgroundColor: '#fff',
-    height: hp('5%'),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRightColor: colorsApp.blackLeather(0.25),
 
-  },
   buttonMap: {
     width: wp('23%'),
     height: hp('6%'),
@@ -154,40 +132,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginRight: 2
   },
-  headerModal: {
-    width: '100%',
-    height: '6%',
-    backgroundColor: '#fff',
-    borderTopColor: colorsApp.blackLeather(),
-    borderTopWidth: 2,
-    borderBottomColor: colorsApp.blackLeather(0.15),
-    borderBottomWidth: 0.5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: wp('5%')
-  },
-  titleFilters: {
-    paddingHorizontal: wp('5%'),
-    fontWeight: '700',
-    fontSize: 18
-  },
-  scroll: {
-    width: '100%',
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: wp('5%'),
-    paddingVertical: hp('5%')
-  },
-  descriptionFilters: {
-    marginBottom: hp('5%')
-  },
-  boxCounters: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: wp('5%'),
-    justifyContent: 'space-between',
-    marginBottom: hp('2%')
-  }
+
+
 })
 
 

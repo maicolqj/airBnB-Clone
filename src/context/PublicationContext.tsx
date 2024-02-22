@@ -7,11 +7,11 @@ import {
   Publication,
   SearchPublication,
 } from "../interfaces/GlobalInterfaces";
-import { fetchApi } from "../api/ApiService";
 import moment from "moment";
 import { getDatesBetweenRange, removeHyphenEndText } from "../helpers/formats";
 import { MarkedDates } from "react-native-calendars/src/types";
 import { colorsApp } from "../styles/globalColors/GlobalColors";
+import useFetchApi from "../hooks/useFetchApi";
 
 type PublicationsContextProps = {
   
@@ -62,6 +62,8 @@ const parseFields = (fields: string) => {
 }
 
 export const PublicationsProvider = ({children}: any) => {
+  // hook para las peticiones fetch
+  const {fetchApi} = useFetchApi()
   
   /* Flujo del home */
   // publicacionse del home que se llenan desde el loadPublications
@@ -156,7 +158,7 @@ export const PublicationsProvider = ({children}: any) => {
 
   const getComplementFilters = async()=>{
     try {
-      if (complementFilters && complementFilters.length > 0) {
+      if (complementFilters) {
           return
       }
       const resp = await fetchApi(`/publication/get-complement-filters`,{

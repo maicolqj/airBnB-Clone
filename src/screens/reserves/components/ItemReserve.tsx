@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View,Platform } from "react-native";
 import { Reserve } from "../../../interfaces/ReserveInterface";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import CustomText from "../../../components/generals/CustomText";
@@ -45,10 +45,23 @@ const ItemReserve = ({reserve}:MyProps) => {
 }
 const styles = StyleSheet.create({
     container:{
-        marginVertical:hp(1),
-        marginHorizontal:wp(4),
+        marginVertical:hp(0.5),
+        marginHorizontal:wp(3),
         flexDirection:"row",
-        alignItems:'center'
+        alignItems:'center',
+        backgroundColor:'white',
+        borderRadius:hp(1),
+        ...Platform.select({
+            ios: {
+                shadowColor: colorsApp.light(),
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.5,
+                shadowRadius: 4,
+            },
+            android: {
+                elevation: 4,
+            },
+          }),
     },
     containerImage:{
         marginRight:wp(4)

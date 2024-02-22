@@ -86,10 +86,14 @@ const BottomTabNavigationIos = () => {
                 tabBarLabel: ({focused }) => renderLabel(focused, route.name),
                 // tabBarPressColor: 'rgba( 0, 11, 40, 0.25 )',
                 tabBarIcon: ({focused }) => renderIcon(focused, route.name),
-                // tabBarStyle:{
-                //     height:hp(7),
-                //     paddingBottom:hp(1)
-                // },
+                tabBarStyle:{
+                    ...Platform.select({
+                        android: {
+                            height:hp(7),
+                            paddingBottom:hp(1)
+                        }
+                    }),
+                }
                 
             })}
             // sceneContainerStyle={{height:hp(5)}}

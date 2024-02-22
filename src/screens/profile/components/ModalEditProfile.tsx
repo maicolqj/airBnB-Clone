@@ -108,7 +108,7 @@ const ModalEditProfile = ({showModal,setShowModal}:MyProps) => {
 
 const styles = StyleSheet.create({
     continerModal:{
-        height:'93%', 
+        height:hp('93%'), 
         // padding:20, 
         borderTopLeftRadius:hp(1.5), 
         borderTopRightRadius:hp(1.5), 

@@ -1,7 +1,6 @@
-import { StyleSheet, View, TouchableOpacity, Dimensions, Alert, Pressable } from 'react-native';
+import { StyleSheet, View, Pressable,Platform } from 'react-native';
 import React, { useContext } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Image } from 'react-native';
 import { colorsApp } from '../../../styles/globalColors/GlobalColors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -99,19 +98,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    width: '100%',
     height: hp('40%'),
     backgroundColor: '#fff',
     borderRadius: 20,
     marginBottom: hp('3%'),
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 1,
-    // },
-    // shadowOpacity: 0.20,
-    // shadowRadius: 1.41,
-    // elevation: 2,
+    marginHorizontal:wp(4),
+    ...Platform.select({
+      ios: {
+          shadowColor: colorsApp.light(),
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.5,
+          shadowRadius: 4,
+      },
+      android: {
+          elevation: 4,
+      },
+    }),
   },
   dataContainer: {
     paddingHorizontal: wp('3%'),

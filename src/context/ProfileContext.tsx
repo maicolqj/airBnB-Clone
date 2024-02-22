@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
-import { fetchApi } from '../api/ApiService';
 import { AdditionalInfoUser, InterestProfiles, User } from '../interfaces/UserInterfaces';
 import { respApi } from '../interfaces/GlobalInterfaces';
+import useFetchApi from '../hooks/useFetchApi';
 
 export type DataUpdateProfile = AdditionalInfoUser & {
     interests?: Array<number> | []
@@ -24,7 +24,8 @@ export const ProfileContext = createContext({} as ProfileContextProps);
 
 
 export const  ProfileProvider = ({ children }:  any) =>{
-   
+    // hook para las peticiones fetch
+    const {fetchApi} = useFetchApi()
     // Para saber cuando esta en proceso de consulta el perfil
     const [loadingProfile, setLoadingProfile] = useState<boolean>(false)
     // Información del perfil

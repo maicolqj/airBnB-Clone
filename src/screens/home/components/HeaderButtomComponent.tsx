@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View,Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -12,8 +12,7 @@ interface Props {
 const HeaderButtomComponent = ({navigation, onModalPress}: Props) => {
     const placeholders = ['En cualquier momento...', 'Cualquier lugar....', 'Cualquier precio....']; 
     const [searchOptions, setSearchOptions] = useState(0);
-    const [isModal, setIsModal] = useState(false);
-  
+
     useEffect(() => {
       const intervalId = setInterval(() => {
         setSearchOptions((prevIndex) => (prevIndex + 1) % placeholders.length);
@@ -21,28 +20,34 @@ const HeaderButtomComponent = ({navigation, onModalPress}: Props) => {
       return () => clearInterval(intervalId);
     }, []);
   
-    const openModal = () => {
-        setIsModal(true)
-    }
+
     
     return (
-        <View style={{ ...styles.container }}>
-            <TouchableOpacity style={{ ...styles.buttomSearch }} activeOpacity={0.8} onPress={onModalPress}>
-                <Icon name='search' style={{ ...styles.searchButton }}></Icon>
-                <View style={{ ...styles.containerPlaceholder }}>
-                    <CustonTextComponent style={{fontWeight: '900', fontSize: hp('2%')}}>
-                        ¿A dondé vamos?
-                    </CustonTextComponent>
-                    <CustonTextComponent style={{fontWeight: '400', fontSize: hp('1.5%')}}>
-                        {placeholders[searchOptions]}
-                    </CustonTextComponent>
-                </View>
-            </TouchableOpacity>
+        // <View style={{
+        //     // flex: 1,
+        //     // backgroundColor: '#fff',
+        //     // marginBottom: Platform.OS === 'ios' ? 10 : 0,
+        // }}>
 
-            {/* <TouchableOpacity style={{...styles.buttomFilter}} activeOpacity={0.8} onPress={onModalPress}>
-                <Icon name='filter' style={{ ...styles.searchButton }}></Icon>
-            </TouchableOpacity> */}
-        </View>
+            <View style={{ ...styles.container }}>
+                <TouchableOpacity style={{ ...styles.buttomSearch }} activeOpacity={0.8} onPress={onModalPress}>
+                    <Icon name='search' style={{ ...styles.searchButton }}></Icon>
+                    <View style={{ ...styles.containerPlaceholder }}>
+                        <CustonTextComponent style={{fontWeight: '900', fontSize: hp('2%')}}>
+                            ¿A dondé vamos?
+                        </CustonTextComponent>
+                        <CustonTextComponent style={{fontWeight: '400', fontSize: hp('1.5%')}}>
+                            {placeholders[searchOptions]}
+                        </CustonTextComponent>
+                    </View>
+                </TouchableOpacity>
+
+                {/* <TouchableOpacity style={{...styles.buttomFilter}} activeOpacity={0.8} onPress={onModalPress}>
+                    <Icon name='filter' style={{ ...styles.searchButton }}></Icon>
+                </TouchableOpacity> */}
+            </View>
+
+        // </View>
     )
 }
 
@@ -69,18 +74,20 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     buttomSearch: {
-        // backgroundColor: 'white',
+        backgroundColor: 'white',
         paddingHorizontal: '15%',
         paddingVertical: '3%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-       
     },
     container: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        width: '100%',
+        marginBottom:hp(0.5)
+        
     },
     containerPlaceholder: {
         width: '100%',

@@ -1,7 +1,7 @@
-import React, { createContext, useReducer, useEffect, useState, useContext } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fetchApi } from '../api/ApiService';
 import { User } from '../interfaces/UserInterfaces';
+import useFetchApi from '../hooks/useFetchApi';
 
 type AuthContextProps = {
     isAuthenticated: boolean
@@ -25,6 +25,9 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 
 export const  AuthProvider = ({ children }:  any) =>{
+    // hook para las peticiones fetch
+    const {fetchApi} = useFetchApi()
+
     const device_name = "APP"
     // Para identificar si esta autententicado
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -48,8 +51,8 @@ export const  AuthProvider = ({ children }:  any) =>{
         try {
             const token = await AsyncStorage.getItem('token');
             if (token) {
-                setIsAuthenticated(true)
                 setToken(token)
+                setIsAuthenticated(true)
             }
             const user = await AsyncStorage.getItem('user');
             if (user) {
@@ -67,12 +70,10 @@ export const  AuthProvider = ({ children }:  any) =>{
                 method:'POST',
                 body:{ email, password, device_name } as LoginParams
             })
-            console.log('signIn', resp);
-            
             if (resp.code == 200) {
                 const token = resp?.data?.token
-                setIsAuthenticated(true)
                 setToken(token)
+                setIsAuthenticated(true)
                 setUser(resp?.data)
                 await AsyncStorage.setItem('token', token);
                 await AsyncStorage.setItem('user', JSON.stringify(resp?.data) );
@@ -90,6 +91,7 @@ export const  AuthProvider = ({ children }:  any) =>{
     const logout = async () => {
         setIsAuthenticated(false)
         setUser(undefined)
+        AsyncStorage.removeItem('token')
         AsyncStorage.removeItem('user')
     }
 

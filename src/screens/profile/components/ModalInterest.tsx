@@ -201,7 +201,7 @@ const ModalInterest = ({showModal,setShowModal}:MyProps) => {
 
 const styles = StyleSheet.create({
     continerModal:{
-        height:'90%', 
+        height:hp('90%'), 
         // padding:20, 
         borderTopLeftRadius:hp(1.5), 
         borderTopRightRadius:hp(1.5), 

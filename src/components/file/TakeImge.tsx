@@ -122,7 +122,7 @@ const TakeImage = ({isVisible,setIsVisible,handlerFile}:props) =>{
 }
 const styles = StyleSheet.create({
     continerModal:{
-        height:'20%', 
+        height:hp('20%'), 
         // padding:20, 
         borderTopLeftRadius:hp(1.5), 
         borderTopRightRadius:hp(1.5), 

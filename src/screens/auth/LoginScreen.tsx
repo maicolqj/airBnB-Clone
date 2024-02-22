@@ -31,7 +31,6 @@ const Login = () => {
             validationForm()
             const data_login = {email,password}
             await signIn(data_login)
-            console.log('handlerLogin',{email,password});
         } catch (error:any) {
             setValidationMessage(error?.message)
         }

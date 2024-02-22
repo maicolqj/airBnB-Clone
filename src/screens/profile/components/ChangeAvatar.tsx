@@ -39,7 +39,7 @@ const ChangeImage = ()=> {
             }
             setOpenFile(false)
         } catch (error:any) {
-            console.log('savePorfile:error => ', error.message);
+            console.log('savePorfile:error =>', error.message);
         }
         setLoadingSave(false)
     }
@@ -64,7 +64,7 @@ const ChangeImage = ()=> {
                     :
                     <>
                         <Icon name='camera' style={{ fontSize:hp(2.5),marginRight:hp(1) }}></Icon>
-                        <CustomText >Editar</CustomText>
+                        <CustomText>Editar</CustomText>
                     </>
                 }
             </Pressable>

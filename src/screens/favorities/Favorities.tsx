@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
-import CustomText from "../../components/generals/CustomText";
 import HeaderScreenTab from "../../components/HeaderScreenTab";
 import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
 import { PublicationsContext } from "../../context/PublicationContext";
@@ -48,7 +47,6 @@ const Favorities = ({navigation}:Props) => {
 }
 const styles = StyleSheet.create({
     containerFlatList:{
-        paddingHorizontal:wp(4), 
         marginBottom:hp(6), 
         marginTop:hp(1)
     },

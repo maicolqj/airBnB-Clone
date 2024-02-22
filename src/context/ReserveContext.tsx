@@ -1,8 +1,6 @@
-import React, { createContext, useReducer, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fetchApi } from '../api/ApiService';
-import { User } from '../interfaces/UserInterfaces';
+import React, { createContext,useState } from 'react';
 import { DataSearchReserve, Reserve } from '../interfaces/ReserveInterface';
+import useFetchApi from '../hooks/useFetchApi';
 
 type ReserveContextProps = {
     dataReserve:DataSearchReserve
@@ -18,6 +16,9 @@ export const ReserveContext = createContext({} as ReserveContextProps);
 
 
 export const  ReserveProvider = ({ children }:  any) =>{
+    // hook para las peticiones fetch
+    const {fetchApi} = useFetchApi()
+
     const [dataReserve, setDataReserve] = useState<DataSearchReserve>({
         limit:10,
         page:0,

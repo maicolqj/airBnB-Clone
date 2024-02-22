@@ -14,13 +14,16 @@ import CustomText from "../../components/generals/CustomText";
 import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
 import WebViewPay from "./components/WebViewPay";
 import { throw_if } from "../../helpers/Exception";
-import { fetchApi } from "../../api/ApiService";
 import { Reserve } from "../../interfaces/ReserveInterface";
 import { WebViewNavigation } from "react-native-webview";
+import useFetchApi from "../../hooks/useFetchApi";
 
 interface Props extends StackScreenProps<RootInitialStackParams, 'ConfirmAndPay'> { }
 
 const ConfirmAndPay = ({navigation}: Props) => {
+    // hook para las peticiones fetch
+    const {fetchApi} = useFetchApi()
+
     const {
         publicationSelected,
         selectedStartDate,

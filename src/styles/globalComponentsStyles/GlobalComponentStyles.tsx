@@ -7,7 +7,7 @@ export const customStyles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: "#fff",
-        paddingTop: Platform.OS === 'android' ? hp(2) : 0
+        paddingTop: Platform.OS === 'android' ? hp(3) : 0
     },
     button:{
         marginVertical:hp(1),

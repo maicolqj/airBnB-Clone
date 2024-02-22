@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, Button, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -8,10 +8,9 @@ import CustomText from "../../../components/generals/CustomText";
 import { OptionProfile } from "../../../interfaces/UserInterfaces";
 import CustomInput from "../../../components/generals/CustomInput";
 import { ProfileContext } from "../../../context/ProfileContext";
-// import DatePicker from 'react-native-datepicker';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from "moment";
 import { respApi } from "../../../interfaces/GlobalInterfaces";
+import { CustomDateTime } from "../../../components/date/CustomDateTime";
 
 
 interface MyProps {
@@ -31,16 +30,11 @@ const ModalFormPersonalInformation = ({showModal,setShowModal,item}:MyProps) => 
     useEffect(()=>{
         
         let newValue:any = profile?.additional_information_user?.[item?.key] ?? undefined
-
         if (item?.inputType == 'date') {
             newValue = newValue ? new Date(moment(newValue)) : new Date()
         }
         setValue(newValue)
     },[item])
-
-    const handleDateChange = (event:any, selectedDate:any) => {
-        setValue(selectedDate);
-    };
 
     const savePorfile = async () => {
         setLoadingSave(true)
@@ -72,7 +66,6 @@ const ModalFormPersonalInformation = ({showModal,setShowModal,item}:MyProps) => 
 
     const closeModal = () => {
         setShowModal(false)
-        setValue(undefined)
         setMsgError(undefined)
     }
     return (
@@ -108,7 +101,7 @@ const ModalFormPersonalInformation = ({showModal,setShowModal,item}:MyProps) => 
                                 </View>
                             }
                             {/* Si es input text */}
-                            {(item?.inputType == 'text'  ) && (
+                            {(item?.inputType == 'text' && (typeof value === 'string' || typeof value === 'undefined')  ) && (
                                 <View style={{marginVertical:hp(3)}}>
                                     <CustomInput 
                                         style={styles.input}
@@ -120,7 +113,7 @@ const ModalFormPersonalInformation = ({showModal,setShowModal,item}:MyProps) => 
                                 </View>
                             )}
                             {/* Si es un text area */}
-                            {item?.inputType == 'textArea' && (
+                            {(item?.inputType == 'textArea' && (typeof value === 'string' || typeof value === 'undefined') ) && (
                                 <View style={{marginVertical:hp(3)}}>
                                     <CustomInput 
                                         style={{...styles.input,minHeight:hp(10), paddingTop:hp(1)}}
@@ -135,13 +128,9 @@ const ModalFormPersonalInformation = ({showModal,setShowModal,item}:MyProps) => 
                             {/* Si tipo date */}
                             <View style={{marginVertical:hp(0)}}>
                                 {(item?.inputType == 'date' && value) && (
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={value}
-                                        mode="date"
-                                        display="spinner"
-                                        onChange={handleDateChange}
-                                        maximumDate={new Date()}
+                                    <CustomDateTime
+                                        date={value}
+                                        setDate={setValue}
                                     />
                                 )}
                             </View>
@@ -167,7 +156,7 @@ const ModalFormPersonalInformation = ({showModal,setShowModal,item}:MyProps) => 
 
 const styles = StyleSheet.create({
     continerModal:{
-        height:'50%', 
+        height:hp('50%'), 
         // padding:20, 
         borderTopLeftRadius:hp(1.5), 
         borderTopRightRadius:hp(1.5), 
