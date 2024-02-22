@@ -1,13 +1,23 @@
-import React, { createContext, useReducer, useEffect, useState, useContext } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useState } from 'react';
 import { fetchApi } from '../api/ApiService';
-import { User } from '../interfaces/UserInterfaces';
+import { AdditionalInfoUser, InterestProfiles, User } from '../interfaces/UserInterfaces';
+import { respApi } from '../interfaces/GlobalInterfaces';
+
+export type DataUpdateProfile = AdditionalInfoUser & {
+    interests?: Array<number> | []
+    sports?: Array<number> | []
+}
 
 type ProfileContextProps = {
     loadingProfile: boolean
+    interestInformation:InterestProfiles|undefined
     getProfile:Function
+    getInterests:Function 
     profile:User|undefined
     clearStore:Function
+    updateProfile: (data:AdditionalInfoUser) => Promise<respApi>
+    changeProfileContext: (profile:User) => void
+    getAllInterestAndSport: () => Array<any>
 }
 
 export const ProfileContext = createContext({} as ProfileContextProps);
@@ -20,6 +30,13 @@ export const  ProfileProvider = ({ children }:  any) =>{
     // Información del perfil
     const [profile, setProfile] = useState<User|undefined>()
 
+    const [interestInformation, setInterestInformation] = useState<InterestProfiles>()
+
+    const changeProfileContext = (profile: User) =>{ 
+        setProfile(prevProfile => {
+            return {...prevProfile, ...profile}
+        })
+    }
 
     const getProfile = async()=>{
         
@@ -31,7 +48,6 @@ export const  ProfileProvider = ({ children }:  any) =>{
             const resp = await fetchApi(`/user/get-info`,{
                 method:'GET'
             })
-            console.log(resp);
             
             if (resp.code == 200) {
                 setProfile(resp.data)
@@ -43,16 +59,63 @@ export const  ProfileProvider = ({ children }:  any) =>{
         }
     }
 
+    const updateProfile = async (data:DataUpdateProfile):Promise<respApi> =>{
+        try {
+            let resp:respApi = await fetchApi(`/user/edit`, {
+                method:'POST',
+                body:data
+            })
+            return resp
+        } catch (error:any) {
+            return {
+                status:false,
+                message: error?.message
+            } as respApi
+        }
+    }
+
+    const getInterests = async ()=>{
+        try {
+            if (interestInformation) {
+                return
+            }
+            const resp = await fetchApi(`/commons/interests`,{
+                method:'GET'
+            })
+            if (resp.status) {
+                setInterestInformation(resp.data)
+            }
+        } catch (error:any) {
+            console.log(error?.message);
+        }
+    }
+
+    const getAllInterestAndSport = ():Array<any> => {
+        const interest = profile?.user_interests?.map((item) => {
+            return item.interest ? item.interest : item
+        }) ?? []
+        const sports = profile?.user_sports?.map((item) => {
+            return item.sport ? item.sport : item
+        }) ?? []
+        
+        return [...interest,...sports];
+    }
+
     const clearStore = () =>{
         setProfile(undefined)
     }
 
     return (
         <ProfileContext.Provider value={{
-           loadingProfile,
-           profile,
-           getProfile,
-           clearStore
+            loadingProfile,
+            interestInformation,
+            profile,
+            getProfile,
+            getInterests,
+            updateProfile,
+            clearStore,
+            changeProfileContext,
+            getAllInterestAndSport
         }}>
             { children }
         </ProfileContext.Provider>

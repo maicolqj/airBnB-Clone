@@ -1,17 +1,17 @@
-import React, { ReactNode } from "react";
-import { StyleSheet, TextInput, TextInputProps, View, ViewStyle } from "react-native";
+import React from "react";
+import {  StyleSheet, TextInput, TextInputProps, TextStyle } from "react-native";
 import { widthPercentageToDP as wp,heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 
 
 interface MyTextInputProps extends TextInputProps {
-    style?: ViewStyle
+    style?: TextStyle
     iconName?:string
 }
 
 const CustomInput = ({iconName,style, ...restProps}:MyTextInputProps)=>{
     return (
-            <TextInput style={styles.input}  {...restProps}  placeholderTextColor='#8d8d8d'/>
+            <TextInput style={{...styles.input, ...style}} placeholderTextColor='#8d8d8d' {...restProps} />
     )
 }
 export default CustomInput
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         color: 'black',
         padding: hp(1.5),
         width:'100%',
-        backgroundColor:colorsApp.light(0.2),
+        backgroundColor:colorsApp.light(0.1),
         borderRadius: hp(1),
         // marginVertical: 10,
         paddingHorizontal: hp(1.2),

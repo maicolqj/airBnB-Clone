@@ -8,8 +8,7 @@ import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
 import { useForm } from "../../hooks/useForm";
 import { throw_if } from "../../helpers/Exception";
-import { AuthContext, LoginParams } from "../../context/AuthContext";
-import FastImage from "react-native-fast-image";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
     const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;

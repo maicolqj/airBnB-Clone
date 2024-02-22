@@ -510,6 +510,8 @@ PODS:
     - React-Core
   - RNCPicker (2.5.1):
     - React-Core
+  - RNDateTimePicker (7.6.2):
+    - React-Core
   - RNFastImage (8.6.3):
     - React-Core
     - SDWebImage (~> 5.11.1)
@@ -632,6 +634,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -749,6 +752,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-masked-view/masked-view"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
@@ -820,6 +825,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: f2974eca860c16a3e56eea5771fda8d12e2d2057
   RNCMaskedView: f7c74478c83c4fdfc5cf4df51f80c0dd5cf125c6
   RNCPicker: 529d564911e93598cc399b56cc0769ce3675f8c8
+  RNDateTimePicker: fc2e4f2795877d45e84d85659bebe627eba5c931
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: 6e46dde1f87e5f018a54fe5d40cd0e0b942b49ee
   RNReanimated: ab2e96c6d5591c3dfbb38a464f54c8d17fb34a87

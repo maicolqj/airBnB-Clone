@@ -184,12 +184,9 @@ export const PublicationsProvider = ({children}: any) => {
 
   const updateFilters =  (data: Partial<FilterData>) => {
     setFilters((prevFilters) => {
-      return {
-        ...prevFilters,
-        ...data
-      };
-    });
-  };
+      return {...prevFilters,...data }
+    })
+  }
 
   const updateHomePublication = (data: Partial<SearchPublication>) => {
     setHomePublication((prev) => {

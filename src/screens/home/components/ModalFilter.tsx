@@ -71,10 +71,8 @@ const ModalFilter = ({ modalUseState, setModalUseState }: Props) => {
             moreFilters[item.data] = 0
         });
         setCounters(moreFilters)
-
         
         if (complementFilters?.cities && complementFilters.cities.length > 0) {
-            console.log('complementFilters?.cities',complementFilters?.cities);
             setCity(complementFilters.cities[0])
         }
     },[complementFilters])

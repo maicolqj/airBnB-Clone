@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, TouchableOpacity, View, Platform, Pressable } from "react-native";
+import { StyleSheet, View, Platform, Pressable } from "react-native";
 import CustomText from "../../../components/generals/CustomText";
 import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";

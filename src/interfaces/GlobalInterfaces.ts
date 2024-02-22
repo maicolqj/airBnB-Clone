@@ -134,3 +134,10 @@ export interface SearchPublication {
     limit:number
     page:number
 }
+
+export interface respApi {
+    code:number,
+    data:any,
+    message:string,
+    status:boolean
+}

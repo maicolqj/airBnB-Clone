@@ -11,14 +11,20 @@ import { ProfileContext } from "../../context/ProfileContext";
 import SectionValidateIdentity from "./components/SectionValidateIdentity";
 import { AuthContext } from "../../context/AuthContext";
 import ModalEditProfile from "./components/ModalEditProfile";
+import { optionsProfile } from "../../helpers/data";
+import { ItemInterestProfile, OptionProfile } from "../../interfaces/UserInterfaces";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getFirstWord } from "../../helpers/formats";
+
 
 const Profile = () => {
-    const {getProfile} = useContext(ProfileContext)
+    const {profile, getProfile,getInterests,getAllInterestAndSport} = useContext(ProfileContext)
     const {logout} = useContext(AuthContext)
 
     const [showModalProfile, setShowModalProfile] = useState<boolean>(false)
     useEffect(()=>{
         getProfile()
+        getInterests()
     },[])
     return (
         <SafeAreaView style={customStyles.safeArea}>
@@ -37,11 +43,50 @@ const Profile = () => {
                     </TouchableOpacity>
 
                 </View>
+                {/* Información diligenciada del perfil */}
+                <View style={{marginHorizontal:hp(3.5), marginTop:hp(1)}}>
+                    {
+                        optionsProfile.map((item:OptionProfile,key:number) => (
+                            profile?.additional_information_user?.[item?.key] &&
+                            <View
+                                style={styles.containerInformationAdittional}
+                                key={key}
+                            >
+                                <View style={{flexDirection:'row', alignItems:'center'}}>
+                                    <Icon name={item.icon} size={hp(2.5)} style={{marginRight:hp(1),color:colorsApp.blackLeather(0.8)}} />
+                                    <CustomText>{item.placeholder} {profile?.additional_information_user?.[item?.key]}
+                                    </CustomText>
+                                </View>
+
+                            </View>
+                        ))
+                    }
+                    {
+                        profile?.additional_information_user?.over_you &&
+                        <CustomText style={{marginTop:hp(2)}}>{profile?.additional_information_user?.over_you}</CustomText>
+                    }
+                </View>
+
                 {/* Información confirmada */}
                 <SectionConfirmedInformation/>
 
                 {/* Información  de validacion de identidad */}
                 <SectionValidateIdentity/>
+
+                {/* Interes y deportes */}
+                <View style={{marginHorizontal:hp(3.5)}}>
+                    <CustomText style={styles.title}>Pregúntale a {getFirstWord(profile?.name ?? '')} acerca de...</CustomText>
+
+                    <View style={styles.containerWrap}>
+                        {
+                            getAllInterestAndSport().map((item:ItemInterestProfile,key:number) =>(
+                                <View style={[styles.pills]}  key={key}>
+                                    <CustomText>{item.name}</CustomText>
+                                </View>
+                            ))
+                        }
+                    </View>
+                </View>
 
                 <TouchableOpacity
                     style={{
@@ -81,8 +126,32 @@ const styles = StyleSheet.create({
     },
     textLogout:{
         fontSize:hp(2),
+        fontWeight:'500',
         textDecorationLine:'underline'
         
-    }
+    },
+    containerInformationAdittional:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:"center",
+        marginVertical:hp(1),
+        // paddingBottom:hp(2),
+    },
+    title:{
+        fontWeight:'600',
+        fontSize:hp(2.2)
+    },
+    containerWrap:{
+        flexWrap:'wrap',
+        marginVertical:hp(2),
+        flexDirection:'row',
+    },
+    pills:{
+        borderWidth:hp(0.1),
+        borderColor:colorsApp.light(0.6),
+        borderRadius:12,
+        padding:hp(1),
+        margin:hp(0.4)
+    },
 })
 export default Profile

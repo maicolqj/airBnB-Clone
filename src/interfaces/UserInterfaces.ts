@@ -1,5 +1,5 @@
 export interface OptionProfile {
-    icon?: string;
+    icon: string;
     text_button?:string,
     key: string;
     modal?:string;
@@ -40,17 +40,17 @@ export interface OptionProfile {
   
   export interface User {
     id?: Number
-    name: string;
-    email: string;
-    phone:string;
+    name?: string;
+    email?: string;
+    phone?:string;
     password?: string;
     token?: string;
     image?: string;
     device_name?: string;
     additional_information_user?:AdditionalInfoUser
-    user_interes:Array<any>
-    user_sports:Array<any>
-    is_host_user: Boolean
+    user_interests?:Array<any>
+    user_sports?:Array<any>
+    is_host_user?: Boolean
     reviews?:number
     age_in_pltform?:number
   }

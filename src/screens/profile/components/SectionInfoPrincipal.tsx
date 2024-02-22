@@ -5,7 +5,6 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import { ProfileContext } from "../../../context/ProfileContext";
 import { capitalizeFirstLetter, getFirstWord } from "../../../helpers/formats";
-const logo = require("../../../assets/system/logos/logo.png")
 
 const SectionInfoPrincipal = () => {
     const {profile} = useContext(ProfileContext)
@@ -16,7 +15,12 @@ const SectionInfoPrincipal = () => {
             <View style={{justifyContent:'center', alignItems:'center'}}>
                 {/* Image */}
                 <View style={styles.containerImage}>
-                    <CustomText  style={styles.textLetter}>{capitalizeFirstLetter(profile?.name ?? '')}</CustomText>
+                    {
+                        profile?.image ?
+                            <Image source={{ uri:profile?.image }}  style={styles.profileImage}/>
+                        : 
+                            <CustomText  style={styles.textLetter}>{capitalizeFirstLetter(profile?.name ?? '')}</CustomText>
+                    }
                 </View>
                 <CustomText style={styles.textName}>{getFirstWord(profile?.name ?? '')}</CustomText>
                 <CustomText style={{fontSize:hp(1.5)}}>Huesped</CustomText>
@@ -62,6 +66,11 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         borderRadius:wp('50%')
+    },
+    profileImage: {
+        width:hp(10),
+        height:hp(10),
+        borderRadius:wp('50%'), // Hace que la imagen sea circular
     },
     textLetter:{
         color:'white', 
