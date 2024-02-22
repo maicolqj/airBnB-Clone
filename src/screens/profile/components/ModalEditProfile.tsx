@@ -5,12 +5,12 @@ import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomText from "../../../components/generals/CustomText";
-import ChangeAvatar from "./ChangeAvatar";
+import ChangeAvatar from "./actions/ChangeAvatar";
 import { ItemInterestProfile } from "../../../interfaces/UserInterfaces";
 import { ProfileContext } from "../../../context/ProfileContext";
-import AddictionalInformation from "./AddictionalInformation";
+import AddictionalInformation from "./sections/AddictionalInformation";
 import { TouchableOpacity } from "react-native";
-import ModalInterest from "./ModalInterest";
+import ModalInterest from "./actions/ModalInterest";
 interface MyProps {
     showModal:boolean
     setShowModal:Function

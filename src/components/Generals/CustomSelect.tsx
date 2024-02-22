@@ -102,7 +102,8 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         paddingVertical:hp(1.5),
-        paddingHorizontal:hp(1.5)
+        paddingHorizontal:hp(1.5),
+        alignItems:'center'
     },
     optionSelect:{
         // backgroundColor:colorsApp.primary(1),

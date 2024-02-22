@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
-import { colorsApp } from "../../../styles/globalColors/GlobalColors";
+import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomText from "../../../components/generals/CustomText";
-import { OptionProfile } from "../../../interfaces/UserInterfaces";
-import CustomInput from "../../../components/generals/CustomInput";
-import { ProfileContext } from "../../../context/ProfileContext";
+import CustomText from "../../../../components/generals/CustomText";
+import { OptionProfile } from "../../../../interfaces/UserInterfaces";
+import CustomInput from "../../../../components/generals/CustomInput";
+import { ProfileContext } from "../../../../context/ProfileContext";
 import moment from "moment";
-import { respApi } from "../../../interfaces/GlobalInterfaces";
-import { CustomDateTime } from "../../../components/date/CustomDateTime";
+import { respApi } from "../../../../interfaces/GlobalInterfaces";
+import { CustomDateTime } from "../../../../components/date/CustomDateTime";
 
 
 interface MyProps {
@@ -94,7 +94,7 @@ const ModalFormPersonalInformation = ({showModal,setShowModal,item}:MyProps) => 
                             </View>
 
                             {
-                            msgError &&
+                                msgError &&
                                 <View style={styles.validationContainer} >
                                     {/* <CustomText style={styles.titleValidation}>Errores de validación</CustomText> */}
                                     <CustomText style={styles.messageValidation}>{msgError}</CustomText>
@@ -203,13 +203,14 @@ const styles = StyleSheet.create({
     },
     validationContainer:{
         padding:hp(1),
-        backgroundColor:colorsApp.danger(0.8),
+        backgroundColor:colorsApp.danger(0.5),
         borderRadius:hp(1),
         marginTop:hp(1)
     },
     messageValidation:{
         fontSize:hp(1.3),
-        color:'white'
+        color:'white',
+        fontWeight:'bold'
     },
     input:{
         fontSize:hp(1.7),

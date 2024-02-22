@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import CustomText from "../../../components/generals/CustomText";
+import CustomText from "../../../../components/generals/CustomText";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { colorsApp } from "../../../styles/globalColors/GlobalColors";
-import { ProfileContext } from "../../../context/ProfileContext";
-import { capitalizeFirstLetter, getFirstWord } from "../../../helpers/formats";
+import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
+import { ProfileContext } from "../../../../context/ProfileContext";
+import { capitalizeFirstLetter, getFirstWord } from "../../../../helpers/formats";
 
 const SectionInfoPrincipal = () => {
     const {profile} = useContext(ProfileContext)

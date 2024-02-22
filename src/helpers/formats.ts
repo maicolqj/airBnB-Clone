@@ -69,7 +69,7 @@ export const getFirstWord = (word:string):String =>{
     return firstName
 }
 
-export const imageToBackend = (file:Asset|undefined) => {
+export const imageToBackend = (file:Asset|undefined):File|null => {
   if (file?.uri && file?.fileName && file?.type) {
       return { uri: file.uri, name: file.fileName, type:file.type }
   }

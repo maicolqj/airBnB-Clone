@@ -53,6 +53,7 @@ export interface OptionProfile {
     is_host_user?: Boolean
     reviews?:number
     age_in_pltform?:number
+    user_identity?:UserIdentity
   }
   
   export interface UserIdentity {

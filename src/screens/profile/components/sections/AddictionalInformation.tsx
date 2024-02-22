@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
-import CustomText from "../../../components/generals/CustomText";
-import { optionsProfile } from "../../../helpers/data";
-import { OptionProfile } from "../../../interfaces/UserInterfaces";
+import CustomText from "../../../../components/generals/CustomText";
+import { optionsProfile } from "../../../../helpers/data";
+import { OptionProfile } from "../../../../interfaces/UserInterfaces";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { colorsApp } from "../../../styles/globalColors/GlobalColors";
-import { ProfileContext } from "../../../context/ProfileContext";
-import ModalFormPersonalInformation from "./ModalFormPersonalInformation";
+import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
+import { ProfileContext } from "../../../../context/ProfileContext";
+import ModalFormPersonalInformation from "../actions/ModalFormPersonalInformation";
 
 
 const AddictionalInformation = () => {

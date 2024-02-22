@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, Button, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
-import { colorsApp } from "../../../styles/globalColors/GlobalColors";
+import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomText from "../../../components/generals/CustomText";
-import { ItemInterestProfile } from "../../../interfaces/UserInterfaces";
-import { DataUpdateProfile, ProfileContext } from "../../../context/ProfileContext";
-import { respApi } from "../../../interfaces/GlobalInterfaces";
+import CustomText from "../../../../components/generals/CustomText";
+import { ItemInterestProfile } from "../../../../interfaces/UserInterfaces";
+import { DataUpdateProfile, ProfileContext } from "../../../../context/ProfileContext";
+import { respApi } from "../../../../interfaces/GlobalInterfaces";
 
 
 interface MyProps {
@@ -212,12 +212,9 @@ const styles = StyleSheet.create({
         alignItems:'center',
         paddingVertical:hp(2),
         paddingHorizontal:hp(2),
-        // borderBottomWidth:hp(0.02),
-        // borderBottomColor:colorsApp.light()
     },
     footerModal: {
         position: 'absolute',
-        // bottom: hp(0),
         width: wp('100%'),
         backgroundColor: '#fff',
         paddingHorizontal: hp(2.5),
@@ -231,7 +228,6 @@ const styles = StyleSheet.create({
     },
     buttomFooter: {
         padding:hp(1.4),
-        // width:'100%',
         borderRadius: hp(1),
         backgroundColor: colorsApp.blackLeather(),
         justifyContent: 'center',

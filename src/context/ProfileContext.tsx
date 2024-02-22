@@ -18,6 +18,11 @@ type ProfileContextProps = {
     updateProfile: (data:AdditionalInfoUser|FormData) => Promise<respApi>
     changeProfileContext: (profile:User) => void
     getAllInterestAndSport: () => Array<any>
+    getDocumentTypes: () => void
+    getCountries: () => void
+    documentTypes: Array<any>
+    countries: Array<any>
+    isVerifiedIdentity: () => boolean
 }
 
 export const ProfileContext = createContext({} as ProfileContextProps);
@@ -30,8 +35,12 @@ export const  ProfileProvider = ({ children }:  any) =>{
     const [loadingProfile, setLoadingProfile] = useState<boolean>(false)
     // Información del perfil
     const [profile, setProfile] = useState<User|undefined>()
-
+    // comunes: todas las opciones de interes y deportes
     const [interestInformation, setInterestInformation] = useState<InterestProfiles>()
+    // comunes: todas las opciones de tipos de documentos
+    const [documentTypes, setDocumentTypes] = useState<Array<any>>([])
+    // comunes: todas las opciones de paises
+    const [countries, setCoiuntries] = useState<Array<any>>([])
 
     const changeProfileContext = (profile: User) =>{ 
         setProfile(prevProfile => {
@@ -91,6 +100,38 @@ export const  ProfileProvider = ({ children }:  any) =>{
         }
     }
 
+    const getDocumentTypes = async ()=>{
+        try {
+            if (documentTypes.length > 0) {
+                return
+            }
+            const resp = await fetchApi(`/commons/document_types`,{
+                method:'GET'
+            })
+            if (resp.status) {
+                setDocumentTypes(resp.data)
+            }
+        } catch (error:any) {
+            console.log(error?.message);
+        }
+    }
+
+    const getCountries = async ()=>{
+        try {
+            if (countries.length > 0) {
+                return
+            }
+            const resp = await fetchApi(`/commons/countries`,{
+                method:'GET'
+            })
+            if (resp.status) {
+                setCoiuntries(resp.data)
+            }
+        } catch (error:any) {
+            console.log(error?.message);
+        }
+    }
+
     const getAllInterestAndSport = ():Array<any> => {
         const interest = profile?.user_interests?.map((item) => {
             return item.interest ? item.interest : item
@@ -100,6 +141,10 @@ export const  ProfileProvider = ({ children }:  any) =>{
         }) ?? []
         
         return [...interest,...sports];
+    }
+
+    const isVerifiedIdentity = ():boolean =>{
+        return profile?.user_identity?.state_type_id == 7
     }
 
     const clearStore = () =>{
@@ -116,7 +161,12 @@ export const  ProfileProvider = ({ children }:  any) =>{
             updateProfile,
             clearStore,
             changeProfileContext,
-            getAllInterestAndSport
+            getAllInterestAndSport,
+            getDocumentTypes,
+            documentTypes,
+            getCountries,
+            countries,
+            isVerifiedIdentity
         }}>
             { children }
         </ProfileContext.Provider>

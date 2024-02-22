@@ -1,20 +1,20 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View, Platform, Pressable, ActivityIndicator } from "react-native";
-import CustomText from "../../../components/generals/CustomText";
-import { colorsApp } from "../../../styles/globalColors/GlobalColors";
+import CustomText from "../../../../components/generals/CustomText";
+import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { capitalizeFirstLetter, imageToBackend } from "../../../helpers/formats";
-import { ProfileContext } from "../../../context/ProfileContext";
+import { capitalizeFirstLetter, imageToBackend } from "../../../../helpers/formats";
+import { ProfileContext } from "../../../../context/ProfileContext";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Image } from "@rneui/themed";
-import TakeImage from "../../../components/file/TakeImge";
-import { respApi } from "../../../interfaces/GlobalInterfaces";
+import TakeImage from "../../../../components/file/TakeImge";
+import { respApi } from "../../../../interfaces/GlobalInterfaces";
 import { ImagePickerResponse } from "react-native-image-picker";
 
 const ChangeImage = ()=> {
 
     const {profile,updateProfile,changeProfileContext} = useContext(ProfileContext)
-
+    //para abrir el modal para seleccionar imagen
     const [openFile,setOpenFile] = useState(false);
     const [loadingSave,setLoadingSave] = useState(false);
 

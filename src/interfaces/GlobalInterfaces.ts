@@ -144,6 +144,6 @@ export interface respApi {
 
 export interface File {
     uri:any,
-    fileName:any,
+    name:any,
     type:any
 }

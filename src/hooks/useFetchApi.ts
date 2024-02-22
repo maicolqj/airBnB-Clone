@@ -14,10 +14,11 @@ const baseUrl = `${PATH_SERVER}/api`;
 
 const useFetchApi = () => {
     const {token,logout} = useContext(AuthContext)
-
-    
+    // para guardar la respuesta de api
     const [respApi, setRespApi] = useState<respApi|undefined>();
+    // para guardar los errores de api
     const [errorApi, setErrorApi] = useState<string | null>(null);
+    // para saber mientras se está haciendo una petición a api
     const [loadingApi, setLoadingApi] = useState<boolean>(false);
     
     const fetchApi = async (path: string, config: ConfigFetch) => {
@@ -49,8 +50,9 @@ const useFetchApi = () => {
             setRespApi(jsonData)
             return jsonData
         } catch (error:any) {
-            // return error
+            console.log(error.message);
             setErrorApi(error.message || 'Error desconocido');
+            return error
         } finally {
             setLoadingApi(false);
         }

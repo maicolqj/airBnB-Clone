@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import CustomText from "../../../components/generals/CustomText";
-import { getFirstWord } from "../../../helpers/formats";
-import { ProfileContext } from "../../../context/ProfileContext";
+import CustomText from "../../../../components/generals/CustomText";
+import { getFirstWord } from "../../../../helpers/formats";
+import { ProfileContext } from "../../../../context/ProfileContext";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/FontAwesome'; 
-import { colorsApp } from "../../../styles/globalColors/GlobalColors";
+import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
 
 const SectionConfirmedInformation = () => {
-    const {profile} = useContext(ProfileContext)
+    const {profile,isVerifiedIdentity} = useContext(ProfileContext)
     return (
         <View style={styles.container}>
             <CustomText style={styles.title}>Información confirmada de {getFirstWord(profile?.name ?? '')}</CustomText>
@@ -26,6 +26,12 @@ const SectionConfirmedInformation = () => {
                 }
                 <CustomText style={styles.text}>Número de teléfono</CustomText>
             </View>
+            {isVerifiedIdentity() && (
+                <View style={styles.sectionCheck}>
+                    <Icon name="check" size={hp(3)} style={styles.icon} />
+                    <CustomText style={styles.text}>Identidad verificada</CustomText>
+                </View>
+            )}
         </View>
     )
 }

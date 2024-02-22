@@ -15,7 +15,7 @@ interface Props {
   publication: Publication
 }
 
-const ItemPublication = ({ navigation, publication }: Props) => {
+const ItemPublication = React.memo(({ navigation, publication }: Props) => {
   const {toggleFavorite} = useContext(PublicationsContext)
   const iconName = () =>{
     return publication.is_favorite ? 'heart' : 'heart-outline'
@@ -81,7 +81,7 @@ const ItemPublication = ({ navigation, publication }: Props) => {
       </Pressable>
     </View>
   )
-}
+})
 
 export default ItemPublication
 
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginBottom: hp('3%'),
     marginHorizontal:wp(4),
+    // shadowColor: colorsApp.light(),
     ...Platform.select({
       ios: {
           shadowColor: colorsApp.light(),

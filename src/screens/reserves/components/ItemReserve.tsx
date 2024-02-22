@@ -1,18 +1,17 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View,Platform } from "react-native";
+import { StyleSheet, TouchableOpacity, View,Platform } from "react-native";
 import { Reserve } from "../../../interfaces/ReserveInterface";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import CustomText from "../../../components/generals/CustomText";
 import { colorsApp } from "../../../styles/globalColors/GlobalColors";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
-import { RootInitialStackParams } from "../../../routes/stackNavigation/InitialStackNavigation";
 import FastImage from "react-native-fast-image";
 
 interface MyProps {
     reserve:Reserve
 }
-const ItemReserve = ({reserve}:MyProps) => {
+const ItemReserve = React.memo(({reserve}:MyProps) => {
     const navigation = useNavigation<any>()
     const FormattedDate = ( dateString:string ) => {
         const formattedDate = moment(dateString).format('DD [de] MMM [de] YYYY');
@@ -42,7 +41,7 @@ const ItemReserve = ({reserve}:MyProps) => {
             </View>
         </TouchableOpacity>
     )
-}
+})
 const styles = StyleSheet.create({
     container:{
         marginVertical:hp(0.5),
