@@ -1742,6 +1742,11 @@
   dependencies:
     invariant "^2.2.4"
 
+"@react-native-community/slider@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/@react-native-community/slider/-/slider-4.5.0.tgz"
+  integrity sha512-pyUvNTvu5IfCI5abzqRfO/dd3A009RC66RXZE6t0gyOwI/j0QDlq9VZRv3rjkpuIvNTnsYj+m5BHlh0DkSYUyA==
+
 "@react-native-masked-view/masked-view@^0.3.0":
   version "0.3.0"
   resolved "https://registry.npmjs.org/@react-native-masked-view/masked-view/-/masked-view-0.3.0.tgz"

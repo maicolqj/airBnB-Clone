@@ -7,14 +7,12 @@ import { colorsApp } from '../../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import DividerComponent from '../../../components/DividerComponent';
 import Modal from "react-native-modal";
-
-import { Picker } from '@react-native-picker/picker';
 import { CountersType } from '../../../types/GlobalTypes';
 import { PublicationsContext } from '../../../context/PublicationContext';
 import { Calendar, } from 'react-native-calendars';
 import moment from 'moment';
-import { FilterData } from '../../../interfaces/GlobalInterfaces';
 import CustomSelect from '../../../components/generals/CustomSelect';
+import RangePrice from '../../../components/RangePrice';
 
 interface Props {
     modalUseState: boolean,
@@ -41,19 +39,21 @@ const themCalendar = {
 }
 
 const ModalFilter = ({ modalUseState, setModalUseState }: Props) => {
-
-
-
-    
     const { updateFilters } = useContext(PublicationsContext)
-
-
+    // complementos para armar los filtros
     const {complementFilters} = useContext(PublicationsContext)
-
+    // se almacena la fecha inicial seleccionada
     const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
+    // se almacena la fecha final seleccionada
     const [selectedEndDate, setSelectedEndDate] = useState<string | null>(null);
+    // se almacenan los counters de los guestTpes
     const [counters, setCounters] = useState<object>({});
+    // se almacenan la ciudad seleccionada
     const [city, setCity] = useState<any>(null);
+    // se almacenan el precio minimo seleccionado
+    const [minPrice, setMinPrice] = useState(20000);
+    // se almacenan el precio maximo seleccionado
+    const [maxPrice, setMaxPrice] = useState(2000000);
 
     const handleCounterChange = (counterName: keyof CountersType, value: number) => {
         setCounters((prevCounters:any) => {
@@ -82,7 +82,9 @@ const ModalFilter = ({ modalUseState, setModalUseState }: Props) => {
         updateFilters({
             ...counters,
             checkin: selectedStartDate,
-            checkout: selectedEndDate
+            checkout: selectedEndDate,
+            price_min: minPrice,
+            price_max: maxPrice
         })
         setModalUseState(false);
     };
@@ -153,9 +155,19 @@ const ModalFilter = ({ modalUseState, setModalUseState }: Props) => {
                         showsVerticalScrollIndicator={false}
                     >
                         <CustomText 
-                            style={{marginTop: hp('2%'), alignSelf: 'center', marginBottom: hp('4%')}}>
+                            style={{marginTop: hp('2%'), marginBottom: hp('4%')}}>
                             Filtra tus busquedas y encuentra más rapido lo que buscas.
                         </CustomText>
+
+                        {/* Rango de precios */}
+                        <RangePrice
+                            minPrice={minPrice}
+                            setMinPrice={setMinPrice}
+                            maxPrice={maxPrice}
+                            setMaxPrice={setMaxPrice}
+                        />
+                        <DividerComponent style={{width:'100%', marginVertical:hp(2)}} />
+
 
                         {/* Ciudaddes */}
                         <CustomSelect
@@ -163,7 +175,7 @@ const ModalFilter = ({ modalUseState, setModalUseState }: Props) => {
                             onChange={(value:any) => setCity(value)}
                             options={complementFilters?.cities ?? []}
                         />
-                        <DividerComponent style={{width:'100%', marginVertical:hp(1.2)}} />
+                        <DividerComponent style={{width:'100%', marginVertical:hp(2)}} />
 
                         {/* CALENDARIO */}
                         <View style={{ width: wp('100%'), paddingHorizontal: wp('5%'), alignSelf: 'center', marginVertical: hp('1%') }}>
@@ -188,7 +200,7 @@ const ModalFilter = ({ modalUseState, setModalUseState }: Props) => {
                             </TouchableOpacity>
                         </View>
 
-                        <DividerComponent style={{width:'100%', marginVertical:hp(1.2)}} />
+                        <DividerComponent style={{width:'100%', marginVertical:hp(2)}} />
                         {
                             complementFilters?.guestTpes && complementFilters.guestTpes.map((item:any, key:number) => {
                                 return (
@@ -218,8 +230,8 @@ const styles = StyleSheet.create({
         height:'90%',
         width:'100%',
         padding:20, 
-        borderTopLeftRadius:30, 
-        borderTopRightRadius:30, 
+        borderTopLeftRadius:15, 
+        borderTopRightRadius:15, 
         backgroundColor:'white'
     },
     buttomAcept: {

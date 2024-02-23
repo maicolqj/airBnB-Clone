@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { widthPercentageToDP as wp,heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import CustomText from "../../components/generals/CustomText";
 import CustomInput from "../../components/generals/CustomInput";
 import Icon from 'react-native-vector-icons/FontAwesome'; // Asegúrate de importar el icono correcto

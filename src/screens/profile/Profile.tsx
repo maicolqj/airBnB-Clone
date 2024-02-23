@@ -4,7 +4,7 @@ import CustomText from "../../components/generals/CustomText";
 import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
 import SectionInfoPrincipal from "./components/sections/SectionInfoPrincipal";
 import { ScrollView } from "react-native-gesture-handler";
-import { heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp} from "react-native-responsive-screen";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import SectionConfirmedInformation from "./components/sections/SectionConfirmedInformation";
 import { ProfileContext } from "../../context/ProfileContext";
