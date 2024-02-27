@@ -12,13 +12,18 @@ import { getDatesBetweenRange, removeHyphenEndText } from "../helpers/formats";
 import { MarkedDates } from "react-native-calendars/src/types";
 import { colorsApp } from "../styles/globalColors/GlobalColors";
 import useFetchApi from "../hooks/useFetchApi";
+import { Region } from "react-native-maps";
 
 type PublicationsContextProps = {
   
   homePublication: SearchPublication
+  mapPublication: SearchPublication
   publicationSelected: Publication|undefined
   reserveDays: string[] | []
   loadPublications: (resetSearch?:boolean) => Promise<void>;
+  loadMapPublications: Function;
+  region: Region,
+  setRegion: Function,
   setPublicationSelected: Function
   getVisibleInSubtitle: Function
   loadPublicationsBySlug: (slug: string) => void;
@@ -66,13 +71,29 @@ export const PublicationsProvider = ({children}: any) => {
   const {fetchApi} = useFetchApi()
   
   /* Flujo del home */
-  // publicacionse del home que se llenan desde el loadPublications
+  // publicaciones del home que se llenan desde el loadPublications
   const [homePublication,setHomePublication] = useState<SearchPublication>({
     publications:[],
     isMorePage:true,
     isLoading:false,
     limit:10,
     page:0
+  })
+
+  // publicaciones del home que se llenan desde el loadMapPublications para usarse en la vista tipo mapa
+  const [mapPublication,setMapPublication] = useState<SearchPublication>({
+    publications:[],
+    isMorePage:true,
+    isLoading:false,
+    limit:10,
+    page:0
+  })
+  // para tener los valores aquí cada que se mueve el mapa
+  const [region,setRegion] = useState<Region>({
+    latitude: 4.7110,
+    longitude: -74.0721,
+    latitudeDelta: 0.15,
+    longitudeDelta: 0.15,
   })
   // Informacion necesaria para ppintar los filtros del home
   const [complementFilters, setComplementFilters] = useState<any>()
@@ -199,6 +220,15 @@ export const PublicationsProvider = ({children}: any) => {
     });
   }
 
+  const updateMapPublication = (data: Partial<SearchPublication>) => {
+    setMapPublication((prev) => {
+      return {
+        ...prev,
+        ...data
+      };
+    });
+  }
+
   const formatFilters = () => {
     if (filters) {
       let newFilters = {...filters}
@@ -255,6 +285,49 @@ export const PublicationsProvider = ({children}: any) => {
     }
   }
 
+  const loadMapPublications = async () => {
+    try {
+      if (mapPublication.isLoading) {
+        return
+      }
+      if (!mapPublication.isMorePage) {
+        return
+      }
+      updateMapPublication({isLoading:true});
+      const params:any = {
+        ...formatFilters(),
+        lat: region.latitude,
+        lng: region.longitude,
+        // limit: mapPublication.limit,
+        // page: resetSearch ? 1 : mapPublication.page + 1
+      }
+      const queryString = new URLSearchParams(params).toString()
+  
+      const resp = await fetchApi(`/publication/search-publications?${queryString}`,{
+        method:'GET'
+      })
+  
+      if (resp.code == 200) {
+        let newPublications = [] as Publication[]
+        mapPublication.publications.forEach(publication =>{
+            if (!resp.data.some((item:Publication) => publication.id == item.id)) {
+                newPublications.push(publication)
+            }
+        })
+        updateMapPublication({
+          publications:[...newPublications,...resp.data],
+          page:params.page,
+          // isMorePage: resp.data.length < mapPublication.limit ? false : true
+        });
+      }
+    } catch (error) {
+      console.log('loadMapPublications',error);
+    } finally {
+      updateMapPublication({isLoading:false});
+    }
+
+  }
+
   const updateFavorities =  (data: Partial<SearchPublication>) => {
     setFavorities((prev) => {
       return {
@@ -308,16 +381,22 @@ export const PublicationsProvider = ({children}: any) => {
           // publicaciones general: home
           const findPublication = homePublication.publications.find(item => item.id == publication_id)
           if (findPublication) {
-              findPublication.is_favorite = !findPublication.is_favorite
+            findPublication.is_favorite = !findPublication.is_favorite
+          }
+
+          // publicaciones general: home map
+          const findMapPublication = mapPublication.publications.find(item => item.id == publication_id)
+          if (findMapPublication) {
+            findMapPublication.is_favorite = !findMapPublication.is_favorite
           }
 
           // Publicaciones: favoritos
           let newFavorities = [...favorities.publications]
           const findPublicationFavorite = newFavorities.find(item => item.id == publication_id)
           if (findPublicationFavorite) { //sacar del listado
-              newFavorities = newFavorities.filter(item => item.id != publication_id)
+            newFavorities = newFavorities.filter(item => item.id != publication_id)
           }else{
-              findPublication && newFavorities.push(findPublication)
+            findPublication && newFavorities.push(findPublication)
           }
           updateFavorities({publications:newFavorities})
           // Cuando se agrega o se quita de favoritos desde el detalle de la publicación
@@ -487,10 +566,14 @@ export const PublicationsProvider = ({children}: any) => {
     <PublicationsContext.Provider
       value={{
         homePublication,
+        mapPublication,
         filters,
         updateFilters,
         getComplementFilters,
         loadPublications,
+        loadMapPublications,
+        region,
+        setRegion,
         isLoadingPublicationSlug,
         loadPublicationsBySlug,
         setPublicationSelected,

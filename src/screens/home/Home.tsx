@@ -1,7 +1,7 @@
-import { SafeAreaView, StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
+import { SafeAreaView, StyleSheet, View, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import HeaderButtomComponent from './components/HeaderButtomComponent';
-
+import HeaderButtomComponent from './components/filter/HeaderButtomComponent';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { customStyles } from '../../styles/globalComponentsStyles/GlobalComponentStyles';
 import CustomStatusBarComponent from '../../components/CustomStatusBarComponent';
 import { colorsApp } from '../../styles/globalColors/GlobalColors';
@@ -10,17 +10,15 @@ import ItemPublication from './components/ItemPublication';
 import MapComponent from './components/MapComponent';
 import { PublicationsContext } from '../../context/PublicationContext';
 import ModalFilter from './components/ModalFilter';
+import CustomText from '../../components/generals/CustomText';
 
 const Home = ({ navigation }: any) => {
   const flatListRef = useRef(null);
-
-  const [selectedButton, setSelectedButton] = useState<string | null>('apartaestudio');
-  const [content, setContent] = useState<string[]>([]);
   
-  const [viewMAp, setViewMAp] = useState(false);
+  const [viewMAp, setViewMap] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { homePublication, loadPublications,getComplementFilters, filters } = useContext(PublicationsContext);
+  const { homePublication, loadPublications,getComplementFilters, filters,loadMapPublications } = useContext(PublicationsContext);
 
   useEffect(() => {
     getComplementFilters()
@@ -76,26 +74,28 @@ const Home = ({ navigation }: any) => {
                 renderItem={({item}) => <ItemPublication navigation={navigation} publication={item} />}
 
               />
-            :
-            <MapComponent setModalUseState={setViewMAp} modalUseState={viewMAp} />
+          :
+            <MapComponent setViewMap={setViewMap} />
         }
 
 
-        {/* {
+        {
           !viewMAp &&
-          <TouchableOpacity style={{ ...styles.buttonMap }} onPress={() => setViewMAp(true)}>
+          <TouchableOpacity style={{ ...styles.buttonMap }} onPress={() => setViewMap(true)}>
             <CustomText style={{ ...styles.textButtom }}>
               Mapa
             </CustomText>
-            <Icon name='map' style={{ ...styles.iconMap }}></Icon>
+            <Icon name='google-maps' style={{ ...styles.iconMap }}></Icon>
           </TouchableOpacity>
-        } */}
+        }
       </View>
 
       <ModalFilter 
         modalUseState={isModalVisible} 
         setModalUseState={setIsModalVisible} 
       />
+
+
     </SafeAreaView>
   )
 }
@@ -109,17 +109,16 @@ const styles = StyleSheet.create({
   },
 
   buttonMap: {
-    width: wp('23%'),
-    height: hp('6%'),
-    backgroundColor: colorsApp.blackLeather(0.90),
-    borderRadius: 25,
+    backgroundColor: colorsApp.blackLeather(1),
+    borderRadius: 20,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: 20,
+    bottom: hp(1.5),
     flexDirection: 'row',
-    paddingHorizontal: wp('4')
+    paddingVertical:hp(1),
+    paddingHorizontal:hp(2)
 
   },
   iconMap: {

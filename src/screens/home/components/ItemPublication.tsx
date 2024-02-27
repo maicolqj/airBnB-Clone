@@ -28,9 +28,7 @@ const ItemPublication = React.memo(({ navigation, publication }: Props) => {
       <Pressable style={{ ...styles.buttomContainer }} onPress={() => toggleFavorite(publication.id)}>
         <Icon name={iconName()} style={[styles.iconStyle]} color={iconColor()} ></Icon>
       </Pressable>
-      <View style={{
-        ...styles.sliderContainer
-      }}>
+      <View style={{...styles.sliderContainer}}>
         <AppIntroSlider
           data={publication.images}
           showSkipButton={false}

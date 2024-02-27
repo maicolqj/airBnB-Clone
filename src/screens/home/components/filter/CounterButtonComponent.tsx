@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import CustomText from '../../../components/generals/CustomText';
-import { CountersType } from '../../../types/GlobalTypes';
-import { colorsApp } from '../../../styles/globalColors/GlobalColors';
+import CustomText from '../../../../components/generals/CustomText';
+import { CountersType } from '../../../../types/GlobalTypes';
+import { colorsApp } from '../../../../styles/globalColors/GlobalColors';
 
 interface CounterButtonProps {
     counterName: keyof CountersType;
