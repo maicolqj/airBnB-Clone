@@ -5,7 +5,9 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
 import { ProfileContext } from "../../../../context/ProfileContext";
 import { capitalizeFirstLetter, getFirstWord } from "../../../../helpers/formats";
+import FastImage from "react-native-fast-image";
 
+const imageProfileDefault = require('../../../../assets/system/default/user_default.jpeg');
 const SectionInfoPrincipal = () => {
     const {profile} = useContext(ProfileContext)
 
@@ -17,7 +19,11 @@ const SectionInfoPrincipal = () => {
                 <View style={styles.containerImage}>
                     {
                         profile?.image ?
-                            <Image source={{ uri:profile?.image }}  style={styles.profileImage}/>
+                            <FastImage 
+                                source={{ uri:profile?.image, priority:'high' }}  
+                                style={styles.profileImage} 
+                                defaultSource={imageProfileDefault}
+                            />
                         : 
                             <CustomText  style={styles.textLetter}>{capitalizeFirstLetter(profile?.name ?? '')}</CustomText>
                     }

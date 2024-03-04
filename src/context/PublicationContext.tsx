@@ -383,11 +383,17 @@ export const PublicationsProvider = ({children}: any) => {
           if (findPublication) {
             findPublication.is_favorite = !findPublication.is_favorite
           }
-
           // publicaciones general: home map
           const findMapPublication = mapPublication.publications.find(item => item.id == publication_id)
           if (findMapPublication) {
             findMapPublication.is_favorite = !findMapPublication.is_favorite
+          }
+
+          // Detalle de publicación
+          const publicationDetail = {...publicationSelected} as Publication
+          if (publicationDetail) {
+            publicationDetail.is_favorite = !publicationDetail.is_favorite
+            setPublicationSelected(publicationDetail)
           }
 
           // Publicaciones: favoritos
@@ -399,10 +405,6 @@ export const PublicationsProvider = ({children}: any) => {
             findPublication && newFavorities.push(findPublication)
           }
           updateFavorities({publications:newFavorities})
-          // Cuando se agrega o se quita de favoritos desde el detalle de la publicación
-          // if (publication.value) {
-          //     publication.value.is_favorite = !publication.value.is_favorite;
-          // }
         }
     })
 }

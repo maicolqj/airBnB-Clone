@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, Button, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Button, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
 import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -23,7 +23,7 @@ interface MyProps {
     setShowModal:Function
 }
 const FormIdentity = ({showModal,setShowModal}:MyProps) => {
-
+    
     const {getCountries, countries, getDocumentTypes, documentTypes} = useContext(ProfileContext)
 
     const {loadingApi,respApi,fetchApi} = useFetchApi()
@@ -108,6 +108,7 @@ const FormIdentity = ({showModal,setShowModal}:MyProps) => {
                 })
                 
                 if (resp.status) {
+                    Alert.alert("Tu solicitud de verificación de identidad se encuentra en revisión")
                     closeModal()
                     clearState()
                 }else{

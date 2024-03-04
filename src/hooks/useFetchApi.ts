@@ -1,15 +1,14 @@
 import { useContext, useState } from 'react';
 import { respApi } from '../interfaces/GlobalInterfaces';
 import { AuthContext } from '../context/AuthContext';
+import { PATH_SERVER } from '../../config';
+
 
 interface ConfigFetch {
     method: "POST" | "GET" | "PUT";
     body?: any;
     headers?: any;
 }
-//const PATH_SERVER = "https://dev.alquilapp.com.co"; //Dev
-const PATH_SERVER = "http://192.168.0.9:9004"; // Local
-
 const baseUrl = `${PATH_SERVER}/api`;
 
 const useFetchApi = () => {

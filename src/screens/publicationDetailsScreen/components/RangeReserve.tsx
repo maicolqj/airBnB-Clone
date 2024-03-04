@@ -84,6 +84,7 @@ const RangeReserve = () => {
                                 minDate={minDate}
                                 maxDate={maxDate}
                                 calendarWidth={wp(85)}
+                                // displayLoadingIndicator={true}
                                 theme={{
                                     backgroundColor: '#ffffff',
                                     calendarBackground: '#ffffff',

@@ -25,6 +25,7 @@ export interface Publication {
     updated_at:            string;
     images:                Image[];
     rel_ubicacion:         RelUbicacion;
+    location:         RelUbicacion;
     price:                 Price;
     qualification: number;
     user: User;
@@ -32,6 +33,8 @@ export interface Publication {
     city: City
     rel_categoria: Category
     is_favorite:boolean
+    services: Array <Service>
+    share_url?: string
 }
 
 export interface Category {
@@ -63,6 +66,8 @@ export interface RelUbicacion {
     address_component: string;
     longitude:         string;
     latitude:          string;
+    show_exact_point_publication: boolean
+    ratio: number
 }
 
 
@@ -146,4 +151,13 @@ export interface File {
     uri:any,
     name:any,
     type:any
+}
+
+export interface Service {
+    id: Number
+    name: String,
+    icon: String
+    selected: Boolean
+    required_price: Boolean
+    price: number
 }

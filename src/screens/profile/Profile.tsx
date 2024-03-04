@@ -74,7 +74,7 @@ const Profile = () => {
                 <SectionValidateIdentity/>
 
                 {/* Interes y deportes */}
-                <View style={{marginHorizontal:hp(3.5)}}>
+                {getAllInterestAndSport().length > 0 && (<View style={{marginHorizontal:hp(3.5)}}>
                     <CustomText style={styles.title}>Pregúntale a {getFirstWord(profile?.name ?? '')} acerca de...</CustomText>
 
                     <View style={styles.containerWrap}>
@@ -86,7 +86,7 @@ const Profile = () => {
                             ))
                         }
                     </View>
-                </View>
+                </View>)}
 
                 <TouchableOpacity
                     style={{

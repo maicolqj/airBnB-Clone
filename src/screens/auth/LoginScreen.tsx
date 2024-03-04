@@ -15,7 +15,7 @@ const Login = () => {
     const logo = require("../../assets/system/logos/logo.png")
     const [hidePass,setHidePass] = useState(true);
     const {email,password, onChange} = useForm({
-        email:'david.raga@alquilapp.com',
+        email:'david.raga@Alquilapp.com',
         password:'password'
     })
     const {loadingLogin,signIn,validationMessage, setValidationMessage} = useContext(AuthContext)

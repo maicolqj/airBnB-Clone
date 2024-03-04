@@ -15,7 +15,6 @@ const Favorities = ({navigation}:Props) => {
     useEffect(()=>{
         loadFavorities()
     },[])
-
     const handleScrollEnd = (event: any) => {
         if (favorities.isLoading || !favorities.isMorePage) {
           return;
