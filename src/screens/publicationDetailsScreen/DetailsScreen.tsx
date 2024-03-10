@@ -40,6 +40,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
     selectedStartDate,
     selectedEndDate
   } = useContext(PublicationsContext)
+  //Obtener publication que llega por props
   const location = route.params.publication;
 
   const [viewAllImage, setViewAllImage] = useState(false)

@@ -1,17 +1,16 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Pressable } from "react-native";
-import CustomText from "./generals/CustomText";
 import { colorsApp } from "../styles/globalColors/GlobalColors";
 
 interface Props {
-    title: string
+    children: ReactNode
     onPressBack?: () => void
 }
 
-const CustomHeader = ({title, onPressBack}: Props) => {
+const CustomHeader = ({children, onPressBack}: Props) => {
     return (
         <View style={{
                 ...styles.header,
@@ -22,15 +21,13 @@ const CustomHeader = ({title, onPressBack}: Props) => {
                 onPressBack &&
                 <Pressable
                     onPress={() => onPressBack() }
-                    style={{    
-                        paddingEnd:hp(12)
-                    }}
+                    style={{ paddingEnd:hp(2) }}
                 >
-                    <Icon name={'chevron-back'} style={{fontSize:hp(3)}}></Icon>
+                    <Icon name={'chevron-back'} style={{fontSize:hp(2.5)}}></Icon>
                 </Pressable>
 
             }
-            <CustomText style={{fontWeight:'500'}}>{title}</CustomText>
+            {children}
         </View>
     )
 }

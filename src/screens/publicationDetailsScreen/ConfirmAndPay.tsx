@@ -133,7 +133,9 @@ const ConfirmAndPay = ({navigation}: Props) => {
     return (
         <SafeAreaView style={customStyles.safeArea}>
             {/* Header */}
-            <CustomHeader title="Confirma y paga" onPressBack={handlerBack}></CustomHeader>
+            <CustomHeader onPressBack={handlerBack}>
+                <CustomText style={{fontWeight:'500'}}>Confirma y paga</CustomText>
+            </CustomHeader>
             <ScrollView style={{}}>
                 {/* Seccion de imagen */}
                 <ImageAndTitle/>

@@ -55,7 +55,9 @@ const ReserveDetail = ({navigation, route}:Props) => {
 
     return (
         <SafeAreaView style={customStyles.safeArea}>
-            <CustomHeader title={`Reserva ${reserveSelected?.id}` } onPressBack={handlerBack}></CustomHeader>
+            <CustomHeader onPressBack={handlerBack}>
+                <CustomText style={{fontWeight:'500'}}>{`Reserva ${reserveSelected?.id}` }</CustomText>
+            </CustomHeader>
 
             {
                 isLoadingReserveDetail ? 

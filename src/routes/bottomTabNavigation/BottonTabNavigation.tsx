@@ -13,20 +13,19 @@ import Home from '../../screens/home/Home';
 import CustomText from '../../components/generals/CustomText';
 import { ScreenProps } from 'react-native-screens';
 import Favorities from '../../screens/favorities/Favorities';
-import Messages from '../../screens/messages/Messages';
 import Profile from '../../screens/profile/Profile';
 import Reserves from '../../screens/reserves/Reserves';
+import Contacts from '../../screens/messages/Contacts';
 
 
 
 export type RootBottomTabsNavigator = {
     Home: undefined,
     Favorites: undefined,
-    Messages: undefined,
+    Contacts: undefined,
     Profile: undefined,
     Reserves: undefined
 }
-const BottomTabAndroid = createMaterialBottomTabNavigator<RootBottomTabsNavigator>();
 const BottomTabIos = createBottomTabNavigator<RootBottomTabsNavigator>();
 
 const renderLabel = (focused:boolean, routName:string) => {
@@ -41,7 +40,7 @@ const renderLabel = (focused:boolean, routName:string) => {
         case 'Reserves':
             title = 'Viajes'
             break;
-        case 'Messages':
+        case 'Contacts':
             title = 'Mensajes'
             break;
         case 'Profile':
@@ -65,7 +64,7 @@ const renderIcon = (focused:boolean, routName:string) => {
         case 'Reserves':
             iconName = 'rocket-outline'
             break;
-        case 'Messages':
+        case 'Contacts':
             iconName = 'chatbox-outline'
             break;
         case 'Profile':
@@ -101,39 +100,12 @@ const BottomTabNavigationIos = () => {
             <BottomTabIos.Screen name='Home' component={Home}  />
             <BottomTabIos.Screen name='Favorites' component={Favorities} />
             <BottomTabIos.Screen name='Reserves' component={Reserves} />
-            <BottomTabIos.Screen name='Messages' component={Messages} />
+            <BottomTabIos.Screen name='Contacts' component={Contacts} />
             <BottomTabIos.Screen name='Profile' component={Profile} />
         </BottomTabIos.Navigator>
     )
 }
 
-const BottomTabNavigationAndroid = () => {
-    return (
-        <BottomTabAndroid.Navigator   screenOptions={({ route }) => ({
-                // tabBarLabel: ({focused }) => renderLabel(focused, route.name),
-                tabBarIcon: ({focused }) => renderIcon(focused, route.name),
-            })}
-            // activeColor={colorsApp.blackLeather()}
-            // sceneAnimationType='opacity'
-            // sceneAnimationEnabled={true}
-            labeled={true}
-            
-            barStyle={{
-              backgroundColor: '#fff',
-            //   elevation: 2,
-              borderTopWidth: 0.9,
-              borderColor: 'rgba(0,0,0,0.05)',
-            //   paddingVertical: hp(0.1),             
-            }}
-            
-        >
-            <BottomTabAndroid.Screen name='Home' component={Home}  />
-            <BottomTabAndroid.Screen name='Favorites' component={Home} />
-            <BottomTabAndroid.Screen name='Messages' component={Home} />
-            <BottomTabAndroid.Screen name='Profile' component={Home} />
-        </BottomTabAndroid.Navigator>
-    )
-}
 
-export const botomTabs =
-  Platform.OS === 'ios' ? BottomTabNavigationIos : BottomTabNavigationIos;
+
+export const botomTabs = BottomTabNavigationIos

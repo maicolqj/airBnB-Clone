@@ -4,6 +4,7 @@ import InitialStackNavigation from './src/routes/stackNavigation/InitialStackNav
 import { AuthProvider } from './src/context/AuthContext'
 import { ReserveProvider } from './src/context/ReserveContext'
 import { ProfileProvider } from './src/context/ProfileContext'
+import { ChatProvider } from './src/context/ChatContext'
 
 
 const AppContextState = ({children}: any) => {
@@ -12,7 +13,9 @@ const AppContextState = ({children}: any) => {
       <PublicationsProvider>
         <ReserveProvider>
           <ProfileProvider>
-            {children}  
+            <ChatProvider>
+              {children}  
+            </ChatProvider>
           </ProfileProvider>
         </ReserveProvider>
       </PublicationsProvider>

@@ -7,10 +7,14 @@ import { ReserveContext } from "../../../context/ReserveContext";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/native";
 import FastImage from "react-native-fast-image";
+import { Contact } from "../../../interfaces/Chat";
+import { AuthContext } from "../../../context/AuthContext";
 
 
 const DateSection = () =>{
     const {reserveSelected} = useContext(ReserveContext)
+
+    const {user} = useContext(AuthContext)
 
     const navigation = useNavigation<any>()
 
@@ -27,6 +31,25 @@ const DateSection = () =>{
             return `${diaSemana}, ${dia} de ${mes}. de ${anio}`;
         }
         return ''
+    }
+
+    const handlerGoChat = () =>{
+        if (user && reserveSelected) {
+            let contact:Contact = {
+
+                to_user_id:reserveSelected?.publication.user.id,
+                to_user:reserveSelected.publication.user,
+                from_user_id: user.id,
+                from_user:user,
+                isSelected:true,
+                reserve_id: reserveSelected.id,
+                messages:[]
+            }
+            
+            if (contact.to_user_id != contact.from_user_id) {
+                navigation.navigate('ContactMessages', {contact:contact,isNewContact:true})
+            }
+        }
     }
 
     return (
@@ -47,6 +70,25 @@ const DateSection = () =>{
                         Ir al anuncio
                     </CustomText>
                 </Pressable>
+
+                {reserveSelected?.can_chat && (
+                    <Pressable
+                        style={{
+                            marginTop:hp(1),
+                            backgroundColor:colorsApp.primary(),
+                            padding:hp(1),
+                            borderRadius:10,
+                            flexDirection:'row',
+                            alignItems:'center'
+                        }}
+                        onPress={() => handlerGoChat()}
+                    >
+                        <Icon name='chatbubble-ellipses-outline' size={hp(2)} color="white" ></Icon>
+                        <CustomText style={{color:'white',marginLeft:wp(2)}}>
+                            Chatea con el anfitrión
+                        </CustomText>
+                    </Pressable>
+                )}
             </View>
             <View >
                 <FastImage

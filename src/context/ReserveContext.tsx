@@ -6,7 +6,7 @@ type ReserveContextProps = {
     dataReserve:DataSearchReserve
     reserveSelected:Reserve|null
     isLoadingReserveDetail:boolean,
-    loadReserves:() => void
+    loadReserves:(isRefresh?:boolean) => void
     loadReserveById:(id:number, addReserveList?:boolean) => void
     clearStore:Function
 }
@@ -29,9 +29,9 @@ export const  ReserveProvider = ({ children }:  any) =>{
     const [reserveSelected, setReserveSelected] = useState<Reserve|null>(null)
     const [isLoadingReserveDetail, setIsLoadingReserveDetail] = useState<boolean>(false)
 
-    const loadReserves = async() => {
+    const loadReserves = async(isRefresh=false) => {
         try {
-            if (dataReserve.isLoading || !dataReserve.isMorePage) {
+            if (dataReserve.isLoading || !dataReserve.isMorePage && !isRefresh) {
                 return
             }
             setDataReserve((prevData) => {
@@ -39,8 +39,9 @@ export const  ReserveProvider = ({ children }:  any) =>{
             })
             const params:any = {
               limit:dataReserve.limit,
-              page:dataReserve.page + 1
+              page:isRefresh ? 1 : dataReserve.page + 1
             }
+            
             const resp = await fetchApi(`/guest/reserves/history`,{
               method:'POST',
               body:params
@@ -55,7 +56,7 @@ export const  ReserveProvider = ({ children }:  any) =>{
                     return {
                         ...prevData, 
                         page: params.page,
-                        reserves: [...prevData.reserves, ...uniqueNewData]
+                        reserves: isRefresh ? resp.data.data : [...prevData.reserves, ...uniqueNewData]
                     }
                 })
                 if (resp.data.data.length < dataReserve.limit) {

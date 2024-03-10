@@ -39,9 +39,9 @@ export interface OptionProfile {
   }
   
   export interface User {
-    id?: Number
-    name?: string;
-    email?: string;
+    id: Number
+    name: string;
+    email: string;
     phone?:string;
     password?: string;
     token?: string;

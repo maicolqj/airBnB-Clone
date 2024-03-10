@@ -1,4 +1,5 @@
-import { Publication, User } from "./GlobalInterfaces"
+import { Publication } from "./GlobalInterfaces"
+import { User } from "./UserInterfaces"
 
 export interface DataSearchReserve {
     limit:number
@@ -37,4 +38,5 @@ export interface Reserve {
     reserve_days:Array<ReserveDays>
     guest_quantity: number
     match_url_response:string
+    can_chat:boolean
 }

@@ -10,6 +10,8 @@ import Init from '../../components/splash/Init';
 import ConfirmAndPay from '../../screens/publicationDetailsScreen/ConfirmAndPay';
 import ReserveDetail from '../../screens/reserves/ReserveDetail';
 import { Reserve } from '../../interfaces/ReserveInterface';
+import { Contact } from '../../interfaces/Chat';
+import ContactMessages from '../../screens/messages/ContactMessages';
 
 export type RootInitialStackParams = RootBottomTabsNavigator & {
     Init:undefined
@@ -20,6 +22,7 @@ export type RootInitialStackParams = RootBottomTabsNavigator & {
     ConfirmAndPay: undefined
     ReserveDetail:{reserve: Reserve, addReserveList?:boolean}
     DetailsScreen: {publication: Publication}
+    ContactMessages:{contact:Contact, isNewContact?:boolean}
 }
 
 const Stack = createStackNavigator<RootInitialStackParams>();
@@ -50,6 +53,9 @@ const InitialStackNavigation = () => {
 
                         {/* Rutas para el detalle de una reserva */}
                         <Stack.Screen name='ReserveDetail' component={ReserveDetail} />
+
+                        {/* Ruta para ver los mensajes de un ocntacto  */}
+                        <Stack.Screen name='ContactMessages' component={ContactMessages} />
                         
 
                     </>
