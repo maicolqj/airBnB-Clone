@@ -161,3 +161,9 @@ export interface Service {
     required_price: Boolean
     price: number
 }
+
+
+export interface GeneralApi {
+    isLoading:boolean,
+    resp:respApi
+}

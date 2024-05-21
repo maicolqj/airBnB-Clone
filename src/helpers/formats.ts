@@ -3,6 +3,11 @@ import 'moment/locale/es';
 import { File } from "../interfaces/GlobalInterfaces";
 import { Asset } from "react-native-image-picker";
 
+export const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+export const regexNumber = /^[0-9]+$/;
+export const regex10Digits = /^[0-9]{10}$/
+export const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+
 
 export const formatCurrency = (price:number) =>{
     const formatoMonedaColombiana = new Intl.NumberFormat("es-CO", {
@@ -74,6 +79,16 @@ export const imageToBackend = (file:Asset|undefined):File|null => {
       return { uri: file.uri, name: file.fileName, type:file.type }
   }
   return null
+}
+
+export const isNumber = (text:any) =>{
+  // Expresión regular para validar si una cadena representa un número
+  return regexNumber.test(text);
+}
+
+export const isEmail = (text:any) =>{
+  // Expresión regular para validar si una cadena representa un número
+  return regexEmail.test(text);
 }
 
 export const formatEsCalendar = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-native-modal";
 import CustomText from "./CustomText";
-import { Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,14 +9,15 @@ import IconIonic from 'react-native-vector-icons/Ionicons';
 
 
 interface MyProps {
-    placeholder?:boolean
+    placeholder?:string
     options:any[]
     keyObject?:any
     labelObject?:any 
     onChange:Function
-    value:any
+    value:any,
+    customStyleInput?:ViewStyle
 }
-const CustomSelect = ({keyObject='id', labelObject='name', placeholder,options, value, onChange, }:MyProps) => {
+const CustomSelect = ({keyObject='id', labelObject='name', placeholder,options, value, onChange,customStyleInput }:MyProps) => {
     const [showSelect,setShowSelect] = useState(false)
 
     const isSelected = (option:any) => {
@@ -33,7 +34,7 @@ const CustomSelect = ({keyObject='id', labelObject='name', placeholder,options, 
         <View>
             <TouchableOpacity 
                 onPress={() => setShowSelect(!showSelect)}
-                style={styles.inputSelect}
+                style={{...styles.inputSelect,...customStyleInput}}
             >
                 {
                     value ? 
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
         color: 'black',
         padding: hp(1.5),
         width:'100%',
-        backgroundColor:colorsApp.light(0.2),
+        backgroundColor:colorsApp.light(0.1),
         borderRadius: hp(1),
         // marginVertical: 10,
         paddingHorizontal: hp(1.2),

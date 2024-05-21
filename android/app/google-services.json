@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "75001478875",
+    "project_id": "alquilapp-test-46600",
+    "storage_bucket": "alquilapp-test-46600.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75001478875:android:9f63808eaeb2c58fa156fe",
+        "android_client_info": {
+          "package_name": "com.alquilapp.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75001478875-2j5jbhn4u4mh47po4ejenbtubvn7nst1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMuc_rzLu5CGMs7yL8owaxdfIorkGyvec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75001478875-2j5jbhn4u4mh47po4ejenbtubvn7nst1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

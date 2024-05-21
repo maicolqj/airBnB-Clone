@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { respApi } from '../interfaces/GlobalInterfaces';
 import { AuthContext } from '../context/AuthContext';
 import { PATH_SERVER } from '../../config';
+import { Platform } from 'react-native';
 
 
 interface ConfigFetch {
@@ -26,6 +27,7 @@ const useFetchApi = () => {
             
             config.headers = {
                 'XMLHttpRequest': 'X-Requested-With',
+                'deviceName': Platform.OS,
                 ...config.headers
             };
             if (token) {

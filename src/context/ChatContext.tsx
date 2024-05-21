@@ -119,6 +119,8 @@ export const  ChatProvider = ({ children }:  any) =>{
                 if (resp.data.data.length < searchMessage.limit) {
                     isMorePage = false
                 }
+                // console.log('getMessages',resp);
+                
                 updateSearchMessage({
                     page:page,
                     isMorePage:isMorePage, 

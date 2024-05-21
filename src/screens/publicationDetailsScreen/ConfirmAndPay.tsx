@@ -75,8 +75,11 @@ const ConfirmAndPay = ({navigation}: Props) => {
         })
     }
 
-    const finishPayInWebView = (navState:WebViewNavigation) => {
-        if (reserve && navState.url.includes(reserve.match_url_response)) {
+    const finishPayInWebView = (navState?:WebViewNavigation,isBack?:boolean) => {
+        console.log('match_title_response',reserve?.match_title_response);
+        console.log('aqui finishPayInWebView',navState);
+        
+        if (reserve && ((navState && navState.title == reserve.match_title_response) ||  isBack)) {
             navigation.navigate('ReserveDetail', {reserve: reserve,addReserveList:true})
 
             clearStore()
@@ -114,7 +117,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
             
             setReserve(resp.data)
             if (resp.data.interactive) { // si la reserva no es automática
-                Alert.alert('¡Gracias por tu reserva! Hemos recibido tu solicitud y ahora está pendiente de la validación del anfitrión. Te notificaremos tan pronto como haya una actualización. Mientras tanto, siéntete libre de explorar otras opciones.')
+                Alert.alert('Notificación!','¡Gracias por tu reserva! Hemos recibido tu solicitud y ahora está pendiente de la validación del anfitrión. Te notificaremos tan pronto como haya una actualización. Mientras tanto, siéntete libre de explorar otras opciones.')
                 navigation.navigate('Home')
                 return
             }
@@ -176,7 +179,8 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 show={showWebView}
                 setShow={SetShowWebView}
                 urlRedirect={urlRedirect ?? ''}
-                onNavigationStateChange={finishPayInWebView}
+                // onNavigationStateChange={() => finishPayInWebView}
+                finishPayInWebView={finishPayInWebView}
             />
         </SafeAreaView>
     )

@@ -4,7 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { RootBottomTabsNavigator, botomTabs } from '../bottomTabNavigation/BottonTabNavigation';
 import DetailsScreen from '../../screens/publicationDetailsScreen/DetailsScreen';
 import { Publication } from '../../interfaces/GlobalInterfaces';
-import Login from '../../screens/auth/LoginScreen';
 import { AuthContext } from '../../context/AuthContext';
 import Init from '../../components/splash/Init';
 import ConfirmAndPay from '../../screens/publicationDetailsScreen/ConfirmAndPay';
@@ -12,12 +11,15 @@ import ReserveDetail from '../../screens/reserves/ReserveDetail';
 import { Reserve } from '../../interfaces/ReserveInterface';
 import { Contact } from '../../interfaces/Chat';
 import ContactMessages from '../../screens/messages/ContactMessages';
+import LoginOption from '../../screens/auth/LoginOption';
+import Register from '../../screens/auth/Register';
 
 export type RootInitialStackParams = RootBottomTabsNavigator & {
     Init:undefined
     botomTabs: undefined
     SearchScreen: undefined
-    Login: undefined
+    LoginOption: undefined
+    Register: undefined
     Favorites: undefined
     ConfirmAndPay: undefined
     ReserveDetail:{reserve: Reserve, addReserveList?:boolean}
@@ -40,7 +42,9 @@ const InitialStackNavigation = () => {
                     :
                     !isAuthenticated ?
                     <>
-                        <Stack.Screen name='Login' component={Login} />
+                        {/* Proceso de login con las distintas opciones */}
+                        <Stack.Screen name='LoginOption' component={LoginOption} />
+                        {/* <Stack.Screen name='Register' component={Register} /> */}
                     </>
                     :
                     <>

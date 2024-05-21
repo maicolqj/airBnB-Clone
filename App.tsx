@@ -5,6 +5,7 @@ import { AuthProvider } from './src/context/AuthContext'
 import { ReserveProvider } from './src/context/ReserveContext'
 import { ProfileProvider } from './src/context/ProfileContext'
 import { ChatProvider } from './src/context/ChatContext'
+import { CommonsProvider } from './src/context/CommonsContext'
 
 
 const AppContextState = ({children}: any) => {
@@ -14,7 +15,9 @@ const AppContextState = ({children}: any) => {
         <ReserveProvider>
           <ProfileProvider>
             <ChatProvider>
-              {children}  
+              <CommonsProvider>
+                {children}  
+              </CommonsProvider>
             </ChatProvider>
           </ProfileProvider>
         </ReserveProvider>

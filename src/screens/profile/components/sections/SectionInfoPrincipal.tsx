@@ -4,13 +4,13 @@ import CustomText from "../../../../components/generals/CustomText";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
 import { ProfileContext } from "../../../../context/ProfileContext";
-import { capitalizeFirstLetter, getFirstWord } from "../../../../helpers/formats";
+import { capitalizeFirstLetter, getFirstWord, isNumber } from "../../../../helpers/formats";
 import FastImage from "react-native-fast-image";
 
 const imageProfileDefault = require('../../../../assets/system/default/user_default.jpeg');
 const SectionInfoPrincipal = () => {
     const {profile} = useContext(ProfileContext)
-
+    
     return (
       
         <View style={styles.container}>
@@ -39,7 +39,7 @@ const SectionInfoPrincipal = () => {
                 {/* Division */}
                 <View style={styles.divider}></View>
 
-                <CustomText style={styles.textName}>{profile?.age_in_pltform ?? 0}</CustomText>
+                <CustomText style={styles.textName}>{isNumber(profile?.age_in_pltform) ? profile?.age_in_pltform : 0}</CustomText>
                 <CustomText style={{fontSize:hp(1.5)}}>Años en Alquilap</CustomText>
             </View>
         </View>

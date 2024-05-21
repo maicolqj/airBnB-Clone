@@ -6,29 +6,30 @@ import { Pressable } from "react-native";
 import { colorsApp } from "../styles/globalColors/GlobalColors";
 
 interface Props {
+    IoniconsName?:string
     children: ReactNode
     onPressBack?: () => void
 }
 
-const CustomHeader = ({children, onPressBack}: Props) => {
+const CustomHeader = ({IoniconsName,children, onPressBack}: Props) => {
     return (
-        <View style={{
+        <Pressable style={{
                 ...styles.header,
                 justifyContent: onPressBack ? 'flex-start' : 'center'
             }}
+            onPress={() => onPressBack && onPressBack() }
         >
             {
                 onPressBack &&
-                <Pressable
-                    onPress={() => onPressBack() }
-                    style={{ paddingEnd:hp(2) }}
+                <View
+                   
+                    style={{ paddingEnd:hp(0.5) }}
                 >
-                    <Icon name={'chevron-back'} style={{fontSize:hp(2.5)}}></Icon>
-                </Pressable>
-
+                    <Icon name={IoniconsName ?? 'chevron-back'} style={{fontSize:hp(2.5)}}></Icon>
+                </View>
             }
             {children}
-        </View>
+        </Pressable>
     )
 }
 const styles = StyleSheet.create({

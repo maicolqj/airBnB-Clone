@@ -1,4 +1,4 @@
-import { Platform, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Platform, SafeAreaView, StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from "react";
 import moment from 'moment';
@@ -8,8 +8,10 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 type MyProps = {
     date:any,
     setDate:Function
+    btnStyle?: ViewStyle
+    textStyle?: TextStyle
 }
-export const CustomDateTime = ({ date, setDate }: MyProps  ) => {
+export const CustomDateTime = ({ date, setDate,btnStyle,textStyle }: MyProps  ) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     
     const onChange = (event: any, selectedDate: any) => {
@@ -33,8 +35,8 @@ export const CustomDateTime = ({ date, setDate }: MyProps  ) => {
                 </View>
             ) : (
                 <View>
-                    <TouchableOpacity style={styles.btnHours} onPress={() => setShowDatePicker(true)} >
-                        <CustomText style={styles.textHours}>
+                    <TouchableOpacity style={{...styles.btnHours,...btnStyle}} onPress={() => setShowDatePicker(true)} >
+                        <CustomText style={{...styles.textHours,...textStyle}}>
                             {moment(date).format('YYYY-MM-DD')}
                         </CustomText>
                     </TouchableOpacity>

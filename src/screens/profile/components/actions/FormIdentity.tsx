@@ -1,20 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Button, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
 import { colorsApp } from "../../../../styles/globalColors/GlobalColors";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomText from "../../../../components/generals/CustomText";
-import { ItemInterestProfile } from "../../../../interfaces/UserInterfaces";
-import { DataUpdateProfile, ProfileContext } from "../../../../context/ProfileContext";
+import { ProfileContext } from "../../../../context/ProfileContext";
 import { File, respApi } from "../../../../interfaces/GlobalInterfaces";
 import CustomSelect from "../../../../components/generals/CustomSelect";
 import CustomRadio from "../../../../components/generals/CustomRadio";
 import TakeImage from "../../../../components/file/TakeImge";
-import { Asset, ImagePickerResponse } from "react-native-image-picker";
+import { ImagePickerResponse } from "react-native-image-picker";
 import { imageToBackend } from "../../../../helpers/formats";
 import FastImage from "react-native-fast-image";
-import { AvatarIconProps } from "react-native-paper";
 import useFetchApi from "../../../../hooks/useFetchApi";
 
 

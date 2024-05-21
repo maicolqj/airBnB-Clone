@@ -35,6 +35,7 @@ const ContactMessages = ({navigation,route}:Props) => {
         searchMessage,
         loadingSendMessage,
         sendMessage,
+        updateSearchMessage
     } = useContext(ChatContext)
 
     // valor del input en el que se esta escribiendo
@@ -53,7 +54,10 @@ const ContactMessages = ({navigation,route}:Props) => {
      // Buscar los mensajes
     useEffect(()=>{
         if (currentContact) {
-            getMessages(true)
+            // console.log('currentContact',currentContact);
+            (async () => {
+                await getMessages(true)
+            })()
         }
     },[currentContact])
 
@@ -71,6 +75,7 @@ const ContactMessages = ({navigation,route}:Props) => {
     // para consultar nuevamente los contactos cundo se hace refresh
     useEffect(()=>{
         if (refreshing) {
+            console.log('refreshing',currentContact);
             getMessages()
         }
     },[refreshing])

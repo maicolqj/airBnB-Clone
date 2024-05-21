@@ -68,3 +68,26 @@ export interface OptionProfile {
     document_type:any
     
   }
+
+  export type LoginEmailParams = {
+    email:string,
+    password:string,
+    device_name?:string
+  }
+
+  export type LoginPhoneParams = {
+    phone:string,
+    code:string,
+    device_name?:string
+  }
+
+  export type RegisterUser = {
+    first_name: string
+    last_name: string
+    email: string
+    phone: string
+    birthdate: string
+    password:string
+    password_confirmation: string,
+    terms: boolean
+  }
