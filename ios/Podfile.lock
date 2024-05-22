@@ -573,8 +573,8 @@ PODS:
   - RNGestureHandler (2.13.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNGoogleSignin (11.0.0):
-    - GoogleSignIn (~> 7.0)
+  - RNGoogleSignin (11.0.1):
+    - GoogleSignIn (~> 7.0.0)
     - React-Core
   - RNPermissions (4.1.2):
     - React-Core
@@ -932,7 +932,7 @@ SPEC CHECKSUMS:
   RNDateTimePicker: fc2e4f2795877d45e84d85659bebe627eba5c931
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: 6e46dde1f87e5f018a54fe5d40cd0e0b942b49ee
-  RNGoogleSignin: fc408799f1990a12497a32f64280c0fe353ffcc1
+  RNGoogleSignin: 24d3b3261f78b0fae0aa013f8ab6f8d25e369b0c
   RNPermissions: 02fc4780a8d8a28764414d7c050b27ce07f38897
   RNReanimated: ab2e96c6d5591c3dfbb38a464f54c8d17fb34a87
   RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581

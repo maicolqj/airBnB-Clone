@@ -44,7 +44,7 @@ const InitialStackNavigation = () => {
                     <>
                         {/* Proceso de login con las distintas opciones */}
                         <Stack.Screen name='LoginOption' component={LoginOption} />
-                        {/* <Stack.Screen name='Register' component={Register} /> */}
+                        <Stack.Screen name='Register' component={Register} />
                     </>
                     :
                     <>

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, Alert, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Platform, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import CustomText from "../../components/generals/CustomText";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootInitialStackParams } from "../../routes/stackNavigation/InitialStackNavigation";
 import CustomHeader from "../../components/CustomHeader";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import CustomInput from "../../components/generals/CustomInput";
 import { useForm } from "../../hooks/useForm";
 import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
@@ -202,6 +202,11 @@ const Register = ({navigation}:Props) => {
                     {/* Terminos y condiciones */}
                     <View style={{flexDirection:'row', alignItems:'center'}}>
                         <CheckBox
+                            // tintColor={colorsApp.primary()}
+                            onCheckColor={colorsApp.primary()}
+                            // onFillColor={colorsApp.light()}
+                            onTintColor={colorsApp.primary()}
+                            style={styles.checkBox}
                             disabled={false}
                             value={terms}
                             onValueChange={(value:boolean) => onChange("terms",value)}
@@ -287,6 +292,17 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start',
         alignItems:'flex-start',
         paddingHorizontal: hp(1.2),
+    },
+    
+    checkBox:{
+        ...Platform.select({
+            ios:{
+                // width:hp(2),
+                // height:hp(2),
+                marginEnd:wp(2)
+            }
+        })
     }
+
 })
 export default Register

@@ -18,7 +18,7 @@ import { getFirstWord } from "../../helpers/formats";
 
 
 const Profile = () => {
-    const {profile, getProfile,getInterests,getAllInterestAndSport} = useContext(ProfileContext)
+    const {profile, getProfile,getInterests,getAllInterestAndSport,clearStore} = useContext(ProfileContext)
     const {logout} = useContext(AuthContext)
 
     const [showModalProfile, setShowModalProfile] = useState<boolean>(false)
@@ -26,6 +26,11 @@ const Profile = () => {
         getProfile()
         getInterests()
     },[])
+
+    const signOut = () => {
+        clearStore()
+        logout()
+    }
     return (
         <SafeAreaView style={customStyles.safeArea}>
             <ScrollView style={styles.container}>
@@ -93,7 +98,7 @@ const Profile = () => {
                         marginHorizontal:hp(3.5),
                         marginVertical:hp(2.5)
                     }}
-                    onPress={()=>logout()}
+                    onPress={()=>signOut()}
                 >
                     <CustomText style={styles.textLogout}>Cerrar sesión</CustomText>
                 </TouchableOpacity>

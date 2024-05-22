@@ -76,9 +76,6 @@ const ConfirmAndPay = ({navigation}: Props) => {
     }
 
     const finishPayInWebView = (navState?:WebViewNavigation,isBack?:boolean) => {
-        console.log('match_title_response',reserve?.match_title_response);
-        console.log('aqui finishPayInWebView',navState);
-        
         if (reserve && ((navState && navState.title == reserve.match_title_response) ||  isBack)) {
             navigation.navigate('ReserveDetail', {reserve: reserve,addReserveList:true})
 
@@ -111,8 +108,6 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 method:'POST',
                 body:data
             })
-            console.log('resp',resp);
-            
             throw_if(!resp.status, resp.message)
             
             setReserve(resp.data)

@@ -1,9 +1,10 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginEmailParams, LoginPhoneParams, RegisterUser, User } from '../interfaces/UserInterfaces';
 import useFetchApi from '../hooks/useFetchApi';
-import { GeneralApi, respApi } from '../interfaces/GlobalInterfaces';
+import { respApi } from '../interfaces/GlobalInterfaces';
 import { Platform } from 'react-native';
+
 
 type AuthContextProps = {
     isAuthenticated: boolean
@@ -116,8 +117,6 @@ export const  AuthProvider = ({ children }:  any) =>{
                 method:'POST',
                 body:{ token, device_name }
             })
-            console.log('resp',resp);
-            
             if (resp.status) {
                 setRespLogin(resp)
             }else{
@@ -178,10 +177,14 @@ export const  AuthProvider = ({ children }:  any) =>{
 
 
     const logout = async () => {
-        setIsAuthenticated(false)
-        setUser(undefined)
-        AsyncStorage.removeItem('token')
-        AsyncStorage.removeItem('user')
+        try {
+            setIsAuthenticated(false)
+            setUser(undefined)
+            await AsyncStorage.removeItem('token')
+            await AsyncStorage.removeItem('user')
+        } catch (error:any) {
+        }
+        
     }
 
 

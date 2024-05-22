@@ -37,7 +37,6 @@ const ModalTerms = ({show,setShow,urlRedirect}:MyProps) => {
                         source={{ uri: urlRedirect }}
                         style={styles.webView}
                         startInLoadingState={true}
-                        
                     >
                     </WebView>
                 </View>
@@ -54,8 +53,8 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
     },
     webView:{
-        borderTopLeftRadius:30, 
-        borderTopRightRadius:30, 
+        // borderTopLeftRadius:30, 
+        // borderTopRightRadius:30, 
     }
 })
 
