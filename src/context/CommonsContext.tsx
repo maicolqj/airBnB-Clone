@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { InterestProfiles } from '../interfaces/UserInterfaces';
 import useFetchApi from '../hooks/useFetchApi';
+import { PATH_SERVER } from '../../config';
 
 type CommonsContextProps = {
     interestInformation:InterestProfiles|undefined
@@ -9,12 +10,14 @@ type CommonsContextProps = {
     getCountries: () => void
     documentTypes: Array<any>
     countries: Array<any>
+    urlTerms: string
 }
 
 export const CommonsContext = createContext({} as CommonsContextProps);
 
 
 export const  CommonsProvider = ({ children }:  any) =>{
+    const urlTerms = `${PATH_SERVER}/terminos-condiciones?platform=app`
     // hook para las peticiones fetch
     const {fetchApi} = useFetchApi()
     // comunes: todas las opciones de interes y deportes
@@ -88,6 +91,7 @@ export const  CommonsProvider = ({ children }:  any) =>{
             documentTypes,
             getCountries,
             countries,
+            urlTerms
         }}>
             { children }
         </CommonsContext.Provider>

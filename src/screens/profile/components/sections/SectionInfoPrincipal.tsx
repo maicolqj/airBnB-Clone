@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import CustomText from "../../../../components/generals/CustomText";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { colorsApp } from "../../../../styles/globalColors/GlobalColors";

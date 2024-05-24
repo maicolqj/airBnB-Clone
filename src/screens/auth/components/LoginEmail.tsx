@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from "react-native";
 import {heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import CustomText from "../../../components/generals/CustomText";
 import CustomInput from "../../../components/generals/CustomInput";

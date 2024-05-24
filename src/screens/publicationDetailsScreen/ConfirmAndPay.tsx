@@ -37,6 +37,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
     const [msgValidation,setMsgValidation] = useState<string|null>(null)
     const [reserve, setReserve] = useState<Reserve>()
     const [isLoadingApi, setIsLoadingApi] = useState<boolean>(false)
+
     const handlerBack = () => {
         navigation.pop()
     }
@@ -50,6 +51,17 @@ const ConfirmAndPay = ({navigation}: Props) => {
         fieldGuestDetails.forEach((detail, index) => {
             for (let i = 0; i < detail.fields.length; i++) {
                 let field = detail.fields[i];
+                if (field.origin_regex) {
+                    const fieldRegex = detail.fields.find(item => item.name == field.origin_regex)
+                    
+                    if (fieldRegex && fieldRegex?.type == "select") {
+                        const optionRegex = fieldRegex.options.find(option => option.id == fieldRegex.value?.id)
+                        if (optionRegex) {
+                            field.regex = optionRegex.regex_from
+                        }
+                    }
+                }
+
                 if (field.value && ['text','number'].includes(field.type) && field.regex) {
                     let test = new RegExp(field.regex).test(field.value)
                     throw_if(!test, `Debe completar correctamente todos los datos de ${detail.name} ${detail.position}`)
@@ -75,10 +87,26 @@ const ConfirmAndPay = ({navigation}: Props) => {
         })
     }
 
-    const finishPayInWebView = (navState?:WebViewNavigation,isBack?:boolean) => {
-        if (reserve && ((navState && navState.title == reserve.match_title_response) ||  isBack)) {
-            navigation.navigate('ReserveDetail', {reserve: reserve,addReserveList:true})
 
+    const handlerBackWebView = () => {
+        Alert.alert('¿Estas seguro de realizar esta acción?', 'Al regresar el pago puede quedar pendiente hasta recibir confirmación', [
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            {text: 'OK', onPress: () => {
+                navigation.navigate('ReserveDetail', {reserve: reserve, addReserveList:true})
+                clearStore()
+                SetShowWebView(false);
+            }},
+        ]);
+        
+    }
+
+    const finishPayInWebView = (navState?:WebViewNavigation) => {
+        if (reserve && navState && navState.url.includes(reserve.match_url_response) ) {
+            navigation.navigate('ReserveDetail', {reserve: reserve,addReserveList:true})
             clearStore()
             SetShowWebView(false);
         }
@@ -89,6 +117,7 @@ const ConfirmAndPay = ({navigation}: Props) => {
             setIsLoadingApi(true)
             setMsgValidation(null)
             validate()
+            
             let filterDetails = publicationSelected?.details.filter(item => item.new_quantity > 0) ?? []
             
             const data = {
@@ -174,8 +203,8 @@ const ConfirmAndPay = ({navigation}: Props) => {
                 show={showWebView}
                 setShow={SetShowWebView}
                 urlRedirect={urlRedirect ?? ''}
-                // onNavigationStateChange={() => finishPayInWebView}
-                finishPayInWebView={finishPayInWebView}
+                handlerBack={handlerBackWebView}
+                onNavigationStateChange={finishPayInWebView}
             />
         </SafeAreaView>
     )

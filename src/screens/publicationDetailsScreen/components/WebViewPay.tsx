@@ -9,25 +9,11 @@ type MyProps = WebViewProps & {
     show:boolean
     setShow:Function
     urlRedirect:string
-    finishPayInWebView:Function
+    handlerBack: Function
 }
 
-const WebViewPay = ({show,setShow,urlRedirect,finishPayInWebView, ...restProps}:MyProps) => {
-    const handlerBack = () =>{
-        Alert.alert('¿Estas seguro de realizar esta acción?', 'Al regresar el pago puede quedar pendiente hasta recibir confirmación', [
-            {
-                text: 'Cancelar',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-            },
-            {text: 'OK', onPress: () => finishPayInWebView(undefined,true)},
-        ]);
-        
-    }
+const WebViewPay = ({show,setShow,urlRedirect,handlerBack, ...restProps}:MyProps) => {
 
-    const handlerNavigationStateChange = (navState:WebViewNavigation) =>{
-        finishPayInWebView(navState)
-    }
     return (
         <View >
             <Modal 
@@ -40,15 +26,15 @@ const WebViewPay = ({show,setShow,urlRedirect,finishPayInWebView, ...restProps}:
                 <View style={{...styles.continerModal,borderTopLeftRadius:20,borderTopRightRadius:20, }}>
                     {/* Header */}
                     <CustomHeader 
-                        onPressBack={handlerBack}
+                        onPressBack={() => handlerBack()}
+                        IoniconsName="close"
                     >
-                        <CustomText style={{fontWeight:'500'}}>Atrás</CustomText>
+                        <CustomText style={{fontWeight:'500'}}>Cerrar</CustomText>
                     </CustomHeader>
                     <WebView
                         source={{ uri: urlRedirect }}
                         style={styles.webView}
                         startInLoadingState={true}
-                        onNavigationStateChange={() => handlerNavigationStateChange}
                         {...restProps}
                     >
                     </WebView>
@@ -68,7 +54,7 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
     },
     webView:{
-        borderTopLeftRadius:30, 
-        borderTopRightRadius:30, 
+        // borderTopLeftRadius:30, 
+        // borderTopRightRadius:30, 
     }
 })

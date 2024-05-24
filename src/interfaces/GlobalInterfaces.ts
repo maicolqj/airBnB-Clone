@@ -119,6 +119,7 @@ export interface Field {
     name: string
     label: string
     regex: string
+    origin_regex:string
     type: string,
     value: any
     options: any[]

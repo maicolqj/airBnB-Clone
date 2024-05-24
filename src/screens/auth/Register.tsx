@@ -224,7 +224,6 @@ const Register = ({navigation}:Props) => {
                     <ModalTerms
                         show={showTerms}
                         setShow={setShowTerms}
-                        urlRedirect="http://192.168.0.4:9004/payment/redirect/eyJpdiI6ImJEZUdyTTREMmVZblRTczdtVkxSNnc9PSIsInZhbHVlIjoiSk1vY3kzMk5JL1QzZklyZ0E2Q1FnQT09IiwibWFjIjoiNTdlMTUxMjRhYzhmMTA5OTI0ZjYyNjEzOWMzNGM2ZjZkMjc3YmM1NThlNDEzYjQwYmExNmIzYzAzMjk1MzU3MyIsInRhZyI6IiJ9"
                     />
 
                 </View>

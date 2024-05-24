@@ -555,6 +555,8 @@ export const PublicationsProvider = ({children}: any) => {
     setGuestDetails([])
     setReserveDays([])
     setPublicationSelected(undefined)
+    setSelectedStartDate(null)
+    setSelectedEndDate(null)
     setFavorities({
       publications:[],
       isMorePage:true,

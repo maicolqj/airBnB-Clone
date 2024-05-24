@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
+import React, { useContext } from "react";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomText from "../../../components/generals/CustomText";
@@ -9,7 +9,6 @@ import { DetailField } from "../../../interfaces/GlobalInterfaces";
 import CustomInput from "../../../components/generals/CustomInput";
 import { PublicationsContext } from "../../../context/PublicationContext";
 import CustomSelect from "../../../components/generals/CustomSelect";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { customStyles } from "../../../styles/globalComponentsStyles/GlobalComponentStyles";
 import { throw_if } from "../../../helpers/Exception";
 
@@ -26,7 +25,17 @@ const FormGuest = ({showModal,setShowModal,guestDetail,keyGuestDetail}:MypProps)
         try {
             guestDetail?.fields.map(field => {
                 throw_if(!field.value, `Verifica el atributo ${field.label}`)
-                if (['text','number'].includes(field.type) && field.regex) {
+                if (['text','number'].includes(field.type)  && field.regex) {
+                    if (field.origin_regex) {
+                        const fieldRegex = guestDetail.fields.find(item => item.name == field.origin_regex)
+                        if (fieldRegex && fieldRegex?.type == "select") {
+                            const optionRegex = fieldRegex.options.find(option => option.id == fieldRegex.value?.id)
+                            if (optionRegex) {
+                                field.regex = optionRegex.regex_from
+                            }
+                        }
+                    }
+                    
                     let test = new RegExp(field.regex).test(field.value)
                     throw_if(!test, `Verifica el atributo ${field.label}`)
                 }

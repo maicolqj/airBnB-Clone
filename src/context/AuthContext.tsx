@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginEmailParams, LoginPhoneParams, RegisterUser, User } from '../interfaces/UserInterfaces';
 import useFetchApi from '../hooks/useFetchApi';

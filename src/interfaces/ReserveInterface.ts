@@ -37,6 +37,6 @@ export interface Reserve {
     payment:any,
     reserve_days:Array<ReserveDays>
     guest_quantity: number
-    match_title_response:string
+    match_url_response:string
     can_chat:boolean
 }

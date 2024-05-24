@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import CustomHeader from "../CustomHeader";
 import CustomText from "../generals/CustomText";
 import WebView from "react-native-webview";
-
+import { CommonsContext } from "../../context/CommonsContext";
 
 interface MyProps {
     show:boolean
     setShow:Function
-    urlRedirect:string
-    
 }
-const ModalTerms = ({show,setShow,urlRedirect}:MyProps) => {
+const ModalTerms = ({show,setShow}:MyProps) => {
+
+    const {urlTerms} = useContext(CommonsContext)
     const handlerBack = () => {
         setShow(false)
     }
@@ -34,7 +34,7 @@ const ModalTerms = ({show,setShow,urlRedirect}:MyProps) => {
                         <CustomText style={{fontWeight:'500'}}>Terminos y condiciones</CustomText>
                     </CustomHeader>
                     <WebView
-                        source={{ uri: urlRedirect }}
+                        source={{ uri: urlTerms }}
                         style={styles.webView}
                         startInLoadingState={true}
                     >
