@@ -1,4 +1,4 @@
-package com.alquilapp.test;
+package com.altum.alquilapp;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

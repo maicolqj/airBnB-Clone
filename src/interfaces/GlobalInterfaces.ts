@@ -33,6 +33,14 @@ export interface Publication {
     is_favorite:boolean
     services: Array <Service>
     share_url?: string
+    safeties: Array <Safety>
+}
+
+export interface Safety {
+    id:number
+    name:string
+    description:string
+    icon:string
 }
 
 export interface Category {
@@ -156,8 +164,8 @@ export interface File {
 
 export interface Service {
     id: Number
-    name: String,
-    icon: String
+    name: string,
+    icon: string
     selected: Boolean
     required_price: Boolean
     price: number

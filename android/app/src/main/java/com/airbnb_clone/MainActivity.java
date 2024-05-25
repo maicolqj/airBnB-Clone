@@ -1,4 +1,4 @@
-package com.alquilapp.test;
+package com.altum.alquilapp;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

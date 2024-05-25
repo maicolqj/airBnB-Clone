@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, StyleSheet, View, ScrollView, TouchableOpacity, StatusBar, Pressable, ActivityIndicator } from 'react-native';
+import { SafeAreaView, StyleSheet, View, ScrollView, TouchableOpacity, StatusBar, Pressable, ActivityIndicator, Alert } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
 import { RootInitialStackParams } from '../../routes/stackNavigation/InitialStackNavigation';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -10,7 +10,6 @@ import { colorsApp } from '../../styles/globalColors/GlobalColors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DividerComponent from '../../components/DividerComponent';
-import GeneralButtonComponent from '../../components/GeneralButtonComponent';
 import { formatCurrency, shortFormatDate } from '../../helpers/formats';
 import { PublicationsContext } from '../../context/PublicationContext';
 import RangeReserve from './components/RangeReserve';
@@ -20,6 +19,8 @@ import ImageView from "react-native-image-viewing";
 import MapView, { Circle, Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import Share from 'react-native-share';
 import { PATH_SERVER } from '../../../config';
+import { ProfileContext } from '../../context/ProfileContext';
+import { SvgUri } from 'react-native-svg';
 
 
 const imageProfileDefault = require("../../assets/system/default/user_default.jpeg");
@@ -40,6 +41,8 @@ const DetailsScreen = ({ navigation, route }: Props) => {
     selectedStartDate,
     selectedEndDate
   } = useContext(PublicationsContext)
+
+  const {isVerifiedIdentity} = useContext(ProfileContext)
   //Obtener publication que llega por props
   const location = route.params.publication;
 
@@ -89,6 +92,25 @@ const DetailsScreen = ({ navigation, route }: Props) => {
       console.log('Error al compartir:', error?.message);
     }
   };
+
+  const handlerBtnReserve = () => {
+
+    if (!isVerifiedIdentity()) {
+      Alert.alert('Valida tu identidad', 'Debes validar tu identidad para poder realizar reservas', [
+          {
+              text: 'Cancelar',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+          },
+          {text: 'Ir a validar', onPress: () => {
+              navigation.navigate('Profile')
+          }},
+      ]);
+    }else{
+      navigation.navigate('ConfirmAndPay')
+    }
+    
+  }
   
   return (
     <SafeAreaView style={[customStyles.safeArea, {paddingTop: !viewAllImage ? 0 : hp(10)}, !isLoadingPublicationSlug && styles.container]}>
@@ -185,20 +207,77 @@ const DetailsScreen = ({ navigation, route }: Props) => {
             <View style={{ paddingHorizontal: wp('5%'), marginBottom: hp('3%') }}>
               {
                 publicationSelected?.services.map((service,key) => (
+
                   <View style={{ ...styles.rows }} key={key}>
-                    <FastImage
-                      source={{ uri:service.icon, priority:'high' }}  
-                      style={styles.imageService} 
-                      defaultSource={imageItemDefault}
-                    />
+                   
+                    {service.icon.includes('.svg') ?
+                        <View style={styles.imageService}>
+                          <SvgUri
+                            width="100%"
+                            height="100%"
+                            uri={service.icon}
+                          />
+                        </View>
+                      :
+                        <FastImage
+                          source={{ uri:service.icon, priority:'normal' }} 
+                          style={styles.imageService} 
+                          defaultSource={imageItemDefault}
+                        />
+
+                    }
+                    
                     <CustomText style={{ ...styles.morePlus }} >{service.name} </CustomText>
                   </View>
+                
                 ))
               
               }
             </View>
-    
+
+
+            {(publicationSelected?.safeties && publicationSelected.safeties.length > 0) &&
+              <>
+                {/* A tener en cuenta  */}
+                <DividerComponent />
+                <View style={{ ...styles.boxCards, paddingHorizontal: wp('5%'), }}>
+                  <CustomText style={{ ...styles.title }}>
+                    A tener en cuenta
+                  </CustomText>
+                </View>
+
+                <View style={{ paddingHorizontal: wp('5%'), marginBottom: hp('3%') }}>
+                  {
+                    publicationSelected?.safeties.map((safety,key) => (
+
+                      <View style={{ ...styles.rows }} key={key}>
+                      
+                        {safety.icon.includes('.svg') ?
+                            <View style={styles.imageService}>
+                              <SvgUri
+                                width="100%"
+                                height="100%"
+                                uri={safety.icon}
+                              />
+                            </View>
+                          :
+                            <FastImage
+                              source={{ uri:safety.icon, priority:'normal' }} 
+                              style={styles.imageService} 
+                              defaultSource={imageItemDefault}
+                            />
+                        }
+                        <CustomText style={{ ...styles.morePlus }} >{safety.name} </CustomText>
+                      </View>
+                    ))
+                  
+                  }
+                </View>
+              
+              </>
+            }
             <DividerComponent />
+    
             
             {/* Ubicación */}
             <View style={{ ...styles.boxCards, paddingHorizontal: wp('5%'), }}>
@@ -253,7 +332,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
               </View>
               <TouchableOpacity 
                 style={{ ...styles.buttomReserv }}
-                onPress={() => navigation.navigate('ConfirmAndPay')}
+                onPress={() => handlerBtnReserve()}
               >
                 <CustomText style={{ color: '#fff', fontSize: hp(1.8), fontWeight:"bold" }}>
                   Reservar

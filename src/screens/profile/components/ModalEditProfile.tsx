@@ -11,6 +11,8 @@ import { ProfileContext } from "../../../context/ProfileContext";
 import AddictionalInformation from "./sections/AddictionalInformation";
 import { TouchableOpacity } from "react-native";
 import ModalInterest from "./actions/ModalInterest";
+import { SvgUri } from "react-native-svg";
+import FastImage from "react-native-fast-image";
 interface MyProps {
     showModal:boolean
     setShowModal:Function
@@ -68,6 +70,23 @@ const ModalEditProfile = ({showModal,setShowModal}:MyProps) => {
                                             {
                                                 getAllInterestAndSport().map((item:ItemInterestProfile,key:number) =>(
                                                     <View style={[styles.pills]}  key={key}>
+                                                        {
+                                                            item.icon.includes('.svg') ?
+                                                                <View style={styles.imageService}>
+                                                                <SvgUri
+                                                                    width="100%"
+                                                                    height="100%"
+                                                                    uri={item.icon}
+                                                                />
+                                                                </View>
+                                                            :
+                                                                <FastImage
+                                                                    source={{ uri:item.icon, priority:'normal' }} 
+                                                                    style={styles.imageService} 
+                                                                    // defaultSource={imageItemDefault}
+                                                                />
+
+                                                        }
                                                         <CustomText>{item.name}</CustomText>
                                                     </View>
                                                 ))
@@ -171,11 +190,19 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     pills:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
         borderWidth:hp(0.1),
         borderColor:colorsApp.light(0.6),
         borderRadius:12,
         padding:hp(1),
         margin:hp(0.4)
+    },
+    imageService:{
+        width:hp(3),
+        height:hp(3),
+        borderRadius:wp('50%')
     },
 })
 export default ModalEditProfile

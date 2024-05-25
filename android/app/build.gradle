@@ -82,9 +82,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.alquilapp.test"
+    namespace "com.altum.alquilapp"
     defaultConfig {
-        applicationId "com.alquilapp.test"
+        applicationId "com.altum.alquilapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

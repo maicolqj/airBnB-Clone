@@ -15,7 +15,7 @@
 		7699B88040F8A987B510C191 /* libPods-Alquilapp-AlquilappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Alquilapp-AlquilappTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		EE58AB5A2B0D7F6A00035B21 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = EE58AB592B0D7F6A00035B21 /* fonts */; };
-		F8F18B522BFCEC0C005E8500 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F8F18B512BFCEC0C005E8500 /* GoogleService-Info.plist */; };
+		F8626E5E2C00FA4000AED448 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F8626E5D2C00FA4000AED448 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +47,7 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-Alquilapp-AlquilappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alquilapp-AlquilappTests.release.xcconfig"; path = "Target Support Files/Pods-Alquilapp-AlquilappTests/Pods-Alquilapp-AlquilappTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EE58AB592B0D7F6A00035B21 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		F8F18B512BFCEC0C005E8500 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F8626E5D2C00FA4000AED448 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +120,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				F8F18B512BFCEC0C005E8500 /* GoogleService-Info.plist */,
+				F8626E5D2C00FA4000AED448 /* GoogleService-Info.plist */,
 				EE58AB592B0D7F6A00035B21 /* fonts */,
 				13B07FAE1A68108700A75B9A /* Alquilapp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -217,7 +217,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Alquilapp" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "alquilapp" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -249,7 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE58AB5A2B0D7F6A00035B21 /* fonts in Resources */,
-				F8F18B522BFCEC0C005E8500 /* GoogleService-Info.plist in Resources */,
+				F8626E5E2C00FA4000AED448 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -506,7 +506,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.alquilapp.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.altum.alquilapp;
 				PRODUCT_NAME = Alquilapp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -532,7 +532,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.alquilapp.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.altum.alquilapp;
 				PRODUCT_NAME = Alquilapp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -714,7 +714,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Alquilapp" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "alquilapp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

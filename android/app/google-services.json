@@ -1,34 +1,49 @@
 {
   "project_info": {
-    "project_number": "75001478875",
-    "project_id": "alquilapp-test-46600",
-    "storage_bucket": "alquilapp-test-46600.appspot.com"
+    "project_number": "919807496403",
+    "project_id": "alquilapp-416218",
+    "storage_bucket": "alquilapp-416218.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:75001478875:android:9f63808eaeb2c58fa156fe",
+        "mobilesdk_app_id": "1:919807496403:android:bc7253fcf0805b16044426",
         "android_client_info": {
-          "package_name": "com.alquilapp.test"
+          "package_name": "com.altum.alquilapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "75001478875-2j5jbhn4u4mh47po4ejenbtubvn7nst1.apps.googleusercontent.com",
+          "client_id": "919807496403-v76p8aah2t4n3fj27lbku6ld337o82pv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.altum.alquilapp",
+            "certificate_hash": "45b8e8afea9e3cf120b8de1a7afa0ba58091af67"
+          }
+        },
+        {
+          "client_id": "919807496403-a6tn6ri8fvbpnp616egmuvb3qrh4ajbb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCMuc_rzLu5CGMs7yL8owaxdfIorkGyvec"
+          "current_key": "AIzaSyA3Dau6HQBKs-z3Cu5nXz61dWiCK0V28hw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "75001478875-2j5jbhn4u4mh47po4ejenbtubvn7nst1.apps.googleusercontent.com",
+              "client_id": "919807496403-0itvstlrfburetckoo96cf0thh74d72g.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "919807496403-eq3vt310qfujdi3bcv9ftanr1mdgmjlm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.altum.alquilapp"
+              }
             }
           ]
         }

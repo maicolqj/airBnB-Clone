@@ -8,6 +8,8 @@ import CustomText from "../../../../components/generals/CustomText";
 import { ItemInterestProfile } from "../../../../interfaces/UserInterfaces";
 import { DataUpdateProfile, ProfileContext } from "../../../../context/ProfileContext";
 import { respApi } from "../../../../interfaces/GlobalInterfaces";
+import { SvgUri } from "react-native-svg";
+import FastImage from "react-native-fast-image";
 
 
 interface MyProps {
@@ -156,6 +158,23 @@ const ModalInterest = ({showModal,setShowModal}:MyProps) => {
                                             style={[styles.pills, interests.some(interest => interest.id == item.id) && styles.pillsActive]} key={key}
                                             onPress={() => selectInterest(item)}
                                         >
+                                            {
+                                                item.icon.includes('.svg') ?
+                                                    <View style={styles.imageService}>
+                                                    <SvgUri
+                                                        width="100%"
+                                                        height="100%"
+                                                        uri={item.icon}
+                                                    />
+                                                    </View>
+                                                :
+                                                    <FastImage
+                                                        source={{ uri:item.icon, priority:'normal' }} 
+                                                        style={styles.imageService} 
+                                                        // defaultSource={imageItemDefault}
+                                                    />
+
+                                            }
                                             <CustomText>{item.name}</CustomText>
                                         </TouchableOpacity>
                                     ))
@@ -170,6 +189,23 @@ const ModalInterest = ({showModal,setShowModal}:MyProps) => {
                                             style={[styles.pills, sports.some(sport => sport.id == item.id) && styles.pillsActive]} key={key}
                                             onPress={() => selectSport(item)}
                                         >
+                                            {
+                                                item.icon.includes('.svg') ?
+                                                    <View style={styles.imageService}>
+                                                    <SvgUri
+                                                        width="100%"
+                                                        height="100%"
+                                                        uri={item.icon}
+                                                    />
+                                                    </View>
+                                                :
+                                                    <FastImage
+                                                        source={{ uri:item.icon, priority:'normal' }} 
+                                                        style={styles.imageService} 
+                                                        // defaultSource={imageItemDefault}
+                                                    />
+
+                                            }
                                             <CustomText>{item.name}</CustomText>
                                         </TouchableOpacity>
                                     ))
@@ -248,6 +284,9 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     pills:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
         borderWidth:hp(0.1),
         borderColor:colorsApp.light(0.6),
         borderRadius:12,
@@ -257,6 +296,11 @@ const styles = StyleSheet.create({
     pillsActive:{
         borderColor:colorsApp.blackLeather(1),
         borderWidth:hp(0.3),
-    }
+    },
+    imageService:{
+        width:hp(3),
+        height:hp(3),
+        borderRadius:wp('50%')
+    },
 })
 export default ModalInterest

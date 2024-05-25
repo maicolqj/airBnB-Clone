@@ -4,7 +4,7 @@ import CustomText from "../../components/generals/CustomText";
 import { customStyles } from "../../styles/globalComponentsStyles/GlobalComponentStyles";
 import SectionInfoPrincipal from "./components/sections/SectionInfoPrincipal";
 import { ScrollView } from "react-native-gesture-handler";
-import { heightPercentageToDP as hp} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import { colorsApp } from "../../styles/globalColors/GlobalColors";
 import SectionConfirmedInformation from "./components/sections/SectionConfirmedInformation";
 import { ProfileContext } from "../../context/ProfileContext";
@@ -15,6 +15,8 @@ import { optionsProfile } from "../../helpers/data";
 import { ItemInterestProfile, OptionProfile } from "../../interfaces/UserInterfaces";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getFirstWord } from "../../helpers/formats";
+import { SvgUri } from "react-native-svg";
+import FastImage from "react-native-fast-image";
 
 
 const Profile = () => {
@@ -86,6 +88,23 @@ const Profile = () => {
                         {
                             getAllInterestAndSport().map((item:ItemInterestProfile,key:number) =>(
                                 <View style={[styles.pills]}  key={key}>
+                                    {
+                                        item.icon.includes('.svg') ?
+                                            <View style={styles.imageService}>
+                                            <SvgUri
+                                                width="100%"
+                                                height="100%"
+                                                uri={item.icon}
+                                            />
+                                            </View>
+                                        :
+                                            <FastImage
+                                                source={{ uri:item.icon, priority:'normal' }} 
+                                                style={styles.imageService} 
+                                                // defaultSource={imageItemDefault}
+                                            />
+
+                                    }
                                     <CustomText>{item.name}</CustomText>
                                 </View>
                             ))
@@ -152,11 +171,19 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     pills:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
         borderWidth:hp(0.1),
         borderColor:colorsApp.light(0.6),
         borderRadius:12,
         padding:hp(1),
         margin:hp(0.4)
+    },
+    imageService:{
+        width:hp(3),
+        height:hp(3),
+        borderRadius:wp('50%')
     },
 })
 export default Profile

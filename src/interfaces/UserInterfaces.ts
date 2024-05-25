@@ -54,6 +54,8 @@ export interface OptionProfile {
     reviews?:number
     age_in_pltform?:number
     user_identity?:UserIdentity
+    is_valid_identity:boolean
+    with_valid_identity:boolean
   }
   
   export interface UserIdentity {

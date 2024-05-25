@@ -11,10 +11,13 @@ import MapComponent from './components/MapComponent';
 import { PublicationsContext } from '../../context/PublicationContext';
 import ModalFilter from './components/ModalFilter';
 import CustomText from '../../components/generals/CustomText';
+import { ProfileContext } from '../../context/ProfileContext';
 
 const Home = ({ navigation }: any) => {
   const flatListRef = useRef(null);
-  
+
+  const {getProfile} = useContext(ProfileContext) 
+
   const [viewMAp, setViewMap] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -22,6 +25,7 @@ const Home = ({ navigation }: any) => {
 
   useEffect(() => {
     getComplementFilters()
+    getProfile()
   }, [])
 
   useEffect(() => {

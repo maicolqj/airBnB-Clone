@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>75001478875-52p3p5bi404nej132hilg4l8bvcrjp8m.apps.googleusercontent.com</string>
+	<string>919807496403-eq3vt310qfujdi3bcv9ftanr1mdgmjlm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.75001478875-52p3p5bi404nej132hilg4l8bvcrjp8m</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>75001478875-22d3014gs17hpnech3tjdjdb96dfppj6.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.919807496403-eq3vt310qfujdi3bcv9ftanr1mdgmjlm</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD7ab7hRrsSI6JbzUtK4YMH_k7fVu5LaH8</string>
+	<string>AIzaSyCNf7RWGZGRcLWBt0BdJAXUS3oKw6aUuM8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>75001478875</string>
+	<string>919807496403</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.alquilapp.test</string>
+	<string>com.altum.alquilapp</string>
 	<key>PROJECT_ID</key>
-	<string>alquilapp-test-46600</string>
+	<string>alquilapp-416218</string>
 	<key>STORAGE_BUCKET</key>
-	<string>alquilapp-test-46600.appspot.com</string>
+	<string>alquilapp-416218.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:75001478875:ios:44613c4c8070cac9a156fe</string>
+	<string>1:919807496403:ios:f2c0fdaa9de3889d044426</string>
 </dict>
 </plist>

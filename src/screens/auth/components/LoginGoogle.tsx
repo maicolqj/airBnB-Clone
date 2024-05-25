@@ -6,6 +6,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { colorsApp } from '../../../styles/globalColors/GlobalColors';
 import { AuthContext } from '../../../context/AuthContext';
 import { throw_if } from '../../../helpers/Exception';
+import { GOOGLE_WEB_CLIENT_ID } from '../../../../config';
 const logoGoogle = require("../../../assets/system/logos/google_icon.png")
 
 
@@ -17,7 +18,7 @@ const LoginGoogle = () => {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:'75001478875-2j5jbhn4u4mh47po4ejenbtubvn7nst1.apps.googleusercontent.com',
+      webClientId:GOOGLE_WEB_CLIENT_ID,
       offlineAccess:true
     });
   }, []);

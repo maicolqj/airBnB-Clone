@@ -120,7 +120,7 @@ export const  AuthProvider = ({ children }:  any) =>{
             if (resp.status) {
                 setRespLogin(resp)
             }else{
-                setValidationGoogleMessage('Verifique los datos de acceso')
+                setValidationGoogleMessage(resp.message)
             }
         } catch (error) {
         } finally {

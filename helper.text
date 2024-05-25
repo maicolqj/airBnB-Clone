@@ -2,3 +2,7 @@ IOS
 1. cuando estaba compliando IOS me dio un error de flipper que decia Called object type 'facebook::flipper::SocketCertificateProvider' (aka 'int') is not a function or function pointer
     la soculucion fue buscar en los pods esta la libraria flipper y en el archivo FlipperTransportTypes agregar al principio
     #include <functional>. https://stackoverflow.com/questions/78121217/build-error-on-xcode-15-3-called-object-type-facebookflippersocketcertifi
+
+
+ABDROID
+1. para generar apk: ./gradlew assembleRelease

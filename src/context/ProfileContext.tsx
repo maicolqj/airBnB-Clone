@@ -144,7 +144,7 @@ export const  ProfileProvider = ({ children }:  any) =>{
     }
 
     const isVerifiedIdentity = ():boolean =>{
-        return profile?.user_identity?.state_type_id == 7
+        return profile?.is_valid_identity ?? false
     }
 
     const clearStore = () =>{
