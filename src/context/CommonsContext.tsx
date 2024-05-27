@@ -17,7 +17,7 @@ export const CommonsContext = createContext({} as CommonsContextProps);
 
 
 export const  CommonsProvider = ({ children }:  any) =>{
-    const urlTerms = `${PATH_SERVER}/terminos-condiciones?platform=app`
+    const urlTerms = `${PATH_SERVER}/terms-conditions?platform=app`
     // hook para las peticiones fetch
     const {fetchApi} = useFetchApi()
     // comunes: todas las opciones de interes y deportes
